@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sommaire des maquettes — Le Panier du coin</title>
+    <meta name="description" content="Index des maquettes HTML du projet Le Panier du coin.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/theme.js"></script>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="min-h-screen font-sans antialiased">
+
+<a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-paper">Aller au contenu</a>
+
+<header class="sticky top-0 z-40 border-b border-ink/10 bg-paper/90 backdrop-blur">
+    <div class="mx-auto flex h-16 max-w-6xl items-center gap-6 px-4">
+        <a href="accueil.html" class="flex shrink-0 items-center gap-2">
+            <span class="grid h-9 w-9 place-items-center rounded-xl bg-terracotta-100 text-terracotta-600" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                    <path d="M3 8h18l-1.6 9.2a2 2 0 0 1-2 1.8H6.6a2 2 0 0 1-2-1.8L3 8Z"/>
+                    <path d="M8 8 10 3M16 8 14 3"/>
+                    <path d="M9.5 12v3M14.5 12v3"/>
+                </svg>
+            </span>
+            <span class="font-display text-lg font-bold tracking-tight text-ink">Le Panier du <span class="text-terracotta-600">coin</span></span>
+        </a>
+
+        <nav aria-label="Navigation principale" class="hidden items-center gap-1 text-sm font-medium text-ink/70 md:flex">
+            <a href="accueil.html" class="rounded-lg px-3 py-2 hover:bg-cream hover:text-ink">Accueil</a>
+            <a href="recherche.html" class="rounded-lg px-3 py-2 hover:bg-cream hover:text-ink">Annonces</a>
+            <a href="demandes.html" class="rounded-lg px-3 py-2 hover:bg-cream hover:text-ink">Demandes</a>
+            <a href="qui-sommes-nous.html" class="rounded-lg px-3 py-2 hover:bg-cream hover:text-ink">Qui sommes-nous</a>
+        </nav>
+
+        <div class="ml-auto hidden items-center gap-2 md:flex">
+            <a href="login.html" class="rounded-xl px-4 py-2 text-sm font-semibold text-ink/80 hover:bg-cream hover:text-ink">Se connecter</a>
+            <a href="article-ajout.html" class="rounded-xl bg-terracotta-500 px-4 py-2 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">Publier une annonce</a>
+        </div>
+
+        <button id="menu-btn" type="button" class="ml-auto grid h-10 w-10 place-items-center rounded-xl border border-ink/15 text-ink md:hidden"
+                aria-expanded="false" aria-controls="menu-mobile" aria-label="Ouvrir le menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" class="h-5 w-5"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+    </div>
+
+    <nav id="menu-mobile" aria-label="Navigation mobile" class="hidden border-t border-ink/10 bg-paper px-4 pb-4 pt-2 md:hidden">
+        <a href="accueil.html" class="block rounded-lg px-3 py-2.5 font-medium text-ink/75 hover:bg-cream hover:text-ink">Accueil</a>
+        <a href="recherche.html" class="block rounded-lg px-3 py-2.5 font-medium text-ink/75 hover:bg-cream hover:text-ink">Annonces</a>
+        <a href="demandes.html" class="block rounded-lg px-3 py-2.5 font-medium text-ink/75 hover:bg-cream hover:text-ink">Demandes</a>
+        <a href="qui-sommes-nous.html" class="block rounded-lg px-3 py-2.5 font-medium text-ink/75 hover:bg-cream hover:text-ink">Qui sommes-nous</a>
+        <div class="mt-3 flex flex-col gap-2 border-t border-ink/10 pt-3">
+            <a href="login.html" class="rounded-xl border border-ink/15 px-4 py-2.5 text-center text-sm font-semibold text-ink">Se connecter</a>
+            <a href="article-ajout.html" class="rounded-xl bg-terracotta-500 px-4 py-2.5 text-center text-sm font-semibold text-paper">Publier une annonce</a>
+        </div>
+    </nav>
+</header>
+
+<main id="contenu" class="mx-auto max-w-6xl px-4 py-12">
+
+    <p class="text-xs font-bold uppercase tracking-[0.15em] text-terracotta-600">Documentation de maquette</p>
+    <h1 class="mt-3 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">Sommaire des 14 maquettes</h1>
+    <p class="mt-3 max-w-2xl text-sm leading-relaxed text-ink/65 sm:text-base">
+        HTML statique + Tailwind CDN, aucun outil de build&nbsp;: un clic sur un fichier suffit pour l'ouvrir dans un navigateur.
+        Le design system commun vit dans <code class="rounded bg-cream px-1.5 py-0.5 text-[13px]">assets/theme.js</code> (couleurs, polices, ombres)
+        et <code class="rounded bg-cream px-1.5 py-0.5 text-[13px]">assets/style.css</code> (polices Google, focus, bandeau « maquette »).
+        Chaque page partage le même header, le même footer et les mêmes composants (cartes annonce, boutons, badges).
+    </p>
+
+    <!-- Barre de statut -->
+    <dl class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div class="rounded-2xl border border-ink/10 bg-paper p-4">
+            <dd class="font-display text-2xl font-bold text-ink">14</dd>
+            <dt class="mt-0.5 text-xs text-ink/60">pages maquettées</dt>
+        </div>
+        <div class="rounded-2xl border border-ink/10 bg-paper p-4">
+            <dd class="font-display text-2xl font-bold text-sage-600">13</dd>
+            <dt class="mt-0.5 text-xs text-ink/60">objectifs primaires couverts</dt>
+        </div>
+        <div class="rounded-2xl border border-ink/10 bg-paper p-4">
+            <dd class="font-display text-2xl font-bold text-ink">0</dd>
+            <dt class="mt-0.5 text-xs text-ink/60">dépendance hors CDN</dt>
+        </div>
+        <div class="rounded-2xl border border-ink/10 bg-paper p-4">
+            <dd class="font-display text-2xl font-bold text-terracotta-600">2</dd>
+            <dt class="mt-0.5 text-xs text-ink/60">fichiers partagés</dt>
+        </div>
+    </dl>
+
+    <!-- Navigation publique -->
+    <section class="mt-12">
+        <h2 class="flex items-center gap-3 font-display text-xl font-bold text-ink">
+            <span class="grid h-8 w-8 place-items-center rounded-lg bg-sage-100 text-sm text-sage-600" aria-hidden="true">1</span>
+            Navigation publique
+        </h2>
+        <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+            <a href="accueil.html" class="group rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+                <div class="flex items-center justify-between">
+                    <span class="grid h-10 w-10 place-items-center rounded-xl bg-terracotta-100 text-lg" aria-hidden="true">🏠</span>
+                    <span class="rounded-full bg-sage-100 px-2.5 py-1 text-[11px] font-bold text-sage-700">RÉFÉRENCE</span>
+                </div>
+                <h3 class="mt-4 font-display font-semibold text-ink group-hover:text-terracotta-600">Accueil</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-ink/65">Hero, recherche, deux portes d'entrée acheteur/vendeur, dernières annonces, demandes, réputation.</p>
+                <p class="mt-3 text-sm font-semibold text-terracotta-600">accueil.html <span aria-hidden="true">→</span></p>
+            </a>
+
+            <a href="recherche.html" class="group rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+                <div class="flex items-center justify-between">
+                    <span class="grid h-10 w-10 place-items-center rounded-xl bg-sage-100 text-lg" aria-hidden="true">🔍</span>
+                    <span class="rounded-full bg-sage-100 px-2.5 py-1 text-[11px] font-bold text-sage-700">PRIMAIRE</span>
+                </div>
+                <h3 class="mt-4 font-display font-semibold text-ink group-hover:text-terracotta-600">Recherche d'articles</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-ink/65">Filtres catégorie / prix / quartier / état, tri, 9 résultats, pagination.</p>
+                <p class="mt-3 text-sm font-semibold text-terracotta-600">recherche.html <span aria-hidden="true">→</span></p>
+            </a>
+
+            <a href="article-detail.html" class="group rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+                <div class="flex items-center justify-between">
+                    <span class="grid h-10 w-10 place-items-center rounded-xl bg-sage-100 text-lg" aria-hidden="true">🚲</span>
+                    <span class="rounded-full bg-sage-100 px-2.5 py-1 text-[11px] font-bold text-sage-700">PRIMAIRE</span>
+                </div>
+                <h3 class="mt-4 font-display font-semibold text-ink group-hover:text-terracotta-600">Consultation d'un article</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-ink/65">Galerie, prix, description, bloc vendeur noté, contact, annonces du quartier.</p>
+                <p class="mt-3 text-sm font-semibold text-terracotta-600">article-detail.html <span aria-hidden="true">→</span></p>
+            </a>
+
+            <a href="demandes.html" class="group rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+                <div class="flex items-center justify-between">
+                    <span class="grid h-10 w-10 place-items-center rounded-xl bg-sage-100 text-lg" aria-hidden="true">🎯</span>
+                    <span class="rounded-full bg-sage-100 px-2.5 py-1 text-[11px] font-bold text-sage-700">PRIMAIRE</span>
+                </div>
+                <h3 class="mt-4 font-display font-semibold text-ink group-hover:text-terracotta-600">Demandes d'objets</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-ink/65">Liste des demandes ouvertes avec budget, quartier, statut et proposition.</p>
+                <p class="mt-3 text-sm font-semibold text-terracotta-600">demandes.html <span aria-hidden="true">→</span></p>
+            </a>
+
+            <a href="demande-creation.html" class="group rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+                <div class="flex items-center justify-between">
+                    <span class="grid h-10 w-10 place-items-center rounded-xl bg-sage-100 text-lg" aria-hidden="true">📝</span>
+                    <span class="rounded-full bg-sage-100 px-2.5 py-1 text-[11px] font-bold text-sage-700">PRIMAIRE</span>
+                </div>
+                <h3 class="mt-4 font-display font-semibold text-ink group-hover:text-terracotta-600">Déposer une demande</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-ink/65">Formulaire : titre, description, budget, échéance, quartier, mode de contact.</p>
+                <p class="mt-3 text-sm font-semibold text-terracotta-600">demande-creation.html <span aria-hidden="true">→</span></p>
+            </a>
+
+            <a href="profil-vendeur.html" class="group rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+                <div class="flex items-center justify-between">
+                    <span class="grid h-10 w-10 place-items-center rounded-xl bg-sage-100 text-lg" aria-hidden="true">⭐</span>
+                    <span class="rounded-full bg-sage-100 px-2.5 py-1 text-[11px] font-bold text-sage-700">PRIMAIRE</span>
+                </div>
+                <h3 class="mt-4 font-display font-semibold text-ink group-hover:text-terracotta-600">Profil vendeur &amp; réputation</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-ink/65">Note 4,9/5, statistiques de fiabilité, annonces, avis clients.</p>
+                <p class="mt-3 text-sm font-semibold text-terracotta-600">profil-vendeur.html <span aria-hidden="true">→</span></p>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- Authentification -->
+    <section class="mt-12">
+        <h2 class="flex items-center gap-3 font-display text-xl font-bold text-ink">
+            <span class="grid h-8 w-8 place-items-center rounded-lg bg-terracotta-100 text-sm text-terracotta-600" aria-hidden="true">2</span>
+            Authentification
+        </h2>
+        <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+            <a href="login.html" class="group rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+                <span class="grid h-10 w-10 place-items-center rounded-xl bg-terracotta-100 text-lg" aria-hidden="true">🔐</span>
+                <h3 class="mt-4 font-display font-semibold text-ink group-hover:text-terracotta-600">Connexion</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-ink/65">Email, mot de passe, restauration de session.</p>
+                <p class="mt-3 text-sm font-semibold text-terracotta-600">login.html <span aria-hidden="true">→</span></p>
+            </a>
+
+            <a href="register.html" class="group rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+                <span class="grid h-10 w-10 place-items-center rounded-xl bg-terracotta-100 text-lg" aria-hidden="true">✍️</span>
+                <h3 class="mt-4 font-display font-semibold text-ink group-hover:text-terracotta-600">Inscription</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-ink/65">Création de compte, règles de mot de passe, acceptation des CGU.</p>
+                <p class="mt-3 text-sm font-semibold text-terracotta-600">register.html <span aria-hidden="true">→</span></p>
+            </a>
+
+            <a href="mot-de-passe-oublie.html" class="group rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+                <span class="grid h-10 w-10 place-items-center rounded-xl bg-terracotta-100 text-lg" aria-hidden="true">🔑</span>
+                <h3 class="mt-4 font-display font-semibold text-ink group-hover:text-terracotta-600">Mot de passe oublié</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-ink/65">Demande d'email de réinitialisation + écran de confirmation.</p>
+                <p class="mt-3 text-sm font-semibold text-terracotta-600">mot-de-passe-oublie.html <span aria-hidden="true">→</span></p>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- Espace connecté -->
+    <section class="mt-12">
+        <h2 class="flex items-center gap-3 font-display text-xl font-bold text-ink">
+            <span class="grid h-8 w-8 place-items-center rounded-lg bg-amber-100 text-sm text-amber-700" aria-hidden="true">3</span>
+            Espace connecté
+        </h2>
+        <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+            <a href="dashboard.html" class="group rounded-2xl border-2 border-terracotta-300 bg-paper p-5 shadow-lift transition hover:-translate-y-0.5">
+                <div class="flex items-center justify-between">
+                    <span class="grid h-10 w-10 place-items-center rounded-xl bg-amber-100 text-lg" aria-hidden="true">🔄</span>
+                    <span class="rounded-full bg-terracotta-500 px-2.5 py-1 text-[11px] font-bold text-paper">PIÈCE MAÎTRESSE</span>
+                </div>
+                <h3 class="mt-4 font-display font-semibold text-ink group-hover:text-terracotta-600">Dashboard acheteur / vendeur</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-ink/65">Le bouton switch fonctionne&nbsp;: deux panneaux, un seul compte. Achats, demandes, annonces, messages.</p>
+                <p class="mt-3 text-sm font-semibold text-terracotta-600">dashboard.html <span aria-hidden="true">→</span></p>
+            </a>
+
+            <a href="article-ajout.html" class="group rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+                <span class="grid h-10 w-10 place-items-center rounded-xl bg-amber-100 text-lg" aria-hidden="true">📸</span>
+                <h3 class="mt-4 font-display font-semibold text-ink group-hover:text-terracotta-600">Ajout d'un article</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-ink/65">Photos, prix et négociation, catégorie, état, quartier, certification.</p>
+                <p class="mt-3 text-sm font-semibold text-terracotta-600">article-ajout.html <span aria-hidden="true">→</span></p>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- Pages légales -->
+    <section class="mt-12">
+        <h2 class="flex items-center gap-3 font-display text-xl font-bold text-ink">
+            <span class="grid h-8 w-8 place-items-center rounded-lg bg-cream text-sm text-ink/60 ring-1 ring-ink/15" aria-hidden="true">4</span>
+            Pages institutionnelles
+        </h2>
+        <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+            <a href="qui-sommes-nous.html" class="group rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+                <span class="grid h-10 w-10 place-items-center rounded-xl bg-cream text-lg ring-1 ring-ink/10" aria-hidden="true">🏘️</span>
+                <h3 class="mt-4 font-display font-semibold text-ink group-hover:text-terracotta-600">Qui sommes-nous&nbsp;?</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-ink/65">Histoire, valeurs, chiffres, fonctionnement de la brocante.</p>
+                <p class="mt-3 text-sm font-semibold text-terracotta-600">qui-sommes-nous.html <span aria-hidden="true">→</span></p>
+            </a>
+
+            <a href="conditions-utilisation.html" class="group rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+                <span class="grid h-10 w-10 place-items-center rounded-xl bg-cream text-lg ring-1 ring-ink/10" aria-hidden="true">📄</span>
+                <h3 class="mt-4 font-display font-semibold text-ink group-hover:text-terracotta-600">Conditions d'utilisation</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-ink/65">Sommaire collant + 8 sections : compte, annonces, échanges, données.</p>
+                <p class="mt-3 text-sm font-semibold text-terracotta-600">conditions-utilisation.html <span aria-hidden="true">→</span></p>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- Design system -->
+    <section class="mt-12 rounded-3xl border border-ink/10 bg-paper p-6 shadow-soft sm:p-8">
+        <h2 class="font-display text-xl font-bold text-ink">Design system en un coup d'œil</h2>
+        <div class="mt-5 grid gap-6 sm:grid-cols-2">
+            <div>
+                <p class="text-xs font-bold uppercase tracking-[0.12em] text-ink/50">Palette</p>
+                <ul class="mt-3 space-y-2 text-sm text-ink/70">
+                    <li class="flex items-center gap-3"><span class="h-7 w-7 rounded-lg border border-ink/10" style="background:#FAF6F0"></span> <code>cream</code> #FAF6F0 — fond de page</li>
+                    <li class="flex items-center gap-3"><span class="h-7 w-7 rounded-lg border border-ink/10" style="background:#FFFDF9"></span> <code>paper</code> #FFFDF9 — cartes, header</li>
+                    <li class="flex items-center gap-3"><span class="h-7 w-7 rounded-lg" style="background:#C2603B"></span> <code>terracotta-500</code> #C2603B — actions principales, prix</li>
+                    <li class="flex items-center gap-3"><span class="h-7 w-7 rounded-lg" style="background:#5C7357"></span> <code>sage-500</code> #5C7357 — validation, demandes</li>
+                    <li class="flex items-center gap-3"><span class="h-7 w-7 rounded-lg" style="background:#2B2622"></span> <code>ink</code> #2B2622 — textes</li>
+                </ul>
+            </div>
+            <div>
+                <p class="text-xs font-bold uppercase tracking-[0.12em] text-ink/50">Composants réutilisés</p>
+                <ul class="mt-3 space-y-2 text-sm text-ink/70">
+                    <li>• Header sticky + menu mobile (identique partout)</li>
+                    <li>• Carte annonce : figure emoji + badge catégorie, prix, vendeur · quartier, ★</li>
+                    <li>• Bouton primaire terracotta / secondaire bordé ink</li>
+                    <li>• Pastilles de statut : verte, ambre, grise, terracotta</li>
+                    <li>• Footer 4 colonnes + bandeau légal</li>
+                    <li>• Titres <code>font-display</code> (Bricolage Grotesque), corps Instrument Sans</li>
+                </ul>
+            </div>
+        </div>
+        <div class="mt-6 flex flex-wrap gap-3">
+            <span class="rounded-xl bg-terracotta-500 px-4 py-2 text-sm font-semibold text-paper">Bouton primaire</span>
+            <span class="rounded-xl border border-ink/20 bg-paper px-4 py-2 text-sm font-semibold text-ink">Bouton secondaire</span>
+            <span class="rounded-full bg-sage-100 px-3 py-1.5 text-xs font-semibold text-sage-700">Statut · Ouverte</span>
+            <span class="rounded-full bg-amber-100 px-3 py-1.5 text-xs font-semibold text-amber-700">Statut · Réservée</span>
+            <span class="rounded-full bg-ink/10 px-3 py-1.5 text-xs font-semibold text-ink/60">Statut · Brouillon</span>
+        </div>
+    </section>
+
+</main>
+
+<footer class="border-t border-ink/10 bg-paper">
+    <div class="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-8 text-sm text-ink/60 sm:flex-row sm:items-center sm:justify-between">
+        <p>© 2026 Le Panier du coin — maquette statique, hors application.</p>
+        <div class="flex flex-wrap gap-4">
+            <a href="accueil.html" class="hover:text-terracotta-600">Accueil</a>
+            <a href="login.html" class="hover:text-terracotta-600">Connexion</a>
+            <a href="qui-sommes-nous.html" class="hover:text-terracotta-600">Qui sommes-nous</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('menu-mobile');
+    btn.addEventListener('click', () => {
+        const open = menu.classList.toggle('hidden') === false;
+        btn.setAttribute('aria-expanded', String(open));
+        btn.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+    });
+</script>
+
+<span class="mockup-flag" aria-hidden="true">Maquette · Sommaire</span>
+</body>
+</html>
