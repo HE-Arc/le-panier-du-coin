@@ -1,0 +1,43 @@
+/*
+Fichier générer (antièrement par IA) selon nos maquettes
+*/
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=Instrument+Sans:wght@400..700&display=swap');
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #faf6f0;
+    color: #2b2622;
+    -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+    background-color: #f6e2d8;
+    color: #6e3420;
+}
+
+/*Focus visible cohérent sur toutes les maquettes*/
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid #c2603b;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/*Badges de « maquette » (bandeau discret en bas à droite)*/
+.mockup-flag {
+    position: fixed;
+    right: 12px;
+    bottom: 12px;
+    z-index: 50;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(43, 38, 34, 0.55);
+    background: rgba(255, 253, 249, 0.9);
+    border: 1px solid rgba(43, 38, 34, 0.12);
+    border-radius: 999px;
+    padding: 5px 12px;
+    backdrop-filter: blur(6px);
+}
