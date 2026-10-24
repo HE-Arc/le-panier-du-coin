@@ -1,12 +1,12 @@
-<!-- TODO: A adapter dans le futur selon les modèles et controleur-->
 @extends("layout.app")
+@section('title', "Publier une annonce")
 @section("content")
     <!-- ============================ TÊTE DE FORMULAIRE ============================ -->
     <section class="border-b border-ink/10 bg-paper">
         <div class="mx-auto max-w-3xl px-4 py-8 sm:py-10">
             <nav aria-label="Fil d'Ariane" class="text-xs text-ink/55">
                 <ol class="flex flex-wrap items-center gap-1.5">
-                    <li><a href="accueil.html" class="hover:text-terracotta-600">Accueil</a></li>
+                    <li><a href="{{ route('home') }}" class="hover:text-terracotta-600">Accueil</a></li>
                     <li aria-hidden="true">›</li>
                     <li aria-current="page" class="font-semibold text-ink/75">Publier une annonce</li>
                 </ol>
@@ -27,11 +27,13 @@
 
     <!-- ============================ FORMULAIRE ============================ -->
     <section class="mx-auto max-w-3xl px-4 py-8">
-        <form action="article-detail.html" method="get" class="space-y-6">
+        <!-- TODO: brancher ce formulaire sur une route POST + validation + stockage des photos quand la BDD sera prête. -->
+        <form onsubmit="return false" enctype="multipart/form-data" class="space-y-6">
 
             <!-- ---------- Photos ---------- -->
             <fieldset class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <legend class="px-1 font-display text-lg font-semibold text-ink">Photos de l'objet</legend>
+
 
                 <div class="mt-3 rounded-2xl border-2 border-dashed border-ink/20 bg-cream px-5 py-8 text-center">
                     <span class="mx-auto grid h-11 w-11 place-items-center rounded-xl bg-terracotta-100 text-terracotta-600" aria-hidden="true">
@@ -42,7 +44,7 @@
                     <label for="photos" class="mt-4 inline-block cursor-pointer rounded-xl border border-ink/15 bg-paper px-4 py-2 text-sm font-semibold text-ink transition hover:border-terracotta-300 hover:text-terracotta-600">
                         Choisir des photos
                     </label>
-                    <input id="photos" name="photos" type="file" accept="image/*" multiple class="sr-only">
+                    <input id="photos" name="photos[]" type="file" accept="image/*" multiple class="sr-only">
                 </div>
 
                 <div class="mt-4 grid grid-cols-4 gap-3">
@@ -102,17 +104,18 @@
             </div>
 
             <!-- ---------- Catégorie + état ---------- -->
+            <!-- TODO: pour le futur, récupérer les infor de la BDD-->
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <div>
                     <label for="categorie" class="font-display text-lg font-semibold text-ink">Catégorie</label>
                     <select id="categorie" name="categorie" class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink/80 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
-                        <option>Choisis une catégorie…</option>
-                        <option>Maison &amp; meubles</option>
-                        <option selected>Vélos &amp; vélocipédie</option>
-                        <option>Loisirs &amp; jeux</option>
-                        <option>Électroménager</option>
-                        <option>Vêtements</option>
-                        <option>Livres</option>
+                        <option value="">Choisis une catégorie…</option>
+                        <option value="maison">Maison &amp; meubles</option>
+                        <option value="velos" selected>Vélos &amp; vélocipédie</option>
+                        <option value="loisirs">Loisirs &amp; jeux</option>
+                        <option value="electromenager">Électroménager</option>
+                        <option value="vetements">Vêtements</option>
+                        <option value="livres">Livres</option>
                     </select>
                 </div>
 
@@ -136,14 +139,15 @@
             </div>
 
             <!-- ---------- Quartier + disponibilité ---------- -->
+            <!-- TODO: à adapter selon la BDD -->
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <div>
                     <label for="quartier" class="font-display text-lg font-semibold text-ink">Quartier</label>
                     <select id="quartier" name="quartier" class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink/80 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
-                        <option>Centre-ville</option>
-                        <option selected>Quartier des Tilleuls</option>
-                        <option>Faubourg Nord</option>
-                        <option>Rue des Écoles</option>
+                        <option value="centre-ville">Centre-ville</option>
+                        <option value="tilleuls" selected>Quartier des Tilleuls</option>
+                        <option value="faubourg-nord">Faubourg Nord</option>
+                        <option value="rue-des-ecoles">Rue des Écoles</option>
                     </select>
                 </div>
 
@@ -156,6 +160,7 @@
             </div>
 
             <!-- ---------- Certification ---------- -->
+            <<!-- TODO: à adapter selon si c'est coché ou non-->
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <label class="flex items-start gap-3 text-sm leading-relaxed text-ink/75">
                     <input type="checkbox" name="certification" required class="mt-0.5 h-4 w-4 shrink-0 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
@@ -165,13 +170,15 @@
 
             <!-- ---------- Actions ---------- -->
             <div class="flex flex-col gap-3 border-t border-ink/10 pt-6 sm:flex-row sm:items-center">
-                <button type="submit" class="rounded-xl bg-terracotta-500 px-6 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600 sm:flex-1">
+                <!-- TODO: repasser ce bouton en type="submit" quand la route POST existera. -->
+                <button type="button" class="rounded-xl bg-terracotta-500 px-6 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600 sm:flex-1">
                     Publier l'annonce
                 </button>
+                <!-- TODO: implémenter l'enregistrement de brouillon quand la BDD sera prête. -->
                 <button type="button" class="rounded-xl border border-ink/15 bg-paper px-6 py-3 text-sm font-semibold text-ink transition hover:border-ink/30 sm:flex-1">
                     Enregistrer le brouillon
                 </button>
-                <a href="accueil.html" class="text-center text-sm font-semibold text-ink/60 hover:text-terracotta-600 sm:px-4">Annuler</a>
+                <a href="{{ route('articles.index') }}" class="text-center text-sm font-semibold text-ink/60 hover:text-terracotta-600 sm:px-4">Annuler</a>
             </div>
         </form>
     </section>

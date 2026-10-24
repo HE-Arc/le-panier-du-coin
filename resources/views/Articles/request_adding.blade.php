@@ -1,21 +1,20 @@
-<!-- TODO: A adapter dans le futur selon les modèles et controleur-->
 @extends("layout.app")
+@section('title', "Déposer une demande")
 @section("content")
     <!-- ============================ BANDEAU + FIL D'ARIANE ============================ -->
     <section class="border-b border-ink/10 bg-cream">
         <div class="mx-auto max-w-3xl px-4 py-8 sm:py-10">
             <nav aria-label="Fil d'Ariane">
                 <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-ink/60">
-                    <li><a href="accueil.html" class="hover:text-terracotta-600">Accueil</a></li>
+                    <li><a href="{{ route('home') }}" class="hover:text-terracotta-600">Accueil</a></li>
                     <li aria-hidden="true">›</li>
-                    <li><a href="demandes.html" class="hover:text-terracotta-600">Demandes</a></li>
+                    <li><a href="{{ route('requests.index') }}" class="hover:text-terracotta-600">Demandes</a></li>
                     <li aria-hidden="true">›</li>
                     <li aria-current="page" class="font-medium text-ink">Nouvelle demande</li>
                 </ol>
             </nav>
 
             <div class="mt-5 flex items-start gap-3 rounded-2xl border border-sage-200 bg-sage-50 p-4">
-                <span class="text-sage-600" aria-hidden="true">🌱</span>
                 <p class="text-sm leading-relaxed text-sage-800">
                     Déposer une demande, c'est gratuit et ne t'engage à rien.
                 </p>
@@ -30,11 +29,11 @@
 
     <!-- ============================ FORMULAIRE ============================ -->
     <section class="mx-auto max-w-3xl px-4 py-10">
-        <form action="demandes.html" method="get" class="space-y-6">
+        <!-- TODO: brancher ce formulaire sur une route POST + validation quand la BDD sera prête. -->
+        <form onsubmit="return false" class="space-y-6">
 
             <!-- Encart d'aide -->
             <div class="flex items-start gap-3 rounded-2xl border border-sage-200 bg-sage-50 p-4">
-                <span class="text-lg leading-none text-sage-600" aria-hidden="true">ⓘ</span>
                 <p class="text-sm leading-relaxed text-sage-800">
                     Plus ta demande est précise, plus les vendeurs peuvent te répondre utilement.
                 </p>
@@ -73,18 +72,19 @@
                         <p class="mt-1.5 text-xs text-ink/55">Indique le prix le plus haut que tu acceptes.</p>
                     </div>
 
+                    <!-- TODO: brancher les catégoriés seont ce qu'il y a dans la BDD-->
                     <div>
                         <label for="categorie" class="block text-sm font-semibold text-ink">Catégorie</label>
                         <select id="categorie" name="categorie"
                                 class="mt-2 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink/80 focus:border-terracotta-400 focus:ring-terracotta-400">
-                            <option>Choisir une catégorie</option>
-                            <option>Maison &amp; meubles</option>
-                            <option>Vélos &amp; vélocipédie</option>
-                            <option>Enfants &amp; puériculture</option>
-                            <option>Loisirs &amp; jeux</option>
-                            <option>Électroménager</option>
-                            <option>Vêtements</option>
-                            <option>Livres &amp; scolaire</option>
+                            <option value="">Choisir une catégorie</option>
+                            <option value="maison">Maison &amp; meubles</option>
+                            <option value="velos">Vélos &amp; vélocipédie</option>
+                            <option value="enfants">Enfants &amp; puériculture</option>
+                            <option value="loisirs">Loisirs &amp; jeux</option>
+                            <option value="electromenager">Électroménager</option>
+                            <option value="vetements">Vêtements</option>
+                            <option value="livres">Livres &amp; scolaire</option>
                         </select>
                     </div>
                 </div>
@@ -102,14 +102,15 @@
                         <p class="mt-1.5 text-xs text-ink/55">Avant laquelle tu as besoin de l'objet.</p>
                     </div>
 
+                    <!-- TODO: quartier à adapter -->
                     <div>
                         <label for="quartier" class="block text-sm font-semibold text-ink">Quartier de remise</label>
                         <select id="quartier" name="quartier"
                                 class="mt-2 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink/80 focus:border-terracotta-400 focus:ring-terracotta-400">
-                            <option>Quartier des Tilleuls</option>
-                            <option>Centre-ville</option>
-                            <option>Faubourg Nord</option>
-                            <option>Rue des Écoles</option>
+                            <option value="tilleuls" selected>Quartier des Tilleuls</option>
+                            <option value="centre-ville">Centre-ville</option>
+                            <option value="faubourg-nord">Faubourg Nord</option>
+                            <option value="rue-des-ecoles">Rue des Écoles</option>
                         </select>
                         <p class="mt-1.5 text-xs text-ink/55">Le quartier dans lequel tu peux récupérer l'objet.</p>
                     </div>
@@ -121,6 +122,7 @@
                 <legend class="px-1 text-sm font-semibold text-ink">Je préfère être contacté par messagerie</legend>
                 <p class="text-xs text-ink/55">Les propositions arriveront ici&nbsp;; tu choisis ce que tu partages ensuite.</p>
 
+                <!-- TODO: messagerie du site à adapter, pte pas une bonne idée-->
                 <div class="mt-4 space-y-3">
                     <label for="contact-messagerie" class="flex items-start gap-3 rounded-xl border border-ink/10 bg-cream p-4 cursor-pointer">
                         <input id="contact-messagerie" name="contact" type="radio" value="messagerie" checked
@@ -145,10 +147,11 @@
             <!-- Actions -->
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-                    <a href="demandes.html" class="rounded-xl bg-terracotta-500 px-6 py-3 text-center text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">
+                    <!-- TODO: remplacer ce bouton par un vrai submit quand la route POST existera. -->
+                    <button type="button" class="rounded-xl bg-terracotta-500 px-6 py-3 text-center text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">
                         Publier la demande
-                    </a>
-                    <a href="demandes.html" class="rounded-xl border border-ink/15 bg-paper px-6 py-3 text-center text-sm font-semibold text-ink transition hover:border-ink/30">
+                    </button>
+                    <a href="{{ route('requests.index') }}" class="rounded-xl border border-ink/15 bg-paper px-6 py-3 text-center text-sm font-semibold text-ink transition hover:border-ink/30">
                         Annuler
                     </a>
                 </div>

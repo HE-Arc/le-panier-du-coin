@@ -1,14 +1,14 @@
-<!-- TODO: A adapter dans le futur selon les modèles et controleur-->
 @extends("layout.app")
+@section('title', "Détail de l'annonce")
 @section("content")
     <!-- ============================ FIL D'ARIANE ============================ -->
     <nav aria-label="Fil d'Ariane" class="border-b border-ink/10 bg-paper">
         <ol class="mx-auto flex max-w-6xl flex-wrap items-center gap-1.5 px-4 py-3.5 text-xs text-ink/55 sm:text-sm">
-            <li><a href="accueil.html" class="hover:text-terracotta-600">Accueil</a></li>
+            <li><a href="{{ route('home') }}" class="hover:text-terracotta-600">Accueil</a></li>
             <li aria-hidden="true">›</li>
-            <li><a href="recherche.html" class="hover:text-terracotta-600">Annonces</a></li>
+            <li><a href="{{ route('search') }}" class="hover:text-terracotta-600">Annonces</a></li>
             <li aria-hidden="true">›</li>
-            <li><a href="recherche.html" class="hover:text-terracotta-600">Vélos</a></li>
+            <li><a href="{{ route('search') }}" class="hover:text-terracotta-600">Vélos</a></li>
             <li aria-hidden="true">›</li>
             <li aria-current="page" class="font-semibold text-ink/75">Vélo de ville</li>
         </ol>
@@ -20,6 +20,7 @@
 
             <!-- ---------- Colonne gauche : visuels ---------- -->
             <div>
+                <!-- TODO: récupérer l'image et l'état depuis la BDD-->
                 <figure class="relative">
                     <div class="grid aspect-[4/3] place-items-center rounded-3xl border border-ink/10 bg-sage-100 text-[7rem] leading-none shadow-soft" role="img" aria-label="Photo du vélo de ville, vue de trois quarts">
                         🚲
@@ -29,6 +30,7 @@
                     </figcaption>
                 </figure>
 
+                <!-- TODO: récupérer l'ensemble des image depuis la BDD-->
                 <div class="mt-4 grid grid-cols-4 gap-3" role="group" aria-label="Autres photos de l'annonce">
                     <button type="button" aria-label="Photo 1 : vue de côté" aria-pressed="true"
                             class="grid aspect-square place-items-center rounded-xl border-2 border-terracotta-400 bg-sage-100 text-2xl">🚲</button>
@@ -42,6 +44,7 @@
             </div>
 
             <!-- ---------- Colonne droite : informations ---------- -->
+            <!-- TODO: récupérer les information de la bdd-->
             <div>
                 <div class="flex flex-wrap items-start justify-between gap-4">
                     <div>
@@ -87,19 +90,20 @@
                     <div class="flex items-center gap-4">
                         <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-terracotta-100 font-display text-lg font-bold text-terracotta-700" aria-hidden="true">C</span>
                         <div class="min-w-0">
-                            <a href="profil-vendeur.html" class="font-display font-semibold text-ink hover:text-terracotta-600">Camille</a>
+                            <a href="{{ route('seller') }}" class="font-display font-semibold text-ink hover:text-terracotta-600">Camille</a>
                             <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-ink/60">
                                 <span class="flex items-center gap-1"><span class="text-amber-500" aria-hidden="true">★</span><span class="font-semibold text-ink/75">4,9</span> (23 avis)</span>
                                 <span aria-hidden="true">·</span>
                                 <span>répond en général sous 2 h</span>
                             </p>
                         </div>
-                        <a href="profil-vendeur.html" class="ml-auto hidden shrink-0 text-sm font-semibold text-terracotta-600 hover:text-terracotta-700 sm:block">Voir le profil <span aria-hidden="true">→</span></a>
+                        <a href="{{ route('seller') }}" class="ml-auto hidden shrink-0 text-sm font-semibold text-terracotta-600 hover:text-terracotta-700 sm:block">Voir le profil <span aria-hidden="true">→</span></a>
                     </div>
 
                     <div class="mt-4 flex flex-col gap-2 sm:flex-row">
-                        <a href="dashboard.html" class="rounded-xl bg-terracotta-500 px-5 py-3 text-center text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">Contacter le vendeur</a>
-                        <a href="article-detail.html" class="rounded-xl border border-ink/15 bg-paper px-5 py-3 text-center text-sm font-semibold text-ink transition hover:border-ink/30">Ajouter aux favoris</a>
+                        <!-- TODO: brancher la messagerie et les favoris quand la BDD et l'authentification seront prêtes. -->
+                        <button type="button" class="rounded-xl bg-terracotta-500 px-5 py-3 text-center text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">Contacter le vendeur</button>
+                        <button type="button" class="rounded-xl border border-ink/15 bg-paper px-5 py-3 text-center text-sm font-semibold text-ink transition hover:border-ink/30">Ajouter aux favoris</button>
                     </div>
                 </div>
 
@@ -112,6 +116,7 @@
     </section>
 
     <!-- ============================ LE MOT DU VENDEUR ============================ -->
+    <!-- TODO: aussi information à récupérer de la bdd -->
     <section class="border-y border-ink/10 bg-paper">
         <div class="mx-auto max-w-6xl px-4 py-10">
             <h2 class="font-display text-xl font-bold tracking-tight text-ink sm:text-2xl">Le mot du vendeur</h2>
@@ -133,13 +138,15 @@
                 <h2 class="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">Dans le même quartier</h2>
                 <p class="mt-1.5 text-sm text-ink/60">D'autres objets disponibles au Quartier des Tilleuls.</p>
             </div>
-            <a href="recherche.html" class="text-sm font-semibold text-terracotta-600 hover:text-terracotta-700">Voir toutes les annonces <span aria-hidden="true">→</span></a>
+            <!-- TODO: rediriger avec le bon filtre-->
+            <a href="{{ route('search') }}" class="text-sm font-semibold text-terracotta-600 hover:text-terracotta-700">Voir toutes les annonces <span aria-hidden="true">→</span></a>
         </div>
 
         <div class="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
             <!-- Carte annonce (modèle pour toutes les pages) -->
-            <a href="article-detail.html" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+            <!-- TODO: a récupérer depuis la BDD-->
+            <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
                 <div class="relative grid aspect-[4/3] place-items-center bg-sky-100 text-5xl" aria-hidden="true">🪑
                     <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Maison</span>
                 </div>
@@ -156,7 +163,7 @@
                 </div>
             </a>
 
-            <a href="article-detail.html" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+            <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
                 <div class="relative grid aspect-[4/3] place-items-center bg-rose-100 text-5xl" aria-hidden="true">📚
                     <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Livres</span>
                 </div>
@@ -173,7 +180,7 @@
                 </div>
             </a>
 
-            <a href="article-detail.html" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+            <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
                 <div class="relative grid aspect-[4/3] place-items-center bg-amber-100 text-5xl" aria-hidden="true">🪴
                     <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Maison</span>
                 </div>
