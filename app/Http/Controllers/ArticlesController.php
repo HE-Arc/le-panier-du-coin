@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ArticlesController extends Controller
 {
-    //
-    public function details() {
-        return view('Articles.article_details');
+    public function index(): View
+    {
+        return view('research');
     }
-    public function aAdding() {
+
+    public function details(string $article): View
+    {
+        return view('Articles.article_details', [
+            'article' => $article,
+        ]);
+    }
+
+    public function create(): View
+    {
         return view('Articles.article_adding');
-    }
-    public function request() {
-        return view('Articles.request_list');
-    }
-    public function rAdding() {
-        return view('Articles.request_adding');
     }
 }

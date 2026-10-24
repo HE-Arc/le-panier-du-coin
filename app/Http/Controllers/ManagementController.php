@@ -2,24 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ManagementController extends Controller
 {
-    //
-    public function dashboard() {
-        return view('Management.dashboard');
+    public function dashboardBuyer(): View
+    {
+        return view('Management.dashboard.buyer');
     }
-    public function login() {
+
+    public function dashboardSeller(): View
+    {
+        return view('Management.dashboard.seller');
+    }
+
+    public function login(): View
+    {
         return view('Management.login');
     }
-    public function register() {
+
+    public function register(): View
+    {
         return view('Management.register');
     }
-    public function resetpwd() {
+
+    public function resetpwd(): View
+    {
         return view('Management.resetpwd');
     }
-    public function seller() {
+
+    public function seller(): View
+    {
         return view('Management.seller_profil');
     }
 }
