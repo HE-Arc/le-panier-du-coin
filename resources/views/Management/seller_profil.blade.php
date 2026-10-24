@@ -1,7 +1,8 @@
-<!-- TODO: A adapter dans le futur selon les modèles et controleur-->
 @extends("layout.app")
+@section('title', "Profil vendeur")
 @section("content")
     <!-- ============================ EN-TÊTE PROFIL ============================ -->
+    <!-- TODO: changer avec les infos de la bdd -->
     <section class="border-b border-ink/10 bg-cream">
         <div class="mx-auto max-w-6xl px-4 py-8 sm:py-12">
             <div class="rounded-3xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-8">
@@ -35,8 +36,9 @@
                             <a href="#avis" class="mt-1 block text-sm font-semibold text-terracotta-600 hover:text-terracotta-700">23 avis</a>
                         </div>
                         <div class="flex flex-col gap-2 sm:flex-row lg:flex-col lg:w-full">
-                            <a href="dashboard.html" class="rounded-xl bg-terracotta-500 px-5 py-3 text-center text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">Contacter</a>
-                            <a href="recherche.html" class="rounded-xl border border-ink/15 bg-paper px-5 py-3 text-center text-sm font-semibold text-ink transition hover:border-ink/30">Voir ses annonces</a>
+                            <!-- TODO: brancher le contact vendeur quand la messagerie existera. -->
+                            <button type="button" class="rounded-xl bg-terracotta-500 px-5 py-3 text-center text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">Contacter</button>
+                            <a href="{{ route('search') }}" class="rounded-xl border border-ink/15 bg-paper px-5 py-3 text-center text-sm font-semibold text-ink transition hover:border-ink/30">Voir ses annonces</a>
                         </div>
                     </div>
                 </div>
@@ -65,9 +67,10 @@
     </section>
 
     <!-- ============================ ONGLETS ============================ -->
+    <!-- TODO: changer avec les infos de la bdd -->
     <section class="mx-auto max-w-6xl px-4 pt-8">
         <div role="tablist" aria-label="Sections du profil" class="flex gap-1 border-b border-ink/10">
-            <a href="profil-vendeur.html" role="tab" aria-selected="true" aria-current="page"
+            <a href="{{ route('seller') }}" role="tab" aria-selected="true" aria-current="page"
                class="rounded-t-lg border-b-2 border-terracotta-500 px-4 py-3 text-sm font-semibold text-terracotta-700">
                 Ses annonces (6)
             </a>
@@ -79,12 +82,13 @@
     </section>
 
     <!-- ============================ ANNONCES ============================ -->
+    <!-- TODO: changer avec les infos de la bdd -->
     <section class="mx-auto max-w-6xl px-4 py-8">
         <h2 class="sr-only">Les annonces de Camille</h2>
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
             <!-- Carte annonce (modèle accueil) -->
-            <a href="article-detail.html" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+            <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
                 <div class="relative grid aspect-[4/3] place-items-center bg-sage-100 text-5xl" aria-hidden="true">🚲
                     <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Vélos</span>
                 </div>
@@ -101,7 +105,7 @@
                 </div>
             </a>
 
-            <a href="article-detail.html" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+            <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
                 <div class="relative grid aspect-[4/3] place-items-center bg-terracotta-100 text-5xl" aria-hidden="true">🛋️
                     <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Maison</span>
                 </div>
@@ -118,7 +122,7 @@
                 </div>
             </a>
 
-            <a href="article-detail.html" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+            <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
                 <div class="relative grid aspect-[4/3] place-items-center bg-amber-100 text-5xl" aria-hidden="true">🎲
                     <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Loisirs</span>
                 </div>
@@ -135,7 +139,7 @@
                 </div>
             </a>
 
-            <a href="article-detail.html" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+            <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
                 <div class="relative grid aspect-[4/3] place-items-center bg-sky-100 text-5xl" aria-hidden="true">🧇
                     <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Électroménager</span>
                 </div>
@@ -152,7 +156,7 @@
                 </div>
             </a>
 
-            <a href="article-detail.html" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+            <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
                 <div class="relative grid aspect-[4/3] place-items-center bg-rose-100 text-5xl" aria-hidden="true">📚
                     <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Livres</span>
                 </div>
@@ -169,7 +173,7 @@
                 </div>
             </a>
 
-            <a href="article-detail.html" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+            <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
                 <div class="relative grid aspect-[4/3] place-items-center bg-violet-100 text-5xl" aria-hidden="true">🧸
                     <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Enfants</span>
                 </div>
@@ -267,10 +271,10 @@
                 </p>
             </div>
             <div class="mt-6 flex flex-wrap justify-center gap-3">
-                <a href="article-ajout.html" class="rounded-xl bg-paper px-5 py-2.5 text-sm font-semibold text-sage-800 transition hover:bg-cream">
+                <a href="{{ route('articles.create') }}" class="rounded-xl bg-paper px-5 py-2.5 text-sm font-semibold text-sage-800 transition hover:bg-cream">
                     Publier à mon tour
                 </a>
-                <a href="demandes.html" class="rounded-xl border border-white/25 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10">
+                <a href="{{ route('requests.index') }}" class="rounded-xl border border-white/25 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10">
                     Voir les demandes ouvertes
                 </a>
             </div>
