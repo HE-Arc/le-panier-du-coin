@@ -1,5 +1,5 @@
-<!-- TODO: A adapter dans le futur selon les modèles et controleur-->
 @extends("layout.app")
+@section('title', "Conditions d'utilisation")
 @section("content")
     <div class="mx-auto max-w-6xl px-4 py-10 lg:grid lg:grid-cols-[17rem_1fr] lg:gap-12 lg:py-14">
 
@@ -165,7 +165,7 @@
                         <p>
                             Elles ne sont ni revendues, ni transmises à des partenaires commerciales. Tu peux demander
                             la consultation, la rectification ou la suppression de tes données à tout moment&nbsp;:
-                            écris-nous simplement via la page <a href="qui-sommes-nous.html" class="font-semibold text-terracotta-600 hover:text-terracotta-700">Qui sommes-nous&nbsp;?</a>
+                            écris-nous simplement via la page <a href="{{ route('about') }}" class="font-semibold text-terracotta-600 hover:text-terracotta-700">Qui sommes-nous&nbsp;?</a>
                             et nous te répondons sous 30 jours.
                         </p>
                     </div>
@@ -190,18 +190,12 @@
                     </div>
                 </section>
             </div>
-
-            <p class="mt-10 border-t border-ink/10 pt-6 text-sm text-ink/60">
-                Une question sur ces conditions&nbsp;?
-                <a href="qui-sommes-nous.html" class="font-semibold text-terracotta-600 hover:text-terracotta-700">Écris-nous</a>
-                ou consulte le projet.
-            </p>
         </div>
     </div>
 
     <!-- Retour vers l'accueil -->
     <div class="mx-auto max-w-6xl px-4 pb-12">
-        <a href="accueil.html" class="inline-flex items-center gap-2 text-sm font-semibold text-terracotta-600 hover:text-terracotta-700">
+        <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-terracotta-600 hover:text-terracotta-700">
             <span aria-hidden="true">←</span> Retour à l'accueil
         </a>
     </div>

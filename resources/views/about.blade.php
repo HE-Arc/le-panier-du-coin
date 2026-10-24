@@ -1,5 +1,5 @@
-<!-- TODO: A adapter dans le futur selon les modèles et controleur-->
 @extends("layout.app")
+@section('title', "Qui sommes-nous")
 @section("content")
     <!-- ============================ HERO ÉDITORIAL ============================ -->
     <section class="relative overflow-hidden border-b border-ink/10">
@@ -33,9 +33,9 @@
                     D'un constat de voisinage à un marché de quartier.
                 </h2>
                 <div class="mt-5 grid gap-3 sm:grid-cols-3">
-                    <span class="grid aspect-square place-items-center rounded-2xl bg-sage-100 text-3xl" aria-hidden="true">🛏️</span>
-                    <span class="grid aspect-square place-items-center rounded-2xl bg-terracotta-100 text-3xl" aria-hidden="true">🤝</span>
-                    <span class="grid aspect-square place-items-center rounded-2xl bg-amber-100 text-3xl" aria-hidden="true">🌱</span>
+                    <span class="grid aspect-square place-items-center rounded-2xl bg-sage-100 text-3xl" aria-hidden="true">img</span>
+                    <span class="grid aspect-square place-items-center rounded-2xl bg-terracotta-100 text-3xl" aria-hidden="true">img</span>
+                    <span class="grid aspect-square place-items-center rounded-2xl bg-amber-100 text-3xl" aria-hidden="true">img</span>
                 </div>
             </div>
 
@@ -67,7 +67,7 @@
 
             <ul class="mt-7 grid gap-5 sm:grid-cols-3">
                 <li class="rounded-2xl border border-ink/10 bg-cream p-5 shadow-soft">
-                    <span class="grid h-11 w-11 place-items-center rounded-xl bg-paper text-2xl" aria-hidden="true">🧑‍🤝‍🧑</span>
+                    <span class="grid h-11 w-11 place-items-center rounded-xl bg-paper text-2xl" aria-hidden="true">img</span>
                     <h3 class="mt-4 font-display text-lg font-semibold text-ink">De voisin à voisin</h3>
                     <p class="mt-1.5 text-sm leading-relaxed text-ink/65">
                         On se retrouve au coin de la rue, pas dans un entrepôt. Les quartiers sont la brique
@@ -75,7 +75,7 @@
                     </p>
                 </li>
                 <li class="rounded-2xl border border-ink/10 bg-cream p-5 shadow-soft">
-                    <span class="grid h-11 w-11 place-items-center rounded-xl bg-paper text-2xl" aria-hidden="true">♻️</span>
+                    <span class="grid h-11 w-11 place-items-center rounded-xl bg-paper text-2xl" aria-hidden="true">img</span>
                     <h3 class="mt-4 font-display text-lg font-semibold text-ink">Zéro déchet, zéro intermédiaire</h3>
                     <p class="mt-1.5 text-sm leading-relaxed text-ink/65">
                         Un objet remis en service, c'est un objet qui n'est ni acheté neuf ni jeté.
@@ -83,7 +83,7 @@
                     </p>
                 </li>
                 <li class="rounded-2xl border border-ink/10 bg-cream p-5 shadow-soft">
-                    <span class="grid h-11 w-11 place-items-center rounded-xl bg-paper text-2xl" aria-hidden="true">🛡️</span>
+                    <span class="grid h-11 w-11 place-items-center rounded-xl bg-paper text-2xl" aria-hidden="true">img</span>
                     <h3 class="mt-4 font-display text-lg font-semibold text-ink">La confiance d'abord</h3>
                     <p class="mt-1.5 text-sm leading-relaxed text-ink/65">
                         Profils vérifiés, avis publics, modération humaine&nbsp;: on préfère une communauté
@@ -95,6 +95,7 @@
     </section>
 
     <!-- ============================ CHIFFRES ============================ -->
+    <!--TODO: récupérer les data depuis la BDD-->
     <section class="mx-auto max-w-6xl px-4 py-12" aria-label="Le projet en chiffres">
         <dl class="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 text-center shadow-soft">
@@ -158,8 +159,8 @@
                 Publie ce qui ne te sert plus, ou trouve directement ce que tu cherches chez un voisin.
             </p>
             <div class="mt-6 flex flex-wrap justify-center gap-3">
-                <a href="article-ajout.html" class="rounded-xl bg-paper px-5 py-2.5 text-sm font-semibold text-terracotta-700 transition hover:bg-cream">Publier une annonce</a>
-                <a href="recherche.html" class="rounded-xl border border-white/40 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10">Voir les annonces</a>
+                <a href="{{ route('articles.create') }}" class="rounded-xl bg-paper px-5 py-2.5 text-sm font-semibold text-terracotta-700 transition hover:bg-cream">Publier une annonce</a>
+                <a href="{{ route('search') }}" class="rounded-xl border border-white/40 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10">Voir les annonces</a>
             </div>
         </div>
     </section>
