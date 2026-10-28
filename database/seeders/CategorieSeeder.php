@@ -1,5 +1,5 @@
 <?php
-
+#fonction fait main, mais remplissage des données ai
 namespace Database\Seeders;
 
 use App\Models\Category;
@@ -16,13 +16,15 @@ class CategorieSeeder extends Seeder
         $categories = [
             "Vélos & vélocipédie",
             "Maison & meubles",
-            "Loisir & jeux",
-            "Electroménager",
-            "Vêtement",
+            "Loisirs & jeux",
+            "Électroménager",
+            "Vêtements",
+            "Livres",
+            "Accessoires",
         ];
 
         foreach ($categories as $category) {
-            Category::firstOrCreat(["title" => $category]);
+            Category::firstOrCreate(["title" => $category]);
         }
     }
 }

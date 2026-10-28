@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -12,7 +13,8 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $camille = User::firstOrCreate(
+
+        User::firstOrCreate(
             ["email" => "manu@test.ch"],
             [
                 "name" => "manu",
@@ -23,7 +25,7 @@ class UserSeeder extends Seeder
             ]
         );
 
-        $sofiane = User::firstOrCreate(
+        User::firstOrCreate(
             ["email" => "adam@example.com"],
             [
                 "name" => "adam",
@@ -32,5 +34,7 @@ class UserSeeder extends Seeder
                 "is_verified" => true,
             ]
         );
+
+
     }
 }

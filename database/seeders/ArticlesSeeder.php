@@ -1,7 +1,12 @@
 <?php
-
+#fonction fait main, mais remplissage des données aide par l'IA avec les donnée du html transmis dans le prompt
 namespace Database\Seeders;
 
+use App\Enums\ArticleCondition;
+use App\Enums\ArticleStatus;
+use App\Models\Article;
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -117,13 +122,15 @@ class ArticlesSeeder extends Seeder
         ];
 
         foreach ($articles as $data) {
+            $seller = $data["seller"];
             $category = Category::firstOrCreate(["title" => $data["category"]]);
 
-            unset($data["category"]);
+            unset($data["category"], $data["seller"]);
 
             Article::firstOrCreate(
                 ["title" => $data["title"]],
                 array_merge($data, [
+                    "seller_id" => $seller->id,
                     "category_id" => $category->id,
                 ])
             );
