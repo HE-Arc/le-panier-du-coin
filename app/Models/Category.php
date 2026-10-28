@@ -13,7 +13,7 @@ class Category extends Model
 {
     use HasFactory, HasUuids;
 
-    public function catView():HasMany
+    public function articles():HasMany
     {
         return $this->hasMany(Article::class);
     }
