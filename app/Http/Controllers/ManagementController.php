@@ -8,31 +8,21 @@ class ManagementController extends Controller
 {
     public function dashboardBuyer(): View
     {
-        return view('Management.dashboard.buyer');
+        return view("Management.dashboard.buyer");
     }
 
     public function dashboardSeller(): View
     {
-        return view('Management.dashboard.seller');
-    }
-
-    public function login(): View
-    {
-        return view('Management.login');
-    }
-
-    public function register(): View
-    {
-        return view('Management.register');
+        return view("Management.dashboard.seller");
     }
 
     public function resetpwd(): View
     {
-        return view('Management.resetpwd');
+        return view("Management.resetpwd");
     }
 
     public function seller(): View
     {
-        return view('Management.seller_profil');
+        return view("Management.seller_profil");
     }
 }

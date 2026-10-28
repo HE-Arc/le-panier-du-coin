@@ -26,12 +26,15 @@
             <h1 class="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">Se connecter</h1>
             <p class="mt-2 text-sm leading-relaxed text-ink/65">Heureux de te revoir&nbsp;! Retrouve tes annonces, tes demandes et tes messages.</p>
 
-            <!-- TODO: brancher ce formulaire sur une route POST + Auth::attempt() quand la BDD sera prête. -->
-            <form onsubmit="return false" class="mt-6 space-y-5">
+            <form method="POST" action="{{ route('login.store') }}" class="mt-6 space-y-5">
+                @csrf
                 <div>
                     <label for="email" class="mb-1.5 block text-sm font-semibold text-ink">Adresse e-mail</label>
-                    <input id="email" name="email" type="email" required autocomplete="email" placeholder="camille@exemple.fr"
+                    <input id="email" name="email" type="email" required autocomplete="email" placeholder="camille@exemple.fr" value="{{ old('email') }}"
                            class="w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink placeholder:text-ink/40 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
+                    @error('email')
+                        <p class="mt-1 text-xs text-terracotta-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
@@ -58,8 +61,7 @@
                     <a href="{{ route('password.request') }}" class="text-sm font-semibold text-terracotta-600 hover:text-terracotta-700">Mot de passe oublié&nbsp;?</a>
                 </div>
 
-                <!-- TODO: repasser ce bouton en type="submit" quand la route POST et l'authentification existeront. -->
-                <button type="button" class="w-full rounded-xl bg-terracotta-500 px-6 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">
+                <button type="submit" class="w-full rounded-xl bg-terracotta-500 px-6 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">
                     Se connecter
                 </button>
             </form>
