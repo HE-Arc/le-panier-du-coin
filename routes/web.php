@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\ArticlesController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\ProfileController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\RequestsController;
@@ -20,12 +23,17 @@ Route::get('/annonces/{article}', [ArticlesController::class, 'details'])
 Route::get('/demandes', [RequestsController::class, 'index'])->name('requests.index');
 Route::get('/demandes/creer', [RequestsController::class, 'create'])->name('requests.create');
 
-Route::get('/connexion', [ManagementController::class, 'login'])->name('login');
-Route::get('/inscription', [ManagementController::class, 'register'])->name('register');
+Route::get('/connexion', [AuthenticatedSessionController::class, 'create'])->name('login');
+Route::post('/connexion', [AuthenticatedSessionController::class, 'store'])->name('login.store');
+Route::get('/inscription', [RegisteredUserController::class, 'create'])->name('register');
+Route::post('/inscription', [RegisteredUserController::class, 'store'])->name('register.store');
+Route::post('/deconnexion', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 Route::get('/mot-de-passe-oublie', [ManagementController::class, 'resetpwd'])->name('password.request');
+Route::delete('/compte', [ProfileController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('profile.destroy');
 Route::get('/tableau-de-bord', [ManagementController::class, 'dashboardBuyer'])->name('dashboard.buyer');
 Route::get('/tableau-de-bord/vendeur', [ManagementController::class, 'dashboardSeller'])->name('dashboard.seller');
 Route::get('/profil-vendeur', [ManagementController::class, 'seller'])->name('seller');
-
 
 //TODO: adding route when the bdd was building
