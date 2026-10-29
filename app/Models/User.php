@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+
+
 use Illuminate\Notifications\Notifiable;
 
 #[Fillable(["name", "email", "password", "neighborhood", "bio", "is_verified"])]
@@ -29,4 +31,10 @@ class User extends Authenticatable
             "password" => "hashed",
         ];
     }
+
+    // Récupération du nom d'un utilisateur selon un ID
+    public function articles(): HasMany {
+        return $this->hasMany(Article::class, "seller_id");
+    }
+
 }
