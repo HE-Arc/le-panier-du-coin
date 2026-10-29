@@ -98,5 +98,26 @@
                 <a href="{{ route('requests.create') }}" class="text-sm font-semibold text-terracotta-600 hover:text-terracotta-700">Déposer une demande <span aria-hidden="true">→</span></a>
             </p>
         </section>
+
+        <!-- Suppression de compte -->
+        <section class="mt-10 rounded-2xl border border-terracotta-200 bg-terracotta-50 p-5">
+            <h2 class="font-display text-lg font-bold text-terracotta-800">Se désinscrire</h2>
+            <p class="mt-1 text-sm text-terracotta-700">Supprime définitivement ton compte.</p>
+            <form method="POST" action="{{ route('profile.destroy') }}" class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
+                @csrf
+                @method('DELETE')
+                <div class="flex-1">
+                    <label for="delete-password" class="mb-1.5 block text-sm font-semibold text-ink">Mot de passe</label>
+                    <input id="delete-password" name="password" type="password" required
+                           class="w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
+                    @error('password')
+                        <p class="mt-1 text-xs text-terracotta-600">{{ $message }}</p>
+                    @enderror
+                </div>
+                <button type="submit" class="rounded-xl bg-terracotta-500 px-5 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">
+                    Supprimer mon compte
+                </button>
+            </form>
+        </section>
     </section>
 @endsection

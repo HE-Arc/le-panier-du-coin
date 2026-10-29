@@ -26,18 +26,24 @@
             <h1 class="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">Créer mon compte</h1>
             <p class="mt-2 text-sm leading-relaxed text-ink/65">Rejoins les habitants qui font vivre la brocante du quartier&nbsp;: vends, cherche et discute près de chez toi.</p>
 
-            <!-- TODO: brancher ce formulaire sur une route POST + création d'utilisateur quand la BDD sera prête. -->
-            <form onsubmit="return false" class="mt-6 space-y-5">
+            <form method="POST" action="{{ route('register.store') }}" class="mt-6 space-y-5">
+                @csrf
                 <div>
                     <label for="nom" class="mb-1.5 block text-sm font-semibold text-ink">Nom complet</label>
-                    <input id="nom" name="name" type="text" required autocomplete="name" placeholder="Camille Dupont"
+                    <input id="nom" name="name" type="text" required autocomplete="name" placeholder="Camille Dupont" value="{{ old('name') }}"
                            class="w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink placeholder:text-ink/40 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
+                    @error('name')
+                        <p class="mt-1 text-xs text-terracotta-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
                     <label for="email" class="mb-1.5 block text-sm font-semibold text-ink">Adresse e-mail</label>
-                    <input id="email" name="email" type="email" required autocomplete="email" placeholder="camille@exemple.fr"
+                    <input id="email" name="email" type="email" required autocomplete="email" placeholder="camille@exemple.fr" value="{{ old('email') }}"
                            class="w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink placeholder:text-ink/40 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
+                    @error('email')
+                        <p class="mt-1 text-xs text-terracotta-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
@@ -45,6 +51,9 @@
                     <div class="relative">
                         <input id="mot-de-passe" name="password" type="password" required autocomplete="new-password" placeholder="8 caractères minimum"
                                class="w-full rounded-xl border border-ink/15 bg-cream py-3 pl-4 pr-12 text-sm text-ink placeholder:text-ink/40 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
+                        @error('password')
+                            <p class="mt-1 text-xs text-terracotta-600">{{ $message }}</p>
+                        @enderror
                         <button type="button" data-toggle-password="mot-de-passe" aria-pressed="false" class="absolute inset-y-0 right-0 grid w-12 place-items-center rounded-r-xl text-ink/50 hover:text-ink"
                                 aria-label="Afficher le mot de passe">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true">
@@ -78,18 +87,23 @@
                     <label for="confirmation" class="mb-1.5 block text-sm font-semibold text-ink">Confirme le mot de passe</label>
                     <input id="confirmation" name="password_confirmation" type="password" required autocomplete="new-password" placeholder="Retape ton mot de passe"
                            class="w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink placeholder:text-ink/40 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
+                    @error('password_confirmation')
+                        <p class="mt-1 text-xs text-terracotta-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
                     <label for="conditions" class="flex cursor-pointer items-start gap-2.5 text-sm text-ink/75">
                         <input id="conditions" name="conditions" type="checkbox" value="1" required
                                class="mt-0.5 h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
+                        @error('conditions')
+                            <p class="mt-1 text-xs text-terracotta-600">{{ $message }}</p>
+                        @enderror
                         <span>J'accepte les <a href="{{ route('terms') }}" class="font-semibold text-terracotta-600 underline-offset-2 hover:underline">conditions d'utilisation</a> et la politique de confidentialité.</span>
                     </label>
                 </div>
 
-                <!-- TODO: repasser ce bouton en type="submit" quand la route POST et la création de compte existeront. -->
-                <button type="button" class="w-full rounded-xl bg-terracotta-500 px-6 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">
+                <button type="submit" class="w-full rounded-xl bg-terracotta-500 px-6 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">
                     Créer mon compte
                 </button>
             </form>

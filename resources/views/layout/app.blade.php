@@ -47,7 +47,15 @@
             </nav>
 
             <div class="ml-auto hidden items-center gap-2 md:flex">
-                <a href="{{ route('login') }}" class="rounded-xl px-4 py-2 text-sm font-semibold text-ink/80 hover:bg-cream hover:text-ink">Se connecter</a>
+                @auth
+                    <span class="text-sm font-semibold text-ink/80">{{ Auth::user()->name }}</span>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="rounded-xl px-4 py-2 text-sm font-semibold text-ink/80 hover:bg-cream hover:text-ink">Se déconnecter</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="rounded-xl px-4 py-2 text-sm font-semibold text-ink/80 hover:bg-cream hover:text-ink">Se connecter</a>
+                @endauth
                 <a href="{{ route('articles.create') }}" class="rounded-xl bg-terracotta-500 px-4 py-2 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">Publier une annonce</a>
             </div>
 
@@ -66,7 +74,15 @@
                 </a>
             @endforeach
             <div class="mt-3 flex flex-col gap-2 border-t border-ink/10 pt-3">
-                <a href="{{ route('login') }}" class="rounded-xl border border-ink/15 px-4 py-2.5 text-center text-sm font-semibold text-ink">Se connecter</a>
+                @auth
+                    <span class="px-4 py-2.5 text-center text-sm font-semibold text-ink">{{ Auth::user()->name }}</span>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="w-full rounded-xl border border-ink/15 px-4 py-2.5 text-center text-sm font-semibold text-ink">Se déconnecter</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="rounded-xl border border-ink/15 px-4 py-2.5 text-center text-sm font-semibold text-ink">Se connecter</a>
+                @endauth
                 <a href="{{ route('articles.create') }}" class="rounded-xl bg-terracotta-500 px-4 py-2.5 text-center text-sm font-semibold text-paper">Publier une annonce</a>
             </div>
         </nav>
