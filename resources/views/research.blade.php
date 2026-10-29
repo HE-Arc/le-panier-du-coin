@@ -51,46 +51,39 @@
                     <input type="hidden" name="tri" value="{{ request('tri', 'pertinence') }}">
 
                     <!-- Catégorie -->
-                    <!--TODO: a récuprer de la bdd-->
                     <fieldset>
                         <legend class="text-xs font-bold uppercase tracking-[0.12em] text-ink/50">Catégorie</legend>
                         <div class="mt-3 space-y-2.5">
-                            <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                                <input type="checkbox" name="categorie[]" value="velos" checked class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                                Vélos &amp; vélocipédie <span class="text-ink/45">(27)</span>
-                            </label>
-                            <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                                <input type="checkbox" name="categorie[]" value="maison" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                                Maison &amp; meubles <span class="text-ink/45">(64)</span>
-                            </label>
-                            <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                                <input type="checkbox" name="categorie[]" value="loisirs" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                                Loisirs &amp; jeux <span class="text-ink/45">(31)</span>
-                            </label>
-                            <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                                <input type="checkbox" name="categorie[]" value="electromenager" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                                Électroménager <span class="text-ink/45">(22)</span>
-                            </label>
-                            <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                                <input type="checkbox" name="categorie[]" value="vetements" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                                Vêtements <span class="text-ink/45">(45)</span>
-                            </label>
+                            @forelse ($categories as $category)
+                                <label class="flex items-center gap-2.5 text-sm text-ink/75">
+                                    <input type="checkbox" name="categorie[]" value="{{ $category->id }}"
+                                           @checked(in_array($category->id, (array) request('categorie', [])))
+                                           class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
+                                    {{ $category->title }}
+                                    <span class="text-ink/45">({{ $category->articles_count }})</span>
+                                </label>
+                            @empty
+                                <p class="text-sm text-ink/50">Aucune catégorie disponible.</p>
+                            @endforelse
                         </div>
                     </fieldset>
 
                     <!-- Prix -->
-                    <!--TODO: possible de récupérer la plage de prix selon la catégorie sélectionné???-->
                     <fieldset>
                         <legend class="text-xs font-bold uppercase tracking-[0.12em] text-ink/50">Prix (€)</legend>
                         <div class="mt-3 grid grid-cols-2 gap-3">
                             <div>
                                 <label for="prix-min" class="block text-sm text-ink/70">Min.</label>
-                                <input id="prix-min" name="prix_min" type="number" inputmode="numeric" min="0" placeholder="0"
+                                <input id="prix-min" name="prix_min" type="number" inputmode="numeric" min="0"
+                                       value="{{ request('prix_min') }}"
+                                       placeholder="{{ $priceRanges?->min_price !== null ? (int) $priceRanges->min_price : 0 }}"
                                        class="mt-1 w-full rounded-xl border border-ink/15 bg-cream px-3 py-2 text-sm text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
                             </div>
                             <div>
                                 <label for="prix-max" class="block text-sm text-ink/70">Max.</label>
-                                <input id="prix-max" name="prix_max" type="number" inputmode="numeric" min="0" placeholder="200"
+                                <input id="prix-max" name="prix_max" type="number" inputmode="numeric" min="0"
+                                       value="{{ request('prix_max') }}"
+                                       placeholder="{{ $priceRanges?->max_price !== null ? (int) $priceRanges->max_price : 200 }}"
                                        class="mt-1 w-full rounded-xl border border-ink/15 bg-cream px-3 py-2 text-sm text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
                             </div>
                         </div>
@@ -99,12 +92,14 @@
                     <!-- Quartier -->
                     <div>
                         <label for="quartier" class="text-xs font-bold uppercase tracking-[0.12em] text-ink/50">Quartier</label>
-                        <select id="quartier" name="quartier" class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-3 py-2.5 text-sm text-ink/80 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
+                        <select id="quartier" name="quartier"
+                                class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-3 py-2.5 text-sm text-ink/80 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
                             <option value="">Tous les quartiers</option>
-                            <option value="centre-ville">Centre-ville</option>
-                            <option value="tilleuls">Quartier des Tilleuls</option>
-                            <option value="faubourg-nord">Faubourg Nord</option>
-                            <option value="rue-des-ecoles">Rue des Écoles</option>
+                            @foreach ($locations as $location)
+                                <option value="{{ $location }}" @selected(request('quartier') === $location)>
+                                    {{ $location }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -112,18 +107,14 @@
                     <fieldset>
                         <legend class="text-xs font-bold uppercase tracking-[0.12em] text-ink/50">État</legend>
                         <div class="mt-3 space-y-2.5">
-                            <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                                <input type="checkbox" name="etat[]" value="neuf" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                                Neuf
-                            </label>
-                            <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                                <input type="checkbox" name="etat[]" value="tres-bon" checked class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                                Très bon
-                            </label>
-                            <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                                <input type="checkbox" name="etat[]" value="correct" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                                Correct
-                            </label>
+                            @foreach ($conditions as $condition)
+                                <label class="flex items-center gap-2.5 text-sm text-ink/75">
+                                    <input type="checkbox" name="etat[]" value="{{ $condition->value }}"
+                                           @checked(in_array($condition->value, (array) request('etat', [])))
+                                           class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
+                                    {{ $condition->label() }}
+                                </label>
+                            @endforeach
                         </div>
                     </fieldset>
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ArticleCondition;
+use App\Models\Category;
 use Illuminate\View\View;
 use App\Models\Article;
 
@@ -16,7 +18,27 @@ class ArticlesController extends Controller
             ->latest("published_at")
             ->paginate(9);
 
-        return view("research", compact("articles"));
+        $categories = Category::query()
+            ->withCount(["articles" => fn ($query) => $query->where("status", "available")])
+            ->orderBy("title")
+            ->get()
+            ->filter(fn ($category) => $category->articles_count > 0)
+            ->values();
+
+        $locations = Article::query()
+            ->where("status", "available")
+            ->distinct()
+            ->orderBy("location")
+            ->pluck("location");
+
+        $priceRanges = Article::query()
+            -> where("status", "available")
+            ->selectRaw("MIN(price) as min_price, MAX(price) as max_price")
+            ->first();
+
+        $conditions = ArticleCondition::cases();
+
+        return view("research", compact("articles", "categories", "locations", "conditions", "priceRanges"));
     }
 
     public function details(Article $article): View
