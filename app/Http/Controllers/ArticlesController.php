@@ -19,11 +19,12 @@ class ArticlesController extends Controller
         return view("research", compact("articles"));
     }
 
-    public function details(string $article): View
+    public function details(Article $article): View
     {
-        return view('Articles.article_details', [
-            'article' => $article,
-        ]);
+        $article->increment("views");
+
+        $article->load(["category", "seller", "pictures","primaryPicture"]);
+        return view("Articles.article_details", compact("article"));
     }
 
     public function create(): View

@@ -14,7 +14,7 @@ Route::get('/annonces', [ArticlesController::class, 'index'])->name('articles.in
 Route::get('/recherche', [ArticlesController::class, 'index'])->name('search');
 Route::get('/annonces/creer', [ArticlesController::class, 'create'])->name('articles.create');
 Route::get('/annonces/{article}', [ArticlesController::class, 'details'])
-    ->whereNumber('article')
+    ->whereUuid('article') #selon la BDD utiliser les Uuid
     ->name('articles.show');
 
 Route::get('/demandes', [RequestsController::class, 'index'])->name('requests.index');
