@@ -8,4 +8,14 @@ enum ArticleStatus: string
     case Reserved = "reserved";
     case Sold = "sold";
     case Draft = "draft";
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::Available => "Disponible",
+            self::Reserved => "Réservé",
+            self::Sold => "Vendu",
+            self::Draft => "Brouillon",
+        };
+    }
 }

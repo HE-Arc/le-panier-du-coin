@@ -25,7 +25,12 @@
                 </button>
             </form>
 
-            <p class="mt-4 text-sm text-ink/65" role="status"><strong class="font-display text-base text-ink">27 annonces</strong> pour «&nbsp;{{ request('q', 'vélo') }}&nbsp;»</p>
+            <p class="mt-4 text-sm text-ink/65" role="status">
+                <strong class="font-display text-base text-ink">{{ $articles->total() }} annonce{{ $articles->total() > 1 ? 's' : '' }}</strong>
+                @if (request('q'))
+                    pour «&nbsp;{{ request('q') }}&nbsp;»
+                @endif
+            </p>
         </div>
     </section>
 
@@ -46,46 +51,39 @@
                     <input type="hidden" name="tri" value="{{ request('tri', 'pertinence') }}">
 
                     <!-- Catégorie -->
-                    <!--TODO: a récuprer de la bdd-->
                     <fieldset>
                         <legend class="text-xs font-bold uppercase tracking-[0.12em] text-ink/50">Catégorie</legend>
                         <div class="mt-3 space-y-2.5">
-                            <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                                <input type="checkbox" name="categorie[]" value="velos" checked class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                                Vélos &amp; vélocipédie <span class="text-ink/45">(27)</span>
-                            </label>
-                            <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                                <input type="checkbox" name="categorie[]" value="maison" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                                Maison &amp; meubles <span class="text-ink/45">(64)</span>
-                            </label>
-                            <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                                <input type="checkbox" name="categorie[]" value="loisirs" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                                Loisirs &amp; jeux <span class="text-ink/45">(31)</span>
-                            </label>
-                            <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                                <input type="checkbox" name="categorie[]" value="electromenager" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                                Électroménager <span class="text-ink/45">(22)</span>
-                            </label>
-                            <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                                <input type="checkbox" name="categorie[]" value="vetements" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                                Vêtements <span class="text-ink/45">(45)</span>
-                            </label>
+                            @forelse ($categories as $category)
+                                <label class="flex items-center gap-2.5 text-sm text-ink/75">
+                                    <input type="checkbox" name="categorie[]" value="{{ $category->id }}"
+                                           @checked(in_array($category->id, (array) request('categorie', [])))
+                                           class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
+                                    {{ $category->title }}
+                                    <span class="text-ink/45">({{ $category->articles_count }})</span>
+                                </label>
+                            @empty
+                                <p class="text-sm text-ink/50">Aucune catégorie disponible.</p>
+                            @endforelse
                         </div>
                     </fieldset>
 
                     <!-- Prix -->
-                    <!--TODO: possible de récupérer la plage de prix selon la catégorie sélectionné???-->
                     <fieldset>
                         <legend class="text-xs font-bold uppercase tracking-[0.12em] text-ink/50">Prix (€)</legend>
                         <div class="mt-3 grid grid-cols-2 gap-3">
                             <div>
                                 <label for="prix-min" class="block text-sm text-ink/70">Min.</label>
-                                <input id="prix-min" name="prix_min" type="number" inputmode="numeric" min="0" placeholder="0"
+                                <input id="prix-min" name="prix_min" type="number" inputmode="numeric" min="0"
+                                       value="{{ request('prix_min') }}"
+                                       placeholder="{{ $priceRanges?->min_price !== null ? (int) $priceRanges->min_price : 0 }}"
                                        class="mt-1 w-full rounded-xl border border-ink/15 bg-cream px-3 py-2 text-sm text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
                             </div>
                             <div>
                                 <label for="prix-max" class="block text-sm text-ink/70">Max.</label>
-                                <input id="prix-max" name="prix_max" type="number" inputmode="numeric" min="0" placeholder="200"
+                                <input id="prix-max" name="prix_max" type="number" inputmode="numeric" min="0"
+                                       value="{{ request('prix_max') }}"
+                                       placeholder="{{ $priceRanges?->max_price !== null ? (int) $priceRanges->max_price : 200 }}"
                                        class="mt-1 w-full rounded-xl border border-ink/15 bg-cream px-3 py-2 text-sm text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
                             </div>
                         </div>
@@ -94,12 +92,14 @@
                     <!-- Quartier -->
                     <div>
                         <label for="quartier" class="text-xs font-bold uppercase tracking-[0.12em] text-ink/50">Quartier</label>
-                        <select id="quartier" name="quartier" class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-3 py-2.5 text-sm text-ink/80 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
+                        <select id="quartier" name="quartier"
+                                class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-3 py-2.5 text-sm text-ink/80 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
                             <option value="">Tous les quartiers</option>
-                            <option value="centre-ville">Centre-ville</option>
-                            <option value="tilleuls">Quartier des Tilleuls</option>
-                            <option value="faubourg-nord">Faubourg Nord</option>
-                            <option value="rue-des-ecoles">Rue des Écoles</option>
+                            @foreach ($locations as $location)
+                                <option value="{{ $location }}" @selected(request('quartier') === $location)>
+                                    {{ $location }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -107,18 +107,14 @@
                     <fieldset>
                         <legend class="text-xs font-bold uppercase tracking-[0.12em] text-ink/50">État</legend>
                         <div class="mt-3 space-y-2.5">
-                            <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                                <input type="checkbox" name="etat[]" value="neuf" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                                Neuf
-                            </label>
-                            <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                                <input type="checkbox" name="etat[]" value="tres-bon" checked class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                                Très bon
-                            </label>
-                            <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                                <input type="checkbox" name="etat[]" value="correct" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                                Correct
-                            </label>
+                            @foreach ($conditions as $condition)
+                                <label class="flex items-center gap-2.5 text-sm text-ink/75">
+                                    <input type="checkbox" name="etat[]" value="{{ $condition->value }}"
+                                           @checked(in_array($condition->value, (array) request('etat', [])))
+                                           class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
+                                    {{ $condition->label() }}
+                                </label>
+                            @endforeach
                         </div>
                     </fieldset>
 
@@ -132,7 +128,12 @@
             <!-- ---------- Résultats ---------- -->
             <div>
                 <div class="flex flex-wrap items-center justify-between gap-3">
-                    <p class="text-sm text-ink/60"><strong class="font-semibold text-ink/80">27 annonces</strong> pour «&nbsp;{{ request('q', 'vélo') }}&nbsp;»</p>
+                    <p class="text-sm text-ink/60">
+                        <strong class="font-semibold text-ink/80">{{ $articles->total() }} annonce{{ $articles->total() > 1 ? 's' : '' }}</strong>
+                        @if (request('q'))
+                            pour «&nbsp;{{ request('q') }}&nbsp;»
+                        @endif
+                    </p>
                     <!--TODO: applique des filtre (controleur ->model ->controleur -> view) -->
                     <form action="{{ route('search') }}" method="get" class="flex items-center gap-2">
                         <input type="hidden" name="q" value="{{ request('q') }}">
@@ -146,174 +147,41 @@
                 </div>
 
                 <div class="mt-5 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                    <!--TODO: a adapter selon le retour de la BDD-->
-                    <!-- Carte annonce (modèle pour toutes les pages) -->
-                    <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
-                        <div class="relative grid aspect-[4/3] place-items-center bg-sage-100 text-5xl" aria-hidden="true">🚲
-                            <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Vélos</span>
-                        </div>
-                        <div class="flex flex-1 flex-col p-4">
-                            <div class="flex items-start justify-between gap-3">
-                                <h3 class="font-display font-semibold leading-snug text-ink group-hover:text-terracotta-600">Vélo de ville — 3 vitesses</h3>
-                                <p class="shrink-0 font-semibold text-terracotta-600">45&nbsp;€</p>
+                    @forelse ($articles as $article)
+                        <a href="{{ route('articles.show', $article) }}"
+                           class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+                            <div class="relative grid aspect-[4/3] place-items-center text-5xl" aria-hidden="true">
+                                <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">
+                                    {{ $article->category?->title }}
+                                </span>
                             </div>
-                            <p class="mt-1 text-sm text-ink/60">Camille · Quartier des Tilleuls</p>
-                            <div class="mt-auto flex items-center justify-between pt-3 text-xs text-ink/60">
-                                <span class="flex items-center gap-1"><span class="text-amber-500" aria-hidden="true">★</span><span class="font-semibold text-ink/75">4,9</span> (23 avis)</span>
-                                <span>il y a 2 h</span>
+                            <div class="flex flex-1 flex-col p-4">
+                                <div class="flex items-start justify-between gap-3">
+                                    <h3 class="font-display font-semibold leading-snug text-ink group-hover:text-terracotta-600">
+                                        {{ $article->title }}
+                                    </h3>
+                                    <p class="shrink-0 font-semibold text-terracotta-600">
+                                        {{ number_format((float) $article->price, 0, ',', ' ') }}&nbsp;€
+                                    </p>
+                                </div>
+                                <p class="mt-1 text-sm text-ink/60">{{ $article->seller?->name }} · {{ $article->location }}</p>
+                                <div class="mt-auto flex items-center justify-between pt-3 text-xs text-ink/60">
+                                    <span class="text-ink/50">{{ $article->condition->label() }}</span>
+                                    <span>{{ $article->published_at?->diffForHumans() ?? 'non publié' }}</span>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-
-                    <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
-                        <div class="relative grid aspect-[4/3] place-items-center bg-terracotta-100 text-5xl" aria-hidden="true">🛴
-                            <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Vélos</span>
-                        </div>
-                        <div class="flex flex-1 flex-col p-4">
-                            <div class="flex items-start justify-between gap-3">
-                                <h3 class="font-display font-semibold leading-snug text-ink group-hover:text-terracotta-600">Trottinette pliable adulte</h3>
-                                <p class="shrink-0 font-semibold text-terracotta-600">60&nbsp;€</p>
-                            </div>
-                            <p class="mt-1 text-sm text-ink/60">Sofiane · Centre-ville</p>
-                            <div class="mt-auto flex items-center justify-between pt-3 text-xs text-ink/60">
-                                <span class="flex items-center gap-1"><span class="text-amber-500" aria-hidden="true">★</span><span class="font-semibold text-ink/75">4,9</span> (19 avis)</span>
-                                <span>il y a 4 h</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
-                        <div class="relative grid aspect-[4/3] place-items-center bg-amber-100 text-5xl" aria-hidden="true">🪖
-                            <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Accessoires</span>
-                        </div>
-                        <div class="flex flex-1 flex-col p-4">
-                            <div class="flex items-start justify-between gap-3">
-                                <h3 class="font-display font-semibold leading-snug text-ink group-hover:text-terracotta-600">Casque de vélo taille M</h3>
-                                <p class="shrink-0 font-semibold text-terracotta-600">12&nbsp;€</p>
-                            </div>
-                            <p class="mt-1 text-sm text-ink/60">Fatou · Rue des Écoles</p>
-                            <div class="mt-auto flex items-center justify-between pt-3 text-xs text-ink/60">
-                                <span class="flex items-center gap-1"><span class="text-amber-500" aria-hidden="true">★</span><span class="font-semibold text-ink/75">4,7</span> (8 avis)</span>
-                                <span>il y a 6 h</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
-                        <div class="relative grid aspect-[4/3] place-items-center bg-sky-100 text-5xl" aria-hidden="true">⚙️
-                            <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Accessoires</span>
-                        </div>
-                        <div class="flex flex-1 flex-col p-4">
-                            <div class="flex items-start justify-between gap-3">
-                                <h3 class="font-display font-semibold leading-snug text-ink group-hover:text-terracotta-600">Lot de chambres à air + patins</h3>
-                                <p class="shrink-0 font-semibold text-terracotta-600">10&nbsp;€</p>
-                            </div>
-                            <p class="mt-1 text-sm text-ink/60">Marc · Faubourg Nord</p>
-                            <div class="mt-auto flex items-center justify-between pt-3 text-xs text-ink/60">
-                                <span class="flex items-center gap-1"><span class="text-amber-500" aria-hidden="true">★</span><span class="font-semibold text-ink/75">4,6</span> (31 avis)</span>
-                                <span>hier</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
-                        <div class="relative grid aspect-[4/3] place-items-center bg-rose-100 text-5xl" aria-hidden="true">🎒
-                            <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Accessoires</span>
-                        </div>
-                        <div class="flex flex-1 flex-col p-4">
-                            <div class="flex items-start justify-between gap-3">
-                                <h3 class="font-display font-semibold leading-snug text-ink group-hover:text-terracotta-600">Sacoche de vélo étanche</h3>
-                                <p class="shrink-0 font-semibold text-terracotta-600">18&nbsp;€</p>
-                            </div>
-                            <p class="mt-1 text-sm text-ink/60">Inès · Quartier des Tilleuls</p>
-                            <div class="mt-auto flex items-center justify-between pt-3 text-xs text-ink/60">
-                                <span class="flex items-center gap-1"><span class="text-amber-500" aria-hidden="true">★</span><span class="font-semibold text-ink/75">4,8</span> (14 avis)</span>
-                                <span>hier</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
-                        <div class="relative grid aspect-[4/3] place-items-center bg-violet-100 text-5xl" aria-hidden="true">🚵
-                            <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Vélos</span>
-                        </div>
-                        <div class="flex flex-1 flex-col p-4">
-                            <div class="flex items-start justify-between gap-3">
-                                <h3 class="font-display font-semibold leading-snug text-ink group-hover:text-terracotta-600">VTT tout terrain, cadre L</h3>
-                                <p class="shrink-0 font-semibold text-terracotta-600">120&nbsp;€</p>
-                            </div>
-                            <p class="mt-1 text-sm text-ink/60">Yannick · Faubourg Nord</p>
-                            <div class="mt-auto flex items-center justify-between pt-3 text-xs text-ink/60">
-                                <span class="flex items-center gap-1"><span class="text-amber-500" aria-hidden="true">★</span><span class="font-semibold text-ink/75">5,0</span> (11 avis)</span>
-                                <span>il y a 2 j</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
-                        <div class="relative grid aspect-[4/3] place-items-center bg-sage-100 text-5xl" aria-hidden="true">💡
-                            <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Accessoires</span>
-                        </div>
-                        <div class="flex flex-1 flex-col p-4">
-                            <div class="flex items-start justify-between gap-3">
-                                <h3 class="font-display font-semibold leading-snug text-ink group-hover:text-terracotta-600">Éclairage avant + arrière LED</h3>
-                                <p class="shrink-0 font-semibold text-terracotta-600">8&nbsp;€</p>
-                            </div>
-                            <p class="mt-1 text-sm text-ink/60">Nadia · Centre-ville</p>
-                            <div class="mt-auto flex items-center justify-between pt-3 text-xs text-ink/60">
-                                <span class="flex items-center gap-1"><span class="text-amber-500" aria-hidden="true">★</span><span class="font-semibold text-ink/75">4,5</span> (6 avis)</span>
-                                <span>il y a 2 j</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
-                        <div class="relative grid aspect-[4/3] place-items-center bg-amber-100 text-5xl" aria-hidden="true">🚲
-                            <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Vélos</span>
-                        </div>
-                        <div class="flex flex-1 flex-col p-4">
-                            <div class="flex items-start justify-between gap-3">
-                                <h3 class="font-display font-semibold leading-snug text-ink group-hover:text-terracotta-600">Vélo enfant 6-9 ans, roue 20"</h3>
-                                <p class="shrink-0 font-semibold text-terracotta-600">35&nbsp;€</p>
-                            </div>
-                            <p class="mt-1 text-sm text-ink/60">Hélène · Rue des Écoles</p>
-                            <div class="mt-auto flex items-center justify-between pt-3 text-xs text-ink/60">
-                                <span class="flex items-center gap-1"><span class="text-amber-500" aria-hidden="true">★</span><span class="font-semibold text-ink/75">4,8</span> (17 avis)</span>
-                                <span>il y a 3 j</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
-                        <div class="relative grid aspect-[4/3] place-items-center bg-terracotta-100 text-5xl" aria-hidden="true">🔧
-                            <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Accessoires</span>
-                        </div>
-                        <div class="flex flex-1 flex-col p-4">
-                            <div class="flex items-start justify-between gap-3">
-                                <h3 class="font-display font-semibold leading-snug text-ink group-hover:text-terracotta-600">Pompe de garage + jeu de clés</h3>
-                                <p class="shrink-0 font-semibold text-terracotta-600">22&nbsp;€</p>
-                            </div>
-                            <p class="mt-1 text-sm text-ink/60">Karim · Quartier des Tilleuls</p>
-                            <div class="mt-auto flex items-center justify-between pt-3 text-xs text-ink/60">
-                                <span class="flex items-center gap-1"><span class="text-amber-500" aria-hidden="true">★</span><span class="font-semibold text-ink/75">4,7</span> (9 avis)</span>
-                                <span>il y a 4 j</span>
-                            </div>
-                        </div>
-                    </a>
-
+                        </a>
+                    @empty
+                        <p class="col-span-full rounded-2xl border border-dashed border-ink/15 bg-paper p-10 text-center text-sm text-ink/60">
+                            Aucune annonce disponible pour le moment.
+                        </p>
+                    @endforelse
                 </div>
 
                 <!-- ---------- Pagination ---------- -->
-                <!-- TODO: Dynamisert sa quand la Bdd sera faite-->
-                <nav aria-label="Pagination des résultats" class="mt-8 flex flex-wrap items-center justify-center gap-2">
-                    <a href="{{ route('search') }}" aria-disabled="true" class="rounded-xl border border-ink/15 bg-paper px-4 py-2 text-sm font-semibold text-ink/45">Précédent</a>
-                    <ul class="flex items-center gap-2">
-                        <li><a href="{{ route('search') }}" aria-current="page" class="grid h-10 w-10 place-items-center rounded-xl bg-terracotta-500 text-sm font-semibold text-paper">1</a></li>
-                        <li><a href="{{ route('search') }}" class="grid h-10 w-10 place-items-center rounded-xl border border-ink/15 bg-paper text-sm font-semibold text-ink/70 hover:border-terracotta-300 hover:text-terracotta-600">2</a></li>
-                        <li><a href="{{ route('search') }}" class="grid h-10 w-10 place-items-center rounded-xl border border-ink/15 bg-paper text-sm font-semibold text-ink/70 hover:border-terracotta-300 hover:text-terracotta-600">3</a></li>
-                    </ul>
-                    <a href="{{ route('search') }}" class="rounded-xl border border-ink/15 bg-paper px-4 py-2 text-sm font-semibold text-ink/70 hover:border-terracotta-300 hover:text-terracotta-600">Suivant</a>
-                </nav>
+                <div class="mt-8">
+                    {{ $articles->links() }}
+                </div>
             </div>
         </div>
     </section>
