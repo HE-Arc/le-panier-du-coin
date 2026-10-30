@@ -28,8 +28,9 @@
     <!-- ============================ FORMULAIRE ============================ -->
     <section class="mx-auto max-w-3xl px-4 py-8">
         <!-- TODO: brancher ce formulaire sur une route POST + validation + stockage des photos quand la BDD sera prête. -->
-        <form onsubmit="return false" enctype="multipart/form-data" class="space-y-6">
-
+        <!-- TODO: changer action en onsubmit pour du JS-->
+        <form action="{{ route('articles.store') }}"  method=POST enctype="multipart/form-data" class="space-y-6">
+        @csrf
             <!-- ---------- Photos ---------- -->
             <fieldset class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <legend class="px-1 font-display text-lg font-semibold text-ink">Photos de l'objet</legend>
@@ -69,7 +70,7 @@
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <div>
                     <label for="titre" class="font-display text-lg font-semibold text-ink">Titre de l'annonce</label>
-                    <input id="titre" name="titre" type="text" required maxlength="80" value="Vélo de ville — 3 vitesses"
+                    <input id="titre" name="title" type="text" required maxlength="80" value="Vélo de ville — 3 vitesses"
                            placeholder="Ex. Vélo de ville — 3 vitesses"
                            class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
                 </div>
@@ -89,7 +90,7 @@
                     <div class="min-w-[10rem] flex-1">
                         <label for="prix" class="font-display text-lg font-semibold text-ink">Prix</label>
                         <div class="mt-3 flex items-stretch">
-                            <input id="prix" name="prix" type="number" inputmode="numeric" min="0" step="1" value="45"
+                            <input id="prix" name="price" type="number" inputmode="numeric" min="0" step="1" value="45"
                                    placeholder="0"
                                    class="w-full rounded-l-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
                             <span class="grid place-items-center rounded-r-xl border border-l-0 border-ink/15 bg-cream px-4 text-sm font-semibold text-ink/60" aria-hidden="true">€</span>
@@ -97,7 +98,7 @@
                     </div>
 
                     <label class="flex items-center gap-2.5 pb-3 text-sm text-ink/75">
-                        <input type="checkbox" name="negociation" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
+                        <input type="checkbox" name="negotiable" value="1" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
                         Prix à la négociation
                     </label>
                 </div>
@@ -108,7 +109,7 @@
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <div>
                     <label for="categorie" class="font-display text-lg font-semibold text-ink">Catégorie</label>
-                    <select id="categorie" name="categorie" class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink/80 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
+                    <select id="categorie" name="category_id" class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink/80 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
                         <option value="">Choisis une catégorie…</option>
                         <option value="maison">Maison &amp; meubles</option>
                         <option value="velos" selected>Vélos &amp; vélocipédie</option>
@@ -123,15 +124,15 @@
                     <legend class="font-display text-lg font-semibold text-ink">État</legend>
                     <div class="mt-3 flex flex-col gap-2.5 sm:flex-row sm:gap-6">
                         <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                            <input type="radio" name="etat" value="neuf" class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
+                            <input type="radio" name="condition" value="neuf" class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
                             Neuf
                         </label>
                         <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                            <input type="radio" name="etat" value="tres-bon" checked class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
+                            <input type="radio" name="condition" value="tres-bon" checked class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
                             Très bon
                         </label>
                         <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                            <input type="radio" name="etat" value="correct" class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
+                            <input type="radio" name="condition" value="correct" class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
                             Correct
                         </label>
                     </div>
@@ -143,7 +144,7 @@
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <div>
                     <label for="quartier" class="font-display text-lg font-semibold text-ink">Quartier</label>
-                    <select id="quartier" name="quartier" class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink/80 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
+                    <select id="quartier" name="location" class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink/80 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
                         <option value="centre-ville">Centre-ville</option>
                         <option value="tilleuls" selected>Quartier des Tilleuls</option>
                         <option value="faubourg-nord">Faubourg Nord</option>
@@ -153,7 +154,7 @@
 
                 <div class="mt-5">
                     <label for="disponibilite" class="font-display text-lg font-semibold text-ink">Disponibilité pour la remise</label>
-                    <input id="disponibilite" name="disponibilite" type="text"
+                    <input id="disponibilite" name="availability" type="text"
                            placeholder="Ex. en semaine après 18 h"
                            class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
                 </div>
@@ -171,7 +172,7 @@
             <!-- ---------- Actions ---------- -->
             <div class="flex flex-col gap-3 border-t border-ink/10 pt-6 sm:flex-row sm:items-center">
                 <!-- TODO: repasser ce bouton en type="submit" quand la route POST existera. -->
-                <button type="button" class="rounded-xl bg-terracotta-500 px-6 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600 sm:flex-1">
+                <button type="submit" class="rounded-xl bg-terracotta-500 px-6 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600 sm:flex-1">
                     Publier l'annonce
                 </button>
                 <!-- TODO: implémenter l'enregistrement de brouillon quand la BDD sera prête. -->

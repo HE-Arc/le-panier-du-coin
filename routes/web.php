@@ -13,6 +13,7 @@ Route::get('/qui-sommes-nous', [PageController::class, 'about'])->name('about');
 Route::get('/annonces', [ArticlesController::class, 'index'])->name('articles.index');
 Route::get('/recherche', [ArticlesController::class, 'index'])->name('search');
 Route::get('/annonces/creer', [ArticlesController::class, 'create'])->name('articles.create');
+Route::post('/annonces', [ArticlesController::class, 'store'])->name('articles.store');
 Route::get('/annonces/{article}', [ArticlesController::class, 'details'])
     ->whereNumber('article')
     ->name('articles.show');
