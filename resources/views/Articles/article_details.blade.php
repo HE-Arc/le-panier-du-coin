@@ -112,7 +112,7 @@
                             Voir le profil <span aria-hidden="true">→</span>
                         </a>
                     </div>
-
+                    <!--
                     <div class="mt-4 flex flex-col gap-2 sm:flex-row">
                         <button type="button" class="rounded-xl bg-terracotta-500 px-5 py-3 text-center text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">
                             Contacter le vendeur
@@ -121,6 +121,7 @@
                             Ajouter aux favoris
                         </button>
                     </div>
+                    -->
                 </div>
 
                 <!-- TODO: dans la Bdd avoir éventuellement un type de remise d'un articles? -->
@@ -134,6 +135,7 @@
 
 
     <!-- ============================ DANS LE MÊME QUARTIER ============================ -->
+    <!--
     <section class="mx-auto max-w-6xl px-4 py-12">
         <div class="flex flex-wrap items-end justify-between gap-3">
             <div>
@@ -141,6 +143,7 @@
                 <p class="mt-1.5 text-sm text-ink/60">D'autres objets disponibles au Quartier des Tilleuls.</p>
             </div>
             <!-- TODO: rediriger avec le bon filtre-->
+    <!--
             <a href="{{ route('search') }}" class="text-sm font-semibold text-terracotta-600 hover:text-terracotta-700">Voir toutes les annonces <span aria-hidden="true">→</span></a>
         </div>
 
@@ -148,6 +151,7 @@
 
             <!-- Carte annonce (modèle pour toutes les pages) -->
             <!-- TODO: a récupérer depuis la BDD-->
+    <!--
             <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
                 <div class="relative grid aspect-[4/3] place-items-center bg-sky-100 text-5xl" aria-hidden="true">🪑
                     <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Maison</span>

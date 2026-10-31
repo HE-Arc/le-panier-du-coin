@@ -12,6 +12,7 @@
 
             <!-- Barre d'actions -->
             <!-- TODO: Recherche à adapter selon la BDD-->
+            <!--
             <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <form action="{{ route('requests.index') }}" method="get" class="flex flex-1 flex-col gap-2 rounded-2xl border border-ink/10 bg-paper p-2 shadow-soft sm:flex-row sm:items-center sm:rounded-full">
                     <label for="q" class="sr-only">Rechercher une demande</label>
@@ -36,6 +37,7 @@
 
             <!-- Filtres -->
             <!-- TODO: flitrage à adapter selon la BDD-->
+            <!--
             <form action="{{ route('requests.index') }}" method="get" class="mt-5 flex flex-col gap-4 rounded-2xl border border-ink/10 bg-paper p-4 lg:flex-row lg:items-end lg:justify-between">
                 <input type="hidden" name="q" value="{{ request('q') }}">
                 <input type="hidden" name="quartier" value="{{ request('quartier') }}">
@@ -77,6 +79,7 @@
 
     <!-- ============================ LISTE DES DEMANDES ============================ -->
     <!-- TODO: affichage des articles à adapter selon la BDD-->
+            <!--
     <section class="mx-auto max-w-6xl px-4 py-10 sm:py-14">
         <div class="flex flex-wrap items-end justify-between gap-3">
             <h2 class="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">6 demandes en cours</h2>
@@ -172,6 +175,7 @@
         </ul>
 
         <!-- TODO: dinamiser le nombre d'article à afficher-->
+            <!--
         <div class="mt-8 flex justify-center">
             <button type="button" class="rounded-xl border border-ink/15 bg-paper px-6 py-3 text-sm font-semibold text-ink transition hover:border-ink/30 hover:bg-cream">
                 Charger plus de demandes

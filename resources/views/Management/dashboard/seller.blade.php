@@ -8,6 +8,7 @@
 
         <!-- Chiffres clés vendeur + action -->
         <!-- TODO: changer avec les infos de la bdd -->
+        <!--
         <div class="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
             <dl class="grid gap-3 sm:grid-cols-3">
                 <div class="rounded-2xl border border-ink/10 bg-paper p-4 shadow-soft">
@@ -97,6 +98,7 @@
             </div>
 
             <!-- Version mobile : cartes empilées -->
+            <!--
             <ul class="mt-6 space-y-3 md:hidden">
                 <li class="rounded-2xl border border-ink/10 bg-paper p-4 shadow-soft">
                     <div class="flex items-start justify-between gap-3">
@@ -167,6 +169,7 @@
 
         <!-- Messages entrants -->
         <!-- TODO: changer avec les infos de la bdd -->
+            <!--
         <section class="mt-10" aria-labelledby="titre-messages">
             <div class="flex flex-wrap items-end justify-between gap-3">
                 <h2 id="titre-messages" class="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">Messages entrants</h2>
@@ -218,7 +221,7 @@
                 <a href="{{ route('articles.show', 1) }}" class="text-sm font-semibold text-terracotta-600 hover:text-terracotta-700">Ouvrir la messagerie <span aria-hidden="true">→</span></a>
             </p>
         </section>
-
+        <!-- se désinscrire-->
         <section class="mt-10 rounded-2xl border border-terracotta-200 bg-terracotta-50 p-5">
             <h2 class="font-display text-lg font-bold text-terracotta-800">Se désinscrire</h2>
             <p class="mt-1 text-sm text-terracotta-700">Supprime définitivement ton compte.</p>

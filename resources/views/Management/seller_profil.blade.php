@@ -1,8 +1,10 @@
 @extends("layout.app")
 @section('title', "Profil vendeur")
 @section("content")
+    <!--TODO: quand les fonctionnalité back end seront en place, enlever les commentaire et faire les TODO -->
     <!-- ============================ EN-TÊTE PROFIL ============================ -->
     <!-- TODO: changer avec les infos de la bdd -->
+    <!--
     <section class="border-b border-ink/10 bg-cream">
         <div class="mx-auto max-w-6xl px-4 py-8 sm:py-12">
             <div class="rounded-3xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-8">
@@ -37,6 +39,7 @@
                         </div>
                         <div class="flex flex-col gap-2 sm:flex-row lg:flex-col lg:w-full">
                             <!-- TODO: brancher le contact vendeur quand la messagerie existera. -->
+                            <!--
                             <button type="button" class="rounded-xl bg-terracotta-500 px-5 py-3 text-center text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">Contacter</button>
                             <a href="{{ route('search') }}" class="rounded-xl border border-ink/15 bg-paper px-5 py-3 text-center text-sm font-semibold text-ink transition hover:border-ink/30">Voir ses annonces</a>
                         </div>
@@ -44,6 +47,7 @@
                 </div>
 
                 <!-- Statistiques -->
+    <!--
                 <dl class="mt-7 grid grid-cols-2 gap-3 border-t border-ink/10 pt-6 sm:grid-cols-4">
                     <div class="rounded-2xl bg-cream px-3 py-4 text-center">
                         <dd class="font-display text-2xl font-bold text-ink">41</dd>
@@ -68,6 +72,7 @@
 
     <!-- ============================ ONGLETS ============================ -->
     <!-- TODO: changer avec les infos de la bdd -->
+    <!--
     <section class="mx-auto max-w-6xl px-4 pt-8">
         <div role="tablist" aria-label="Sections du profil" class="flex gap-1 border-b border-ink/10">
             <a href="{{ route('seller') }}" role="tab" aria-selected="true" aria-current="page"
@@ -80,14 +85,16 @@
             </a>
         </div>
     </section>
-
+    -->
     <!-- ============================ ANNONCES ============================ -->
     <!-- TODO: changer avec les infos de la bdd -->
+    <!--
     <section class="mx-auto max-w-6xl px-4 py-8">
         <h2 class="sr-only">Les annonces de Camille</h2>
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
             <!-- Carte annonce (modèle accueil) -->
+            <!--
             <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
                 <div class="relative grid aspect-[4/3] place-items-center bg-sage-100 text-5xl" aria-hidden="true">🚲
                     <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Vélos</span>
@@ -192,8 +199,9 @@
 
         </div>
     </section>
-
+    -->
     <!-- ============================ AVIS ============================ -->
+    <!--
     <section id="avis" class="mx-auto max-w-6xl px-4 pb-10 pt-6">
         <div class="flex flex-wrap items-end justify-between gap-3">
             <div>
@@ -255,8 +263,9 @@
             </a>
         </div>
     </section>
-
+    -->
     <!-- ============================ RÉPUTATION ============================ -->
+    <!--
     <section class="mx-auto max-w-6xl px-4 pb-16">
         <div class="relative overflow-hidden rounded-3xl bg-sage-700 px-6 py-10 text-center sm:px-12 sm:py-14">
             <p class="text-xs font-bold uppercase tracking-[0.15em] text-sage-200">La réputation fait le marché</p>
@@ -280,4 +289,5 @@
             </div>
         </div>
     </section>
+    -->
 @endsection
