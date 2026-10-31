@@ -165,84 +165,35 @@
                         <div><dt class="inline">Vues&nbsp;: </dt><dd class="inline font-semibold text-ink/80">{{ $article->views }}</dd></div>
                         <div><dt class="inline">Messages&nbsp;: </dt><dd class="inline font-semibold text-ink/80">{{ $article->conversations->sum('messages_count') }}</dd></div>
                     </dl>
-                    <a href="{{ route('articles.create') }}" class="mt-3 inline-block rounded-xl border border-ink/15 px-4 py-2 text-sm font-semibold text-ink">Modifier</a>
+                    <a href="{{ route('articles.show', $article) }}" class="mt-3 inline-block rounded-xl border border-ink/15 px-4 py-2 text-sm font-semibold text-ink transition hover:border-ink/30">Voir l'annonce</a>
+                    <a href="{{ route('articles.edit', $article) }}" class="mt-3 ml-2 inline-block rounded-xl border border-ink/15 px-4 py-2 text-sm font-semibold text-ink/70 transition hover:border-ink/30 hover:text-ink">Éditer</a>
                 </li>
-            </ul>
-        </section>
+            @empty
+                <li class="rounded-2xl border border-dashed border-ink/15 bg-paper p-6 text-center text-sm text-ink/60">
+                    Tu n'as encore aucune annonce.
+                </li>
+            @endforelse
+        </ul>
+    </section>
 
-        <!-- Messages entrants -->
-        <!-- TODO: changer avec les infos de la bdd -->
-            <!--
-        <section class="mt-10" aria-labelledby="titre-messages">
-            <div class="flex flex-wrap items-end justify-between gap-3">
-                <h2 id="titre-messages" class="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">Messages entrants</h2>
-                <span class="text-sm font-semibold text-terracotta-600">3 non lus</span>
+    <!-- Se désinscrire -->
+    <section class="mx-auto mt-10 max-w-6xl rounded-2xl border border-terracotta-200 bg-terracotta-50 p-5">
+        <h2 class="font-display text-lg font-bold text-terracotta-800">Se désinscrire</h2>
+        <p class="mt-1 text-sm text-terracotta-700">Supprime définitivement ton compte.</p>
+        <form method="POST" action="{{ route('profile.destroy') }}" class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
+            @csrf
+            @method('DELETE')
+            <div class="flex-1">
+                <label for="delete-password-seller" class="mb-1.5 block text-sm font-semibold text-ink">Mot de passe</label>
+                <input id="delete-password-seller" name="password" type="password" required
+                       class="w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
+                @error('password')
+                    <p class="mt-1 text-xs text-terracotta-600">{{ $message }}</p>
+                @enderror
             </div>
-
-            <ul class="mt-6 space-y-3">
-                <li class="flex gap-3 rounded-2xl border border-ink/10 bg-paper p-4 shadow-soft">
-                    <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-sage-100 text-sm font-bold text-sage-700" aria-hidden="true">CL</span>
-                    <div class="min-w-0 flex-1">
-                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                            <h3 class="text-sm font-semibold text-ink">Camille Lefèvre</h3>
-                            <span class="text-xs text-ink/50">· Vélo de ville</span>
-                            <span class="ml-auto rounded-full bg-terracotta-500 px-2 py-0.5 text-[11px] font-bold text-paper">Non lu</span>
-                        </div>
-                        <p class="mt-1 truncate text-sm text-ink/65">Bonjour, le vélo est-il toujours disponible&nbsp;? Je peux passer samedi matin.</p>
-                        <p class="mt-1 text-xs text-ink/50">il y a 12 min</p>
-                    </div>
-                </li>
-
-                <li class="flex gap-3 rounded-2xl border border-ink/10 bg-paper p-4 shadow-soft">
-                    <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-terracotta-100 text-sm font-bold text-terracotta-700" aria-hidden="true">YM</span>
-                    <div class="min-w-0 flex-1">
-                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                            <h3 class="text-sm font-semibold text-ink">Yannick Moreau</h3>
-                            <span class="text-xs text-ink/50">· Chaises en bois</span>
-                            <span class="ml-auto rounded-full bg-terracotta-500 px-2 py-0.5 text-[11px] font-bold text-paper">Non lu</span>
-                        </div>
-                        <p class="mt-1 truncate text-sm text-ink/65">Parfait pour samedi 10 h, je confirme. C'est noté sur mon calendrier.</p>
-                        <p class="mt-1 text-xs text-ink/50">il y a 1 h</p>
-                    </div>
-                </li>
-
-                <li class="flex gap-3 rounded-2xl border border-ink/10 bg-paper p-4 shadow-soft">
-                    <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-amber-100 text-sm font-bold text-amber-700" aria-hidden="true">FD</span>
-                    <div class="min-w-0 flex-1">
-                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                            <h3 class="text-sm font-semibold text-ink">Fatou Diallo</h3>
-                            <span class="text-xs text-ink/50">· Étagère en bois</span>
-                            <span class="ml-auto rounded-full bg-terracotta-500 px-2 py-0.5 text-[11px] font-bold text-paper">Non lu</span>
-                        </div>
-                        <p class="mt-1 truncate text-sm text-ink/65">Bonjour, accepteriez-vous 30&nbsp;€ si je la récupère ce soir après le travail&nbsp;?</p>
-                        <p class="mt-1 text-xs text-ink/50">hier, 18 h 42</p>
-                    </div>
-                </li>
-            </ul>
-
-            <p class="mt-4">
-                <a href="{{ route('articles.show', 1) }}" class="text-sm font-semibold text-terracotta-600 hover:text-terracotta-700">Ouvrir la messagerie <span aria-hidden="true">→</span></a>
-            </p>
-        </section>
-        <!-- se désinscrire-->
-        <section class="mt-10 rounded-2xl border border-terracotta-200 bg-terracotta-50 p-5">
-            <h2 class="font-display text-lg font-bold text-terracotta-800">Se désinscrire</h2>
-            <p class="mt-1 text-sm text-terracotta-700">Supprime définitivement ton compte.</p>
-            <form method="POST" action="{{ route('profile.destroy') }}" class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
-                @csrf
-                @method('DELETE')
-                <div class="flex-1">
-                    <label for="delete-password-seller" class="mb-1.5 block text-sm font-semibold text-ink">Mot de passe</label>
-                    <input id="delete-password-seller" name="password" type="password" required
-                           class="w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
-                    @error('password')
-                        <p class="mt-1 text-xs text-terracotta-600">{{ $message }}</p>
-                    @enderror
-                </div>
-                <button type="submit" class="rounded-xl bg-terracotta-500 px-5 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">
-                    Supprimer mon compte
-                </button>
-            </form>
-        </section>
+            <button type="submit" class="rounded-xl bg-terracotta-500 px-5 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">
+                Supprimer mon compte
+            </button>
+        </form>
     </section>
 @endsection
