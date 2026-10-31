@@ -7,7 +7,7 @@
     <div class="mx-auto flex max-w-6xl flex-col gap-5 px-4 py-7 sm:flex-row sm:items-start sm:justify-between">
         <div class="max-w-xl">
             <p class="text-xs font-bold uppercase tracking-[0.15em] text-terracotta-600">Mon compte</p>
-            <h1 class="mt-2 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">Bonjour Marc</h1>
+            <h1 class="mt-2 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">Bonjour {{ Auth::user()->name }}</h1>
             <p class="mt-2 text-sm leading-relaxed text-ink/65 sm:text-base">
                 @if ($isSeller)
                     Tu gères tes annonces, tes vues et les messages des acheteurs potentiels.

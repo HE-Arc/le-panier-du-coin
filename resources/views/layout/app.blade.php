@@ -48,15 +48,16 @@
 
             <div class="ml-auto hidden items-center gap-2 md:flex">
                 @auth
-                    <span class="text-sm font-semibold text-ink/80">{{ Auth::user()->name }}</span>
+                    <a href="{{ route('dashboard.buyer') }}" class="rounded-xl bg-terracotta-500 px-4 py-2 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">Mon compte</a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="rounded-xl px-4 py-2 text-sm font-semibold text-ink/80 hover:bg-cream hover:text-ink">Se déconnecter</button>
                     </form>
+                    <a href="{{ route('articles.create') }}" class="rounded-xl bg-terracotta-500 px-4 py-2 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">Publier une annonce</a>
                 @else
                     <a href="{{ route('login') }}" class="rounded-xl px-4 py-2 text-sm font-semibold text-ink/80 hover:bg-cream hover:text-ink">Se connecter</a>
+                    <a href="{{ route('login') }}" class="rounded-xl bg-terracotta-500 px-4 py-2 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">Publier une annonce</a>
                 @endauth
-                <a href="{{ route('articles.create') }}" class="rounded-xl bg-terracotta-500 px-4 py-2 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">Publier une annonce</a>
             </div>
 
             <button id="menu-btn" type="button" class="ml-auto grid h-10 w-10 place-items-center rounded-xl border border-ink/15 text-ink md:hidden"
@@ -75,15 +76,16 @@
             @endforeach
             <div class="mt-3 flex flex-col gap-2 border-t border-ink/10 pt-3">
                 @auth
-                    <span class="px-4 py-2.5 text-center text-sm font-semibold text-ink">{{ Auth::user()->name }}</span>
+                    <span class="px-4 py-2.5 text-center text-sm font-semibold text-ink">Mon compte</span>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="w-full rounded-xl border border-ink/15 px-4 py-2.5 text-center text-sm font-semibold text-ink">Se déconnecter</button>
                     </form>
+                    <a href="{{ route('articles.create') }}" class="rounded-xl bg-terracotta-500 px-4 py-2.5 text-center text-sm font-semibold text-paper">Publier une annonce</a>
                 @else
                     <a href="{{ route('login') }}" class="rounded-xl border border-ink/15 px-4 py-2.5 text-center text-sm font-semibold text-ink">Se connecter</a>
+                    <a href="{{ route('login') }}" class="rounded-xl bg-terracotta-500 px-4 py-2.5 text-center text-sm font-semibold text-paper">Publier une annonce</a>
                 @endauth
-                <a href="{{ route('articles.create') }}" class="rounded-xl bg-terracotta-500 px-4 py-2.5 text-center text-sm font-semibold text-paper">Publier une annonce</a>
             </div>
         </nav>
     </header>
@@ -114,7 +116,6 @@
         @yield('content')
     </main>
 
-    <!-- TODO: -->
     <!-- ================================= Pied de page ================================= -->
     <footer class="border-t border-ink/10 bg-paper">
         <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
