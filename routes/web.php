@@ -16,8 +16,16 @@ Route::get('/qui-sommes-nous', [PageController::class, 'about'])->name('about');
 Route::get('/annonces', [ArticlesController::class, 'index'])->name('articles.index');
 Route::get('/recherche', [ArticlesController::class, 'index'])->name('search');
 Route::get('/annonces/creer', [ArticlesController::class, 'create'])->name('articles.create');
+Route::get('/annonces/{article}/editer', [ArticlesController::class, 'edit'])
+    ->middleware('auth')
+    ->whereUuid('article')
+    ->name('articles.edit');
+Route::put('/annonces/{article}', [ArticlesController::class, 'update'])
+    ->middleware('auth')
+    ->whereUuid('article')
+    ->name('articles.update');
 Route::get('/annonces/{article}', [ArticlesController::class, 'details'])
-    ->whereUuid('article') #selon la BDD utiliser les Uuid
+    ->whereUuid('article') // selon la BDD utiliser les Uuid
     ->name('articles.show');
 
 Route::get('/demandes', [RequestsController::class, 'index'])->name('requests.index');
@@ -32,8 +40,12 @@ Route::get('/mot-de-passe-oublie', [ManagementController::class, 'resetpwd'])->n
 Route::delete('/compte', [ProfileController::class, 'destroy'])
     ->middleware('auth')
     ->name('profile.destroy');
-Route::get('/tableau-de-bord', [ManagementController::class, 'dashboardBuyer'])->name('dashboard.buyer');
-Route::get('/tableau-de-bord/vendeur', [ManagementController::class, 'dashboardSeller'])->name('dashboard.seller');
+
+Route::get('/tableau-de-bord', [ManagementController::class, 'dashboardBuyer'])->middleware('auth')->name('dashboard.buyer');
+Route::get('/tableau-de-bord/vendeur', [ManagementController::class, 'dashboardSeller'])
+    ->middleware('auth')
+    ->name('dashboard.seller');
+
 Route::get('/profil-vendeur', [ManagementController::class, 'seller'])->name('seller');
 
-//TODO: adding route when the bdd was building
+// TODO: adding route when the bdd was building
