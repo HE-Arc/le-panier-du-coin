@@ -18,7 +18,7 @@ class ManagementController extends Controller
 
     public function resetpwd(): View
     {
-        return view("Management.resetpwd");
+        return view("Management.forgot-password");
     }
 
     public function seller(): View

@@ -21,6 +21,9 @@
             </p>
         </div>
 
+        @if(session('status'))
+            <p>Lien de réinitialisation envoyé !</p>
+        @endif
         <!-- Carte de réinitialisation -->
         <div class="rounded-3xl border border-ink/10 bg-paper p-6 shadow-soft sm:p-8">
             <span class="grid h-11 w-11 place-items-center rounded-xl bg-sage-100 text-sage-600" aria-hidden="true">
@@ -35,28 +38,24 @@
                 nous t'enverrons un lien pour choisir un nouveau mot de passe.
             </p>
 
-            <!-- TODO: brancher ce formulaire sur une route POST + envoi d'e-mail quand la BDD sera prête. -->
-            <form onsubmit="return false" class="mt-6 space-y-5">
+            <form method="POST" action="{{route('password.email')}}" class="mt-6 space-y-5">
+                @csrf
                 <div>
                     <label for="email" class="mb-1.5 block text-sm font-semibold text-ink">Adresse e-mail</label>
                     <input id="email" name="email" type="email" required autocomplete="email" placeholder="camille@exemple.fr"
-                           class="w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink placeholder:text-ink/40 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
+                        value="{{old('email')}}"
+                        class="w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink placeholder:text-ink/40 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
+                    @error('email')
+                        <p>
+                            {{$message}}
+                        </p>
+                    @enderror
                 </div>
 
-                <!-- TODO: repasser ce bouton en type="submit" quand la route POST existera. -->
-                <button type="button" class="w-full rounded-xl bg-terracotta-500 px-6 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">
+                <button type="submit" class="w-full rounded-xl bg-terracotta-500 px-6 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">
                     Recevoir le lien de réinitialisation
                 </button>
             </form>
-
-            <!-- État de confirmation (affiché pour la démonstration) -->
-            <div role="status" class="mt-6 flex items-start gap-3 rounded-2xl border border-sage-200 bg-sage-50 p-4">
-                <span class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-sage-500 text-xs font-bold text-white" aria-hidden="true">✓</span>
-                <p class="text-sm leading-relaxed text-sage-800">
-                    <span class="font-semibold">État de démonstration.</span>
-                    Si un compte existe avec cet email, un lien de réinitialisation vient d'être envoyé. Vérifie aussi tes spams.
-                </p>
-            </div>
 
             <p class="mt-6 border-t border-ink/10 pt-5 text-center text-sm text-ink/70">
                 <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 font-semibold text-terracotta-600 hover:text-terracotta-700">

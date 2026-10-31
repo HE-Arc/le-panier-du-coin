@@ -16,7 +16,7 @@ class NewPasswordController extends Controller
 {
     public function create(string $token): View
     {
-        return view("Management.resetpwd", ["token" => $token]);
+        return view("Management.reset-password", ["token" => $token]);
     }
 
     public function store(Request $request): RedirectResponse
