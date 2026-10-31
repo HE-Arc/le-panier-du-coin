@@ -23,19 +23,17 @@
             </p>
 
             <!-- Barre de recherche -->
-            <!--TODO: applique de bon filtre selon la bdd, catégorie à récupere de la bdd-->
             <form action="{{ route('search') }}" method="get" class="mx-auto mt-8 flex max-w-2xl flex-col gap-2 rounded-2xl border border-ink/10 bg-paper p-2 shadow-soft sm:flex-row sm:rounded-full sm:items-center">
                 <label for="q" class="sr-only">Que cherches-tu&nbsp;?</label>
                 <input id="q" name="q" type="search" placeholder="Vélo, table, jeux de société…"
                        class="w-full rounded-xl border-0 bg-transparent px-4 py-3 text-sm text-ink placeholder:text-ink/45 focus:ring-0 sm:flex-1">
                 <label for="categorie" class="sr-only">Catégorie</label>
-                <select id="categorie" name="categorie" class="rounded-xl border-0 bg-cream px-3 py-3 text-sm text-ink/80 focus:ring-0">
+                <select id="categorie" name="categorie[]" class="rounded-xl border-0 bg-cream px-3 py-3 text-sm text-ink/80 focus:ring-0">
                     <option value="">Toutes catégories</option>
-                    <option value="maison">Maison &amp; meubles</option>
-                    <option value="velos">Vélos &amp; vélocipédie</option>
-                    <option value="loisirs">Loisirs &amp; jeux</option>
-                    <option value="electromenager">Électroménager</option>
-                    <option value="vetements">Vêtements</option>
+
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" @selected(in_array($category->id, (array) request('categorie', [])))>{{ $category->title }}</option>
+                    @endforeach
                 </select>
                 <button type="submit" class="rounded-xl bg-terracotta-500 px-6 py-3 text-sm font-semibold text-paper transition hover:bg-terracotta-600">
                     Rechercher
@@ -61,31 +59,37 @@
                     <p class="mt-1 text-sm leading-relaxed text-ink/65">Parcourt les annonces autour de toi, filtre par quartier et discute directement avec le vendeur.</p>
                     <span class="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-terracotta-600">Trouver un objet <span aria-hidden="true">→</span></span>
                 </a>
-
-                <a href="{{ route('articles.create') }}" class="group rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift sm:p-6">
+                @auth
+                    <a href="{{ route('articles.create') }}" class="group rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift sm:p-6">
                     <span class="grid h-11 w-11 place-items-center rounded-xl bg-terracotta-100 text-terracotta-600" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M12 5v14M5 12h14"/></svg>
                     </span>
-                    <h2 class="mt-4 font-display text-lg font-semibold text-ink group-hover:text-terracotta-600">Je vends</h2>
-                    <p class="mt-1 text-sm leading-relaxed text-ink/65">Publie une annonce en deux minutes, reçois des messages et construis ta réputation d'habitant fiable.</p>
-                    <span class="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-terracotta-600">Publier une annonce <span aria-hidden="true">→</span></span>
-                </a>
+                        <h2 class="mt-4 font-display text-lg font-semibold text-ink group-hover:text-terracotta-600">Je vends</h2>
+                        <p class="mt-1 text-sm leading-relaxed text-ink/65">Publie une annonce en deux minutes, reçois des messages et construis ta réputation d'habitant fiable.</p>
+                        <span class="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-terracotta-600">Publier une annonce <span aria-hidden="true">→</span></span>
+                    </a>
+                @else
+                    <a href="{{ route('login') }}" class="group rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift sm:p-6">
+                    <span class="grid h-11 w-11 place-items-center rounded-xl bg-terracotta-100 text-terracotta-600" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M12 5v14M5 12h14"/></svg>
+                    </span>
+                        <h2 class="mt-4 font-display text-lg font-semibold text-ink group-hover:text-terracotta-600">Je vends</h2>
+                        <p class="mt-1 text-sm leading-relaxed text-ink/65">Publie une annonce en deux minutes, reçois des messages et construis ta réputation d'habitant fiable.</p>
+                        <span class="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-terracotta-600">Publier une annonce <span aria-hidden="true">→</span></span>
+                    </a>
+                @endauth
+
             </div>
 
             <!-- Chiffres clés -->
-            <!--TODO: info à récuprer de la BDD-->
-            <dl class="mx-auto mt-10 grid max-w-3xl grid-cols-3 divide-x divide-ink/10 rounded-2xl border border-ink/10 bg-paper/70 py-5">
+            <dl class="mx-auto mt-6 grid max-w-3xl grid-cols-2 divide-x divide-ink/10 rounded-2xl border border-ink/10 bg-paper/70 py-5">
                 <div class="px-3">
-                    <dd class="font-display text-2xl font-bold text-ink sm:text-3xl">142</dd>
+                    <dd class="font-display text-2xl font-bold text-ink sm:text-3xl">{{$nbArticles}}</dd>
                     <dt class="mt-1 text-xs text-ink/60 sm:text-sm">annonces en ligne</dt>
                 </div>
                 <div class="px-3">
-                    <dd class="font-display text-2xl font-bold text-ink sm:text-3xl">38</dd>
+                    <dd class="font-display text-2xl font-bold text-ink sm:text-3xl">{{$nbRequests}}</dd>
                     <dt class="mt-1 text-xs text-ink/60 sm:text-sm">demandes ouvertes</dt>
-                </div>
-                <div class="px-3">
-                    <dd class="font-display text-2xl font-bold text-ink sm:text-3xl">4,8<span class="text-lg">/5</span></dd>
-                    <dt class="mt-1 text-xs text-ink/60 sm:text-sm">note moyenne</dt>
                 </div>
             </dl>
         </div>
@@ -104,109 +108,32 @@
         <div class="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
             <!-- Carte annonce (modèle pour toutes les pages) -->
-            <!--TODO: a adapter pour récuprer les data de la bdd-->
-            <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
-                <div class="relative grid aspect-[4/3] place-items-center bg-sage-100 text-5xl" aria-hidden="true">🚲
-                    <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Vélos</span>
-                </div>
-                <div class="flex flex-1 flex-col p-4">
-                    <div class="flex items-start justify-between gap-3">
-                        <h3 class="font-display font-semibold leading-snug text-ink group-hover:text-terracotta-600">Vélo de ville — 3 vitesses</h3>
-                        <p class="shrink-0 font-semibold text-terracotta-600">45&nbsp;€</p>
-                    </div>
-                    <p class="mt-1 text-sm text-ink/60">Camille · Quartier des Tilleuls</p>
-                    <div class="mt-auto flex items-center justify-between pt-3 text-xs text-ink/60">
-                        <span class="flex items-center gap-1"><span class="text-amber-500" aria-hidden="true">★</span><span class="font-semibold text-ink/75">4,9</span> (23 avis)</span>
-                        <span>il y a 2 h</span>
-                    </div>
-                </div>
-            </a>
+            @forelse($newArticles as $newArticle)
 
-            <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
-                <div class="relative grid aspect-[4/3] place-items-center bg-terracotta-100 text-5xl" aria-hidden="true">🪑
-                    <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Maison</span>
-                </div>
-                <div class="flex flex-1 flex-col p-4">
-                    <div class="flex items-start justify-between gap-3">
-                        <h3 class="font-display font-semibold leading-snug text-ink group-hover:text-terracotta-600">Lot de 2 chaises en bois</h3>
-                        <p class="shrink-0 font-semibold text-terracotta-600">20&nbsp;€</p>
+                <a href="{{ route('articles.show', $newArticle) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
+                    <div class="relative grid aspect-[4/3] place-items-center bg-sage-100 text-5xl" aria-hidden="true">🚲
+                        <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">{{ $newArticle->category?->title }}</span>
                     </div>
-                    <p class="mt-1 text-sm text-ink/60">Yannick · Centre-ville</p>
-                    <div class="mt-auto flex items-center justify-between pt-3 text-xs text-ink/60">
-                        <span class="flex items-center gap-1"><span class="text-amber-500" aria-hidden="true">★</span><span class="font-semibold text-ink/75">5,0</span> (11 avis)</span>
-                        <span>il y a 5 h</span>
+                    <div class="flex flex-1 flex-col p-4">
+                        <div class="flex items-start justify-between gap-3">
+                            <h3 class="font-display font-semibold leading-snug text-ink group-hover:text-terracotta-600">{{ $newArticle->title }}</h3>
+                            <p class="shrink-0 font-semibold text-terracotta-600">{{ number_format((float) $newArticle->price, 0, ',', ' ') }}&nbsp;€</p>
+                        </div>
+                        <p class="mt-1 text-sm text-ink/60">{{ $newArticle->seller?->name }} · {{ $newArticle->location }}</p>
+                        <div class="mt-auto flex items-center justify-between pt-3 text-xs text-ink/60">
+                            <span class="flex items-center gap-1">
+                                {{ $newArticle->condition->label() }}
+                            </span>
+                            <span>{{ $newArticle->published_at?->diffForHumans() ?? 'non publié' }}</span>
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
 
-            <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
-                <div class="relative grid aspect-[4/3] place-items-center bg-amber-100 text-5xl" aria-hidden="true">🎲
-                    <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Loisirs</span>
-                </div>
-                <div class="flex flex-1 flex-col p-4">
-                    <div class="flex items-start justify-between gap-3">
-                        <h3 class="font-display font-semibold leading-snug text-ink group-hover:text-terracotta-600">Boîte de 6 jeux de société</h3>
-                        <p class="shrink-0 font-semibold text-terracotta-600">15&nbsp;€</p>
-                    </div>
-                    <p class="mt-1 text-sm text-ink/60">Fatou · Rue des Écoles</p>
-                    <div class="mt-auto flex items-center justify-between pt-3 text-xs text-ink/60">
-                        <span class="flex items-center gap-1"><span class="text-amber-500" aria-hidden="true">★</span><span class="font-semibold text-ink/75">4,7</span> (8 avis)</span>
-                        <span>hier</span>
-                    </div>
-                </div>
-            </a>
-
-            <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
-                <div class="relative grid aspect-[4/3] place-items-center bg-sky-100 text-5xl" aria-hidden="true">☕
-                    <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Électroménager</span>
-                </div>
-                <div class="flex flex-1 flex-col p-4">
-                    <div class="flex items-start justify-between gap-3">
-                        <h3 class="font-display font-semibold leading-snug text-ink group-hover:text-terracotta-600">Machine à café à capsules</h3>
-                        <p class="shrink-0 font-semibold text-terracotta-600">30&nbsp;€</p>
-                    </div>
-                    <p class="mt-1 text-sm text-ink/60">Marc · Faubourg Nord</p>
-                    <div class="mt-auto flex items-center justify-between pt-3 text-xs text-ink/60">
-                        <span class="flex items-center gap-1"><span class="text-amber-500" aria-hidden="true">★</span><span class="font-semibold text-ink/75">4,6</span> (31 avis)</span>
-                        <span>hier</span>
-                    </div>
-                </div>
-            </a>
-
-            <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
-                <div class="relative grid aspect-[4/3] place-items-center bg-rose-100 text-5xl" aria-hidden="true">📚
-                    <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Livres</span>
-                </div>
-                <div class="flex flex-1 flex-col p-4">
-                    <div class="flex items-start justify-between gap-3">
-                        <h3 class="font-display font-semibold leading-snug text-ink group-hover:text-terracotta-600">Romans jeunesse (lot de 12)</h3>
-                        <p class="shrink-0 font-semibold text-terracotta-600">8&nbsp;€</p>
-                    </div>
-                    <p class="mt-1 text-sm text-ink/60">Inès · Quartier des Tilleuls</p>
-                    <div class="mt-auto flex items-center justify-between pt-3 text-xs text-ink/60">
-                        <span class="flex items-center gap-1"><span class="text-amber-500" aria-hidden="true">★</span><span class="font-semibold text-ink/75">4,8</span> (14 avis)</span>
-                        <span>il y a 2 j</span>
-                    </div>
-                </div>
-            </a>
-
-            <a href="{{ route('articles.show', 1) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
-                <div class="relative grid aspect-[4/3] place-items-center bg-violet-100 text-5xl" aria-hidden="true">🎸
-                    <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-[11px] font-semibold text-ink/70">Loisirs</span>
-                </div>
-                <div class="flex flex-1 flex-col p-4">
-                    <div class="flex items-start justify-between gap-3">
-                        <h3 class="font-display font-semibold leading-snug text-ink group-hover:text-terracotta-600">Guitare acoustique + housse</h3>
-                        <p class="shrink-0 font-semibold text-terracotta-600">60&nbsp;€</p>
-                    </div>
-                    <p class="mt-1 text-sm text-ink/60">Sofiane · Centre-ville</p>
-                    <div class="mt-auto flex items-center justify-between pt-3 text-xs text-ink/60">
-                        <span class="flex items-center gap-1"><span class="text-amber-500" aria-hidden="true">★</span><span class="font-semibold text-ink/75">4,9</span> (19 avis)</span>
-                        <span>il y a 2 j</span>
-                    </div>
-                </div>
-            </a>
-
+            @empty
+                <p class="col-span-full rounded-2xl border border-dashed border-ink/15 bg-paper p-10 text-center text-sm text-ink/60">
+                    Aucune annonce disponible pour le moment.
+                </p>
+            @endforelse
         </div>
     </section>
 
@@ -222,33 +149,35 @@
                     </p>
                     <div class="mt-5 flex flex-wrap gap-3">
                         <a href="{{ route('requests.index') }}" class="rounded-xl bg-sage-500 px-5 py-2.5 text-sm font-semibold text-paper transition hover:bg-sage-600">Voir les demandes</a>
-                        <a href="{{ route('requests.create') }}" class="rounded-xl border border-ink/15 bg-paper px-5 py-2.5 text-sm font-semibold text-ink transition hover:border-ink/30">Déposer une demande</a>
+                        @auth
+                            <a href="{{ route('requests.create') }}" class="rounded-xl border border-ink/15 bg-paper px-5 py-2.5 text-sm font-semibold text-ink transition hover:border-ink/30">Déposer une demande</a>
+                        @else
+                            <a href="{{ route('login') }}" class="rounded-xl border border-ink/15 bg-paper px-5 py-2.5 text-sm font-semibold text-ink transition hover:border-ink/30">Déposer une demande</a>
+                        @endauth
                     </div>
                 </div>
 
                 <ul class="space-y-3">
-                    <!--TODO: a adapter pour récupérer les data de la BDD-->
-                    <li class="rounded-2xl border border-ink/10 bg-cream p-4 sm:p-5">
-                        <div class="flex items-start justify-between gap-3">
-                            <h3 class="font-display font-semibold text-ink">Poussette double compacte</h3>
-                            <span class="shrink-0 rounded-full bg-sage-100 px-2.5 py-1 text-xs font-semibold text-sage-700">Budget 80&nbsp;€</span>
-                        </div>
-                        <p class="mt-1.5 text-sm text-ink/60">Cherche pour juin · Quartier des Tilleuls · 3 réponses</p>
-                    </li>
-                    <li class="rounded-2xl border border-ink/10 bg-cream p-4 sm:p-5">
-                        <div class="flex items-start justify-between gap-3">
-                            <h3 class="font-display font-semibold text-ink">Étagères murales en métal</h3>
-                            <span class="shrink-0 rounded-full bg-sage-100 px-2.5 py-1 text-xs font-semibold text-sage-700">Budget 30&nbsp;€</span>
-                        </div>
-                        <p class="mt-1.5 text-sm text-ink/60">Cherche cette semaine · Centre-ville · 1 réponse</p>
-                    </li>
-                    <li class="rounded-2xl border border-ink/10 bg-cream p-4 sm:p-5">
-                        <div class="flex items-start justify-between gap-3">
-                            <h3 class="font-display font-semibold text-ink">VTT taille adolescent</h3>
-                            <span class="shrink-0 rounded-full bg-sage-100 px-2.5 py-1 text-xs font-semibold text-sage-700">Budget 120&nbsp;€</span>
-                        </div>
-                        <p class="mt-1.5 text-sm text-ink/60">Cherche avant les vacances · Faubourg Nord · 0 réponse</p>
-                    </li>
+                    @forelse($selectionRequests as $selectionRequest)
+                        <li class="rounded-2xl border border-ink/10 bg-cream p-4 sm:p-5">
+                            <div class="flex items-start justify-between gap-3">
+                                <h3 class="font-display font-semibold text-ink">{{ $selectionRequest->title }}</h3>
+                                <span class="shrink-0 rounded-full bg-sage-100 px-2.5 py-1 text-xs font-semibold text-sage-700">Budget {{ number_format((float) $selectionRequest->budget, 0, ',', ' ') }}&nbsp;€</span>
+                            </div>
+                            <p class="mt-1.5 text-sm text-ink/60">
+                                Cherche avant le {{ $selectionRequest->target_date?->isoFormat('D MMMM') }}
+                                · {{ $selectionRequest->location }}
+                                @if($selectionRequest->answers_count > 0)
+                                    &nbsp;· {{ $selectionRequest->answers_count }} réponse{{ $selectionRequest->answers_count > 1 ? 's' : '' }}
+                                @endif
+                            </p>
+                        </li>
+                    @empty
+                        <li class="rounded-2xl border border-dashed border-ink/15 bg-paper p-6 text-center text-sm text-ink/60">
+                            Aucune demande ouverte pour le moment.
+                        </li>
+                    @endforelse
+
                 </ul>
             </div>
         </div>
