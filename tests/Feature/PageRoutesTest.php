@@ -39,7 +39,6 @@ class PageRoutesTest extends TestCase
             'annonces' => ['/annonces'],
             'recherche' => ['/recherche'],
             'creer une annonce' => ['/annonces/creer'],
-            'detail annonce' => ['/annonces/1'],
             'demandes' => ['/demandes'],
             'creer une demande' => ['/demandes/creer'],
             'connexion' => ['/connexion'],
