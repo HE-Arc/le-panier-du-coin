@@ -206,25 +206,34 @@
     </section>
 
     <!-- ============================ RÉPUTATION ============================ -->
-    <!--TODO: a disctuer si on enlève!!!!-->
-    <section class="mx-auto max-w-6xl px-4 pb-16">
-        <div class="relative overflow-hidden rounded-3xl bg-sage-700 px-6 py-10 text-center sm:px-12 sm:py-14">
-            <p class="text-xs font-bold uppercase tracking-[0.15em] text-sage-200">La réputation fait le marché</p>
-            <h2 class="mx-auto mt-4 max-w-2xl font-display text-2xl font-bold tracking-tight text-white sm:text-3xl">
-                Chaque vendeur porte ses avis comme un étal bien tenu.
-            </h2>
-            <div class="mx-auto mt-5 flex max-w-xl items-start gap-3 rounded-2xl bg-white/10 p-4 text-left backdrop-blur">
-                <span class="text-amber-300" aria-hidden="true">★★★★★</span>
-                <p class="text-sm leading-relaxed text-sage-50/90">
-                    «&nbsp;Vendeuse sérieuse, objet conforme et remise au rendez-vous. Je rachèterai les yeux fermés.&nbsp;»
-                    <span class="mt-1 block text-xs text-sage-200">— Thomas, à propos de Camille</span>
+    <!-- Masquée tant qu'aucun avis n'existe en base : pas de fausse preuve sociale. -->
+    @if ($testimonial)
+        <section class="mx-auto max-w-6xl px-4 pb-16">
+            <div class="relative overflow-hidden rounded-3xl bg-sage-700 px-6 py-10 text-center sm:px-12 sm:py-14">
+                <p class="text-xs font-bold uppercase tracking-[0.15em] text-sage-200">La réputation fait le marché</p>
+                <h2 class="mx-auto mt-4 max-w-2xl font-display text-2xl font-bold tracking-tight text-white sm:text-3xl">
+                    Chaque vendeur porte ses avis comme un étal bien tenu.
+                </h2>
+                <p class="mt-3 text-sm text-sage-200">
+                    {{ number_format($averageRating, 1, ',', ' ') }}&nbsp;/ 5 · {{ $nbReviews }} avis déposés par les habitants
                 </p>
+
+                <div class="mx-auto mt-5 flex max-w-xl items-start gap-3 rounded-2xl bg-white/10 p-4 text-left backdrop-blur">
+                    <span class="text-amber-300" aria-hidden="true">
+                        @for ($star = 1; $star <= 5; $star++){{ $star <= $testimonial->rating ? '★' : '☆' }}@endfor
+                    </span>
+                    <p class="text-sm leading-relaxed text-sage-50/90">
+                        <span class="sr-only">Note de {{ $testimonial->rating }} sur 5&nbsp;: </span>
+                        «&nbsp;{{ $testimonial->comment }}&nbsp;»
+                        <span class="mt-1 block text-xs text-sage-200">— {{ $testimonial->reviewer?->name }}, à propos de {{ $testimonial->reviewee?->name }}</span>
+                    </p>
+                </div>
+                <div class="mt-6">
+                    <a href="{{ route('seller') }}" class="inline-flex items-center gap-2 rounded-xl bg-paper px-5 py-2.5 text-sm font-semibold text-sage-800 transition hover:bg-cream">
+                        Voir un profil vendeur <span aria-hidden="true">→</span>
+                    </a>
+                </div>
             </div>
-            <div class="mt-6">
-                <a href="{{ route('seller') }}" class="inline-flex items-center gap-2 rounded-xl bg-paper px-5 py-2.5 text-sm font-semibold text-sage-800 transition hover:bg-cream">
-                    Voir un profil vendeur <span aria-hidden="true">→</span>
-                </a>
-            </div>
-        </div>
-    </section>
+        </section>
+    @endif
 @endsection

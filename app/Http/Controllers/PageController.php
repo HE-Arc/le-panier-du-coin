@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Request;
+use App\Models\Review;
 use Illuminate\View\View;
 
 class PageController extends Controller
@@ -49,7 +50,26 @@ class PageController extends Controller
             ->take(3)
             ->get();
 
-        return view('index', compact('categories', 'nbArticles', 'selectionRequests', 'newArticles', 'nbRequests'));
+        // Récupération d'un avis récent pour la section réputation
+        $testimonial = Review::query()
+            ->with(['reviewer', 'reviewee', 'article'])
+            ->where('rating', '>=', 4)
+            ->latest('created_at')
+            ->first();
+
+        $averageRating = (float) Review::query()->avg('rating');
+        $nbReviews = Review::query()->count();
+
+        return view('index', compact(
+            'categories',
+            'nbArticles',
+            'selectionRequests',
+            'newArticles',
+            'nbRequests',
+            'testimonial',
+            'averageRating',
+            'nbReviews',
+        ));
     }
 
     public function condition(): View
