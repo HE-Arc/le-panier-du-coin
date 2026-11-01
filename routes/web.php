@@ -9,6 +9,8 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\RequestsController;
+use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/", [PageController::class, "index"])->name("home");
@@ -42,7 +44,7 @@ Route::get("/mot-de-passe-oublie", [ManagementController::class, "resetpwd"])->n
 );
 
 Route::post("/mot-de-passe-oublie", [PasswordResetLinkController::class, "store"])
-    ->middleware("guest")
+    ->middleware([RedirectIfAuthenticated::class, ThrottleRequests::class . ":3,1"])
     ->name("password.email");
 
 Route::get("/reinitialiser-mot-de-passe/{token}", [NewPasswordController::class, "create"])

@@ -22,7 +22,7 @@
         </div>
 
         @if(session('status'))
-            <p>Lien de réinitialisation envoyé !</p>
+            <p>Si le compte existe, le lien de réinitialisation envoyé !</p>
         @endif
         <!-- Carte de réinitialisation -->
         <div class="rounded-3xl border border-ink/10 bg-paper p-6 shadow-soft sm:p-8">
