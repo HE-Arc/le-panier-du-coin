@@ -3,11 +3,14 @@
 @section("content")
     @include('Management.dashboard._header', ['mode' => 'buyer'])
 
+    <!-- TODO: remettre en affichage les élément backend quand ils seront implémenté -->
     <!-- ============================ PANNEAU ACHETEUR ============================ -->
+    <!--
     <section aria-label="Tableau de bord acheteur" class="mx-auto max-w-6xl px-4 py-10">
 
         <!-- Chiffres clés acheteur -->
         <!-- TODO: changer avec les infos de la bdd -->
+    <!--
         <dl class="grid gap-3 sm:grid-cols-3">
             <div class="rounded-2xl border border-ink/10 bg-paper p-4 shadow-soft">
                 <dd class="font-display text-2xl font-bold text-ink">2</dd>
@@ -25,6 +28,7 @@
 
         <!-- Mes achats en cours -->
         <!-- TODO: a adapter avec les info de la BDD-->
+    <!--
         <section class="mt-10" aria-labelledby="titre-achats">
             <div class="flex flex-wrap items-end justify-between gap-3">
                 <div>
@@ -74,6 +78,7 @@
         </section>
 
         <!-- Mes demandes -->
+    <!--
         <section class="mt-10" aria-labelledby="titre-demandes">
             <div class="flex flex-wrap items-end justify-between gap-3">
                 <h2 id="titre-demandes" class="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">Mes demandes</h2>

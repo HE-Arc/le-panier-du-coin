@@ -8,12 +8,10 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
-
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(["name", "email", "password", "neighborhood", "bio", "is_verified"])]
-#[Hidden(["password"])]
+#[Fillable(['name', 'email', 'password', 'neighborhood', 'bio', 'is_verified'])]
+#[Hidden(['password'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -22,19 +20,32 @@ class User extends Authenticatable
     /**
      * Get the attributes that should be cast.
      * maps db columns to PHP types
+     *
      * @return array<string, string>
      */
     protected function casts(): array
     {
         return [
-            "is_verified" => "boolean",
-            "password" => "hashed",
+            'is_verified' => 'boolean',
+            'password' => 'hashed',
         ];
     }
 
     // Récupération du nom d'un utilisateur selon un ID
-    public function articles(): HasMany {
-        return $this->hasMany(Article::class, "seller_id");
+    public function articles(): HasMany
+    {
+        return $this->hasMany(Article::class, 'seller_id');
     }
 
+    // Récupération des avis reçus par cet utilisateur
+    public function reviewsReceived(): HasMany
+    {
+        return $this->hasMany(Review::class, 'reviewee_id');
+    }
+
+    // Récupération des avis déposés par cet utilisateur
+    public function reviewsGiven(): HasMany
+    {
+        return $this->hasMany(Review::class, 'reviewer_id');
+    }
 }

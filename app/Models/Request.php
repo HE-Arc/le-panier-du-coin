@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
     'requester_id',
@@ -31,5 +33,23 @@ class Request extends Model
             'target_date' => 'date',
             'published_at' => 'datetime',
         ];
+    }
+
+    // Récupération du demandeur
+    public function requester(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'requester_id');
+    }
+
+    // Récupération de la catégorie recherchée
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    // Récupération des réponses reçues
+    public function answers(): HasMany
+    {
+        return $this->hasMany(Answer::class);
     }
 }

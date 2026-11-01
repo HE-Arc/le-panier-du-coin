@@ -13,19 +13,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[Fillable([
-    "title",
-    "description",
-    "location",
-    "price",
-    "brand",
-    "availability",
-    "condition",
-    "negotiable",
-    "seller_id",
-    "category_id",
-    "views",
-    "status",
-    "published_at",
+    'title',
+    'description',
+    'location',
+    'price',
+    'brand',
+    'availability',
+    'condition',
+    'negotiable',
+    'seller_id',
+    'category_id',
+    'views',
+    'status',
+    'published_at',
 ])]
 class Article extends Model
 {
@@ -34,42 +34,59 @@ class Article extends Model
     protected function casts(): array
     {
         return [
-            "price" => "decimal:2",
-            "views" => "integer",
-            "condition" => ArticleCondition::class,
-            "status" => ArticleStatus::class,
-            "negotiable" => "boolean",
-            "published_at" => "datetime",
+            'price' => 'decimal:2',
+            'views' => 'integer',
+            'condition' => ArticleCondition::class,
+            'status' => ArticleStatus::class,
+            'negotiable' => 'boolean',
+            'published_at' => 'datetime',
         ];
     }
-    //------------------------------------------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------------------------------------------
     // Pour les articles dans son ensemble
-    //------------------------------------------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------------------------------------------
 
     // Récupération de la catégorie d'un objet
-    public function category():BelongsTo{
+    public function category(): BelongsTo{
         return $this->belongsTo(Category::class);
     }
 
     // Récupération du nom du vendeur de l'objet
-    public function seller():BelongsTo{
-        return $this->belongsTo(User::class, "seller_id");
+    public function seller(): BelongsTo{
+        return $this->belongsTo(User::class, 'seller_id');
     }
 
-    public function pictures():HasMany{
+    public function pictures(): HasMany{
         return $this->hasMany(ArticlePicture::class);
     }
 
-    //------------------------------------------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------------------------------------------
     // Pour Un article
-    //------------------------------------------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------------------------------------------
 
-    public function primaryPicture():HasOne{
-        return $this->hasOne(ArticlePicture::class)->where("is_primary", true);
+    public function primaryPicture(): HasOne{
+        return $this->hasOne(ArticlePicture::class)->where('is_primary', true);
     }
 
-    public function reviews():HasMany{
+    //récupération des vues pour un article
+    public function reviews(): HasMany{
         return $this->hasMany(Review::class);
     }
 
+    // ------------------------------------------------------------------------------------------------------------------
+    // Pour les messages
+    // ------------------------------------------------------------------------------------------------------------------
+    // récupération du nombre de message pour un article
+    public function conversations(): HasMany{
+        return $this->hasMany(Conversation::class);
+    }
+
+    // ------------------------------------------------------------------------------------------------------------------
+    // Pour les dashboard
+    // ------------------------------------------------------------------------------------------------------------------
+
+    // Récupération des vies pour les stats
+    public function articleViews(): HasMany{
+        return $this->hasMany(ArticleView::class);
+    }
 }

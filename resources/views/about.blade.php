@@ -159,7 +159,12 @@
                 Publie ce qui ne te sert plus, ou trouve directement ce que tu cherches chez un voisin.
             </p>
             <div class="mt-6 flex flex-wrap justify-center gap-3">
-                <a href="{{ route('articles.create') }}" class="rounded-xl bg-paper px-5 py-2.5 text-sm font-semibold text-terracotta-700 transition hover:bg-cream">Publier une annonce</a>
+                @auth()
+                    <a href="{{ route('articles.create') }}" class="rounded-xl bg-paper px-5 py-2.5 text-sm font-semibold text-terracotta-700 transition hover:bg-cream">Publier une annonce</a>
+                @else
+                    <a href="{{ route('login') }}" class="rounded-xl bg-paper px-5 py-2.5 text-sm font-semibold text-terracotta-700 transition hover:bg-cream">Publier une annonce</a>
+                @endauth
+
                 <a href="{{ route('search') }}" class="rounded-xl border border-white/40 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10">Voir les annonces</a>
             </div>
         </div>

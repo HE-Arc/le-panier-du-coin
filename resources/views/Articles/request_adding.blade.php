@@ -2,6 +2,7 @@
 @section('title', "Déposer une demande")
 @section("content")
     <!-- ============================ BANDEAU + FIL D'ARIANE ============================ -->
+    <!--
     <section class="border-b border-ink/10 bg-cream">
         <div class="mx-auto max-w-3xl px-4 py-8 sm:py-10">
             <nav aria-label="Fil d'Ariane">
@@ -28,11 +29,14 @@
     </section>
 
     <!-- ============================ FORMULAIRE ============================ -->
+    <!--
     <section class="mx-auto max-w-3xl px-4 py-10">
         <!-- TODO: brancher ce formulaire sur une route POST + validation quand la BDD sera prête. -->
+    <!--
         <form onsubmit="return false" class="space-y-6">
 
             <!-- Encart d'aide -->
+    <!--
             <div class="flex items-start gap-3 rounded-2xl border border-sage-200 bg-sage-50 p-4">
                 <p class="text-sm leading-relaxed text-sage-800">
                     Plus ta demande est précise, plus les vendeurs peuvent te répondre utilement.
@@ -40,6 +44,7 @@
             </div>
 
             <!-- Titre + description -->
+    <!--
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <div>
                     <label for="titre" class="block text-sm font-semibold text-ink">Titre de la demande</label>
@@ -58,6 +63,7 @@
             </div>
 
             <!-- Budget + catégorie -->
+    <!--
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <p class="text-xs font-bold uppercase tracking-[0.12em] text-ink/50">Ton budget et ta catégorie</p>
 
@@ -73,6 +79,7 @@
                     </div>
 
                     <!-- TODO: brancher les catégoriés seont ce qu'il y a dans la BDD-->
+    <!--
                     <div>
                         <label for="categorie" class="block text-sm font-semibold text-ink">Catégorie</label>
                         <select id="categorie" name="categorie"
@@ -91,6 +98,7 @@
             </div>
 
             <!-- Date + quartier -->
+    <!--
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <p class="text-xs font-bold uppercase tracking-[0.12em] text-ink/50">Quand et où&nbsp;?</p>
 
@@ -103,6 +111,7 @@
                     </div>
 
                     <!-- TODO: quartier à adapter -->
+    <!--
                     <div>
                         <label for="quartier" class="block text-sm font-semibold text-ink">Quartier de remise</label>
                         <select id="quartier" name="quartier"
@@ -118,11 +127,13 @@
             </div>
 
             <!-- Contact -->
+    <!--
             <fieldset class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <legend class="px-1 text-sm font-semibold text-ink">Je préfère être contacté par messagerie</legend>
                 <p class="text-xs text-ink/55">Les propositions arriveront ici&nbsp;; tu choisis ce que tu partages ensuite.</p>
 
                 <!-- TODO: messagerie du site à adapter, pte pas une bonne idée-->
+    <!--
                 <div class="mt-4 space-y-3">
                     <label for="contact-messagerie" class="flex items-start gap-3 rounded-xl border border-ink/10 bg-cream p-4 cursor-pointer">
                         <input id="contact-messagerie" name="contact" type="radio" value="messagerie" checked
@@ -145,9 +156,11 @@
             </fieldset>
 
             <!-- Actions -->
+    <!--
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
                     <!-- TODO: remplacer ce bouton par un vrai submit quand la route POST existera. -->
+    <!--
                     <button type="button" class="rounded-xl bg-terracotta-500 px-6 py-3 text-center text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">
                         Publier la demande
                     </button>
