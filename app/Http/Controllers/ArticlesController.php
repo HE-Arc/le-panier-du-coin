@@ -58,6 +58,9 @@ class ArticlesController extends Controller
     }
 
     public function store(Request $request): RedirectResponse{
+
+    $category = Category::where('title', $request->input('category_id'))->first();
+
     $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -67,8 +70,14 @@ class ArticlesController extends Controller
             'availability' => 'required|string',
             'condition' => 'required',
             'negotiable' => 'boolean',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'required',
         ]);
+
+        if ($category) {
+            $validatedData['category_id'] = $category->id;
+        } else {
+            return back()->withErrors(['category_id' => 'Cette catégorie n\'existe pas.']);
+        }
 
         $validatedData['seller_id'] = Auth::id();
         $validatedData['status'] = 'draft';
