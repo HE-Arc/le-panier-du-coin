@@ -112,11 +112,6 @@
                             Voir le profil <span aria-hidden="true">→</span>
                         </a>
                     </div>
-                    @if (Auth::user()?->id === $article->seller_id)
-                        <a href="{{ route('articles.edit', $article) }}" class="mt-4 inline-block rounded-xl border border-ink/15 bg-paper px-5 py-3 text-center text-sm font-semibold text-ink transition hover:border-terracotta-300 hover:text-terracotta-600">
-                            Modifier mon annonce
-                        </a>
-                    @endif
                     <!--
                     <div class="mt-4 flex flex-col gap-2 sm:flex-row">
                         <button type="button" class="rounded-xl bg-terracotta-500 px-5 py-3 text-center text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">

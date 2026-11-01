@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
@@ -11,18 +10,12 @@ class PageRoutesTest extends TestCase
     #[DataProvider('pageProvider')]
     public function test_page_is_reachable(string $path): void
     {
-        // Les tableaux de bord exigent une session authentifiée.
-        if (in_array($path, ['/tableau-de-bord', '/tableau-de-bord/vendeur'], true)) {
-            $this->actingAs(User::factory()->create());
-        }
-
         $this->get($path)->assertOk();
     }
 
     public function test_buyer_dashboard_only_shows_buyer_content(): void
     {
-        $this->actingAs(User::factory()->create())
-            ->get('/tableau-de-bord')
+        $this->get('/tableau-de-bord')
             ->assertOk()
             ->assertSee('Mes achats en cours')
             ->assertDontSee('Mes annonces');
@@ -30,8 +23,7 @@ class PageRoutesTest extends TestCase
 
     public function test_seller_dashboard_only_shows_seller_content(): void
     {
-        $this->actingAs(User::factory()->create())
-            ->get('/tableau-de-bord/vendeur')
+        $this->get('/tableau-de-bord/vendeur')
             ->assertOk()
             ->assertSee('Mes annonces')
             ->assertDontSee('Mes achats en cours');

@@ -81,13 +81,6 @@
                               class="mt-3 w-full resize-y rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm leading-relaxed text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200"></textarea>
                     <p class="mt-1.5 text-xs text-ink/50">Plus la description est précise, plus les acheteurs te contactent en confiance.</p>
                 </div>
-
-                <div class="mt-5">
-                    <label for="brand" class="font-display text-lg font-semibold text-ink">Marque</label>
-                    <input id="brand" name="brand" type="text" required maxlength="255"
-                           placeholder="Ex. Peugeot, Decathlon, Artisanal…"
-                           class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
-                </div>
             </div>
 
             <!-- ---------- Prix ---------- -->
@@ -123,32 +116,23 @@
                         <option value="electromenager">Électroménager</option>
                         <option value="vetements">Vêtements</option>
                         <option value="livres">Livres</option>
-                        <option value="accessoires">Accessoires</option>
                     </select>
                 </div>
 
                 <fieldset class="mt-5">
                     <legend class="font-display text-lg font-semibold text-ink">État</legend>
-                    <div class="mt-3 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:gap-6">
+                    <div class="mt-3 flex flex-col gap-2.5 sm:flex-row sm:gap-6">
                         <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                            <input type="radio" name="etat" value="new" class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
+                            <input type="radio" name="etat" value="neuf" class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
                             Neuf
                         </label>
                         <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                            <input type="radio" name="etat" value="like_new" checked class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                            Comme neuf
+                            <input type="radio" name="etat" value="tres-bon" checked class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
+                            Très bon
                         </label>
                         <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                            <input type="radio" name="etat" value="good" class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                            Bon état
-                        </label>
-                        <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                            <input type="radio" name="etat" value="fair" class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                            État correct
-                        </label>
-                        <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                            <input type="radio" name="etat" value="not_working" class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                            Ne fonctionne pas
+                            <input type="radio" name="etat" value="correct" class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
+                            Correct
                         </label>
                     </div>
                 </fieldset>
