@@ -68,6 +68,7 @@ class Article extends Model
         return $this->hasOne(ArticlePicture::class)->where('is_primary', true);
     }
 
+    //récupération des vues pour un article
     public function reviews(): HasMany{
         return $this->hasMany(Review::class);
     }
@@ -75,7 +76,17 @@ class Article extends Model
     // ------------------------------------------------------------------------------------------------------------------
     // Pour les messages
     // ------------------------------------------------------------------------------------------------------------------
+    // récupération du nombre de message pour un article
     public function conversations(): HasMany{
         return $this->hasMany(Conversation::class);
+    }
+
+    // ------------------------------------------------------------------------------------------------------------------
+    // Pour les dashboard
+    // ------------------------------------------------------------------------------------------------------------------
+
+    // Récupération des vies pour les stats
+    public function articleViews(): HasMany{
+        return $this->hasMany(ArticleView::class);
     }
 }
