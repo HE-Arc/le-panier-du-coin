@@ -56,6 +56,7 @@ class ArticlesController extends Controller
         // Le propriétaire ne gonfle pas son propre compteur de vues.
         if ($request->user()?->id !== $article->seller_id) {
             $article->increment('views');
+            $article->articleViews()->create();
         }
 
         $article->load(['category', 'seller', 'pictures', 'primaryPicture']);
@@ -67,6 +68,7 @@ class ArticlesController extends Controller
         return view('Articles.article_adding');
     }
 
+    //pour récupérer les infos d'un article dans la page d'édition
     public function edit(Request $request, Article $article): View{
         $this->authorizeOwner($request, $article);
 
@@ -81,6 +83,7 @@ class ArticlesController extends Controller
         return view('Articles.article_edit', compact('article', 'categories', 'conditions', 'quartiers', 'quartierSlug'));
     }
 
+    // mettre à jour un article dans la BDD
     public function update(Request $request, Article $article): RedirectResponse{
         $this->authorizeOwner($request, $article);
 
@@ -114,7 +117,17 @@ class ArticlesController extends Controller
             ->with('success', 'Annonce mise à jour.');
     }
 
-    // Seul le vendeur propriétaire de l'annonce peut la modifier.
+    // supprimer un article de la BDD
+    public function destroy(Request $request, Article $article): RedirectResponse{
+        $this->authorizeOwner($request, $article);
+        $article->delete();
+
+        return redirect()
+            ->route('dashboard.seller')
+            ->with('success', 'Annonce supprimée.');
+    }
+
+    // seul le vendeur propriétaire de l'annonce peut la modifier.
     private function authorizeOwner(Request $request, Article $article): void {
         abort_unless($request->user()?->id === $article->seller_id, 403);
     }
