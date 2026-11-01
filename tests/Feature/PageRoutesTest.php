@@ -2,12 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class PageRoutesTest extends TestCase
 {
-    #[DataProvider('pageProvider')]
+    #[DataProvider("pageProvider")]
     public function test_page_is_reachable(string $path): void
     {
         $this->get($path)->assertOk();
@@ -15,18 +16,22 @@ class PageRoutesTest extends TestCase
 
     public function test_buyer_dashboard_only_shows_buyer_content(): void
     {
-        $this->get('/tableau-de-bord')
+        $user = User::factory()->create();
+        $this->actingAs($user)
+            ->get("/tableau-de-bord")
             ->assertOk()
-            ->assertSee('Mes achats en cours')
-            ->assertDontSee('Mes annonces');
+            ->assertSee("Mes achats en cours")
+            ->assertDontSee("Mes annonces");
     }
 
     public function test_seller_dashboard_only_shows_seller_content(): void
     {
-        $this->get('/tableau-de-bord/vendeur')
+        $user = User::factory()->create();
+        $this->actingAs($user)
+            ->get("/tableau-de-bord/vendeur")
             ->assertOk()
-            ->assertSee('Mes annonces')
-            ->assertDontSee('Mes achats en cours');
+            ->assertSee("Mes annonces")
+            ->assertDontSee("Mes achats en cours");
     }
 
     /**
@@ -35,20 +40,20 @@ class PageRoutesTest extends TestCase
     public static function pageProvider(): array
     {
         return [
-            'accueil' => ['/'],
-            'annonces' => ['/annonces'],
-            'recherche' => ['/recherche'],
-            'creer une annonce' => ['/annonces/creer'],
-            'demandes' => ['/demandes'],
-            'creer une demande' => ['/demandes/creer'],
-            'connexion' => ['/connexion'],
-            'inscription' => ['/inscription'],
-            'mot de passe oublie' => ['/mot-de-passe-oublie'],
-            'tableau de bord acheteur' => ['/tableau-de-bord'],
-            'tableau de bord vendeur' => ['/tableau-de-bord/vendeur'],
-            'profil vendeur' => ['/profil-vendeur'],
-            'qui sommes nous' => ['/qui-sommes-nous'],
-            'conditions utilisation' => ['/conditions-utilisation'],
+            "accueil" => ["/"],
+            "annonces" => ["/annonces"],
+            "recherche" => ["/recherche"],
+            "creer une annonce" => ["/annonces/creer"],
+            "demandes" => ["/demandes"],
+            "creer une demande" => ["/demandes/creer"],
+            "connexion" => ["/connexion"],
+            "inscription" => ["/inscription"],
+            "mot de passe oublie" => ["/mot-de-passe-oublie"],
+            //"tableau de bord acheteur" => ["/tableau-de-bord"], // Error since it need to be auth to access it
+            //"tableau de bord vendeur" => ["/tableau-de-bord/vendeur"],
+            "profil vendeur" => ["/profil-vendeur"],
+            "qui sommes nous" => ["/qui-sommes-nous"],
+            "conditions utilisation" => ["/conditions-utilisation"],
         ];
     }
 }

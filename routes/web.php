@@ -61,7 +61,8 @@ Route::delete("/compte", [ProfileController::class, "destroy"])
 Route::get("/tableau-de-bord", [ManagementController::class, "dashboardBuyer"])->name(
     "dashboard.buyer",
 );
-Route::get("/tableau-de-bord/vendeur", [ManagementController::class, "dashboardSeller"])->name(
-    "dashboard.seller",
-);
+Route::get("/tableau-de-bord/vendeur", [ManagementController::class, "dashboardSeller"])
+    ->middleware("auth")
+    ->name("dashboard.seller");
+
 Route::get("/profil-vendeur", [ManagementController::class, "seller"])->name("seller");
