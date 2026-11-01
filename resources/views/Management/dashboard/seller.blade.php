@@ -11,29 +11,30 @@
             'sold' => 'bg-terracotta-100 text-terracotta-700',
             'draft' => 'bg-ink/10 text-ink/60',
         ];
+
+
     @endphp
 
     <section aria-label="Tableau de bord vendeur" class="mx-auto max-w-6xl px-4 py-10">
 
-        <!-- Chiffres clés vendeur + action -->
-        <!-- TODO: changer avec les infos de la bdd -->
-        <!--
+        <!-- Chiffres clés vendeur-->
         <div class="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
             <dl class="grid gap-3 sm:grid-cols-3">
                 <div class="rounded-2xl border border-ink/10 bg-paper p-4 shadow-soft">
-                    <dd class="font-display text-2xl font-bold text-ink">6</dd>
-                    <dt class="mt-1 text-sm text-ink/60">annonces actives</dt>
+                    <dd class="font-display text-2xl font-bold text-ink">{{ $activeArticlesCount }}</dd>
+                    <dt class="mt-1 text-sm text-ink/60">annonce{{ $activeArticlesCount > 1 ? 's' : '' }} active{{ $activeArticlesCount > 1 ? 's' : '' }}</dt>
                 </div>
                 <div class="rounded-2xl border border-ink/10 bg-paper p-4 shadow-soft">
-                    <dd class="font-display text-2xl font-bold text-ink">148</dd>
+                    <dd class="font-display text-2xl font-bold text-ink">{{ $viewCounterMonthly }}</dd>
                     <dt class="mt-1 text-sm text-ink/60">vues ce mois</dt>
                 </div>
                 <div class="rounded-2xl border border-ink/10 bg-paper p-4 shadow-soft">
-                    <dd class="font-display text-2xl font-bold text-ink">4,9&nbsp;<span class="text-lg text-amber-500" aria-hidden="true">★</span></dd>
+                    <dd class="font-display text-2xl font-bold text-ink">
+                        {{ $averageRating ? number_format($averageRating, 1, ',', ' ') : '—' }}&nbsp;<span class="text-lg text-amber-500" aria-hidden="true">★</span>
+                    </dd>
                     <dt class="mt-1 text-sm text-ink/60">note moyenne</dt>
                 </div>
             </dl>
-            <a href="{{ route('articles.create') }}" class="rounded-xl bg-terracotta-500 px-5 py-3 text-center text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">Publier une annonce</a>
         </div>
     <!-- ============================ MES ANNONCES ============================ -->
     <section aria-labelledby="titre-annonces" class="mx-auto max-w-6xl px-4 py-10">
@@ -79,6 +80,11 @@
                             <a href="{{ route('articles.show', $article) }}" class="font-semibold text-terracotta-600 hover:text-terracotta-700">Voir</a>
                             <span class="mx-1 text-ink/25" aria-hidden="true">·</span>
                             <a href="{{ route('articles.edit', $article) }}" class="font-semibold text-ink/70 hover:text-ink">Éditer</a>
+                            <form method="POST" action="{{ route('articles.destroy', $article) }}" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="font-semibold text-ink/70 hover:text-ink">Supprimer</button>
+                            </form>
                         </td>
                     </tr>
                 @empty
@@ -92,60 +98,6 @@
             </table>
         </div>
 
-        <!-- Messages entrants -->
-        <!-- TODO: changer avec les infos de la bdd -->
-        <!--
-        <section class="mt-10" aria-labelledby="titre-messages">
-            <div class="flex flex-wrap items-end justify-between gap-3">
-                <h2 id="titre-messages" class="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">Messages entrants</h2>
-                <span class="text-sm font-semibold text-terracotta-600">3 non lus</span>
-            </div>
-
-            <ul class="mt-6 space-y-3">
-                <li class="flex gap-3 rounded-2xl border border-ink/10 bg-paper p-4 shadow-soft">
-                    <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-sage-100 text-sm font-bold text-sage-700" aria-hidden="true">CL</span>
-                    <div class="min-w-0 flex-1">
-                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                            <h3 class="text-sm font-semibold text-ink">Camille Lefèvre</h3>
-                            <span class="text-xs text-ink/50">· Vélo de ville</span>
-                            <span class="ml-auto rounded-full bg-terracotta-500 px-2 py-0.5 text-[11px] font-bold text-paper">Non lu</span>
-                        </div>
-                        <p class="mt-1 truncate text-sm text-ink/65">Bonjour, le vélo est-il toujours disponible&nbsp;? Je peux passer samedi matin.</p>
-                        <p class="mt-1 text-xs text-ink/50">il y a 12 min</p>
-                    </div>
-                </li>
-
-                <li class="flex gap-3 rounded-2xl border border-ink/10 bg-paper p-4 shadow-soft">
-                    <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-terracotta-100 text-sm font-bold text-terracotta-700" aria-hidden="true">YM</span>
-                    <div class="min-w-0 flex-1">
-                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                            <h3 class="text-sm font-semibold text-ink">Yannick Moreau</h3>
-                            <span class="text-xs text-ink/50">· Chaises en bois</span>
-                            <span class="ml-auto rounded-full bg-terracotta-500 px-2 py-0.5 text-[11px] font-bold text-paper">Non lu</span>
-                        </div>
-                        <p class="mt-1 truncate text-sm text-ink/65">Parfait pour samedi 10 h, je confirme. C'est noté sur mon calendrier.</p>
-                        <p class="mt-1 text-xs text-ink/50">il y a 1 h</p>
-                    </div>
-                </li>
-
-                <li class="flex gap-3 rounded-2xl border border-ink/10 bg-paper p-4 shadow-soft">
-                    <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-amber-100 text-sm font-bold text-amber-700" aria-hidden="true">FD</span>
-                    <div class="min-w-0 flex-1">
-                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                            <h3 class="text-sm font-semibold text-ink">Fatou Diallo</h3>
-                            <span class="text-xs text-ink/50">· Étagère en bois</span>
-                            <span class="ml-auto rounded-full bg-terracotta-500 px-2 py-0.5 text-[11px] font-bold text-paper">Non lu</span>
-                        </div>
-                        <p class="mt-1 truncate text-sm text-ink/65">Bonjour, accepteriez-vous 30&nbsp;€ si je la récupère ce soir après le travail&nbsp;?</p>
-                        <p class="mt-1 text-xs text-ink/50">hier, 18 h 42</p>
-                    </div>
-                </li>
-            </ul>
-
-            <p class="mt-4">
-                <a href="{{ route('articles.show', 1) }}" class="text-sm font-semibold text-terracotta-600 hover:text-terracotta-700">Ouvrir la messagerie <span aria-hidden="true">→</span></a>
-            </p>
-        </section>
         <!-- Version mobile : cartes empilées -->
         <ul class="mt-6 space-y-3 md:hidden">
             @forelse($articles as $article)
@@ -175,6 +127,62 @@
             @endforelse
         </ul>
     </section>
+
+    <!-- Messages entrants -->
+    <!-- TODO: changer avec les infos de la bdd -->
+    <!--
+    <section class="mt-10" aria-labelledby="titre-messages">
+        <div class="flex flex-wrap items-end justify-between gap-3">
+            <h2 id="titre-messages" class="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">Messages entrants</h2>
+            <span class="text-sm font-semibold text-terracotta-600">3 non lus</span>
+        </div>
+
+        <ul class="mt-6 space-y-3">
+            <li class="flex gap-3 rounded-2xl border border-ink/10 bg-paper p-4 shadow-soft">
+                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-sage-100 text-sm font-bold text-sage-700" aria-hidden="true">CL</span>
+                <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <h3 class="text-sm font-semibold text-ink">Camille Lefèvre</h3>
+                        <span class="text-xs text-ink/50">· Vélo de ville</span>
+                        <span class="ml-auto rounded-full bg-terracotta-500 px-2 py-0.5 text-[11px] font-bold text-paper">Non lu</span>
+                    </div>
+                    <p class="mt-1 truncate text-sm text-ink/65">Bonjour, le vélo est-il toujours disponible&nbsp;? Je peux passer samedi matin.</p>
+                    <p class="mt-1 text-xs text-ink/50">il y a 12 min</p>
+                </div>
+            </li>
+
+            <li class="flex gap-3 rounded-2xl border border-ink/10 bg-paper p-4 shadow-soft">
+                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-terracotta-100 text-sm font-bold text-terracotta-700" aria-hidden="true">YM</span>
+                <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <h3 class="text-sm font-semibold text-ink">Yannick Moreau</h3>
+                        <span class="text-xs text-ink/50">· Chaises en bois</span>
+                        <span class="ml-auto rounded-full bg-terracotta-500 px-2 py-0.5 text-[11px] font-bold text-paper">Non lu</span>
+                    </div>
+                    <p class="mt-1 truncate text-sm text-ink/65">Parfait pour samedi 10 h, je confirme. C'est noté sur mon calendrier.</p>
+                    <p class="mt-1 text-xs text-ink/50">il y a 1 h</p>
+                </div>
+            </li>
+
+            <li class="flex gap-3 rounded-2xl border border-ink/10 bg-paper p-4 shadow-soft">
+                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-amber-100 text-sm font-bold text-amber-700" aria-hidden="true">FD</span>
+                <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <h3 class="text-sm font-semibold text-ink">Fatou Diallo</h3>
+                        <span class="text-xs text-ink/50">· Étagère en bois</span>
+                        <span class="ml-auto rounded-full bg-terracotta-500 px-2 py-0.5 text-[11px] font-bold text-paper">Non lu</span>
+                    </div>
+                    <p class="mt-1 truncate text-sm text-ink/65">Bonjour, accepteriez-vous 30&nbsp;€ si je la récupère ce soir après le travail&nbsp;?</p>
+                    <p class="mt-1 text-xs text-ink/50">hier, 18 h 42</p>
+                </div>
+            </li>
+        </ul>
+
+        <p class="mt-4">
+            <a href="{{ route('articles.show', 1) }}" class="text-sm font-semibold text-terracotta-600 hover:text-terracotta-700">Ouvrir la messagerie <span aria-hidden="true">→</span></a>
+        </p>
+    </section>
+
 
     <!-- Se désinscrire -->
     <section class="mx-auto mt-10 max-w-6xl rounded-2xl border border-terracotta-200 bg-terracotta-50 p-5">
