@@ -66,39 +66,45 @@ class ArticlesController extends Controller
     }
 
     public function create(): View{
-        return view('Articles.article_adding');
+        $categories = Category::query()->orderBy('title')->get();
+
+        return view('Articles.article_adding', compact('categories'));
     }
 
+    //Ajout d'une annonce
     public function store(Request $request): RedirectResponse{
-
-    $category = Category::where('title', $request->input('category_id'))->first();
-
-    $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'location' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            'brand' => 'nullable|string',
-            'availability' => 'required|string',
-            'condition' => 'required',
-            'negotiable' => 'boolean',
-            'category_id' => 'required',
+        $validated = $request->validate([
+            'titre' => ['required', 'string', 'max:80'],
+            'description' => ['required', 'string', 'max:2000'],
+            'prix' => ['required', 'numeric', 'min:0', 'max:999999'],
+            'brand' => ['required', 'string', 'max:255'],
+            'negociation' => ['sometimes', 'boolean'],
+            'categorie' => ['required', Rule::exists('categories', 'id')],
+            'etat' => ['required', Rule::in(array_column(ArticleCondition::cases(), 'value'))],
+            'quartier' => ['required', Rule::in(array_keys(self::QUARTIERS))],
+            'disponibilite' => ['nullable', 'string', 'max:255'],
+            'certification' => ['accepted'],
         ]);
 
-        if ($category) {
-            $validatedData['category_id'] = $category->id;
-        } else {
-            return back()->withErrors(['category_id' => 'Cette catégorie n\'existe pas.']);
-        }
+        Article::create([
+            'title'        => $validated['titre'],
+            'description'  => $validated['description'],
+            'price'        => $validated['prix'],
+            'brand'        => $validated['brand'],
+            'negotiable'   => $request->boolean('negociation'),
+            'category_id'  => $validated['categorie'],
+            'condition'    => $validated['etat'],
+            'location'     => self::QUARTIERS[$validated['quartier']],
+            'availability' => $validated['disponibilite'] ?? '',
+            'seller_id'    => Auth::id(),
+            'status'       => 'available',
+            'views'        => 0,
+            'published_at' => now(),
+        ]);
 
-        $validatedData['seller_id'] = Auth::id();
-        $validatedData['status'] = 'draft';
-        $validatedData['views'] = 0;
-        $validatedData['published_at'] = now();
-
-        Article::create($validatedData);
-
-        return redirect()->route('articles.index')->with('success','annonce créée avec succès.');
+        return redirect()
+            ->route('dashboard.seller')
+            ->with('success', 'Annonce créée avec succès.');
     }
     //pour récupérer les infos d'un article dans la page d'édition
     public function edit(Request $request, Article $article): View{

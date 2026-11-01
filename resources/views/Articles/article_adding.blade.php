@@ -70,14 +70,14 @@
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <div>
                     <label for="titre" class="font-display text-lg font-semibold text-ink">Titre de l'annonce</label>
-                    <input id="titre" name="title" type="text" required maxlength="80" value="Vélo de ville — 3 vitesses"
+                    <input id="titre" name="titre" type="text" required maxlength="80" value="Vélo de ville — 3 vitesses"
                            placeholder="Ex. Vélo de ville — 3 vitesses"
                            class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
                 </div>
 
                 <div class="mt-5">
                     <label for="description" class="font-display text-lg font-semibold text-ink">Description</label>
-                    <textarea id="description" name="description" rows="6"
+                    <textarea id="description" name="description" required rows="6"
                               placeholder="Décris l'état, la marque, ce qui est fourni…"
                               class="mt-3 w-full resize-y rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm leading-relaxed text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200"></textarea>
                     <p class="mt-1.5 text-xs text-ink/50">Plus la description est précise, plus les acheteurs te contactent en confiance.</p>
@@ -97,7 +97,7 @@
                     <div class="min-w-[10rem] flex-1">
                         <label for="prix" class="font-display text-lg font-semibold text-ink">Prix</label>
                         <div class="mt-3 flex items-stretch">
-                            <input id="prix" name="price" type="number" inputmode="numeric" min="0" step="1" value="45"
+                            <input id="prix" name="prix" type="number" inputmode="numeric" min="0" step="1" value="45"
                                    placeholder="0"
                                    class="w-full rounded-l-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
                             <span class="grid place-items-center rounded-r-xl border border-l-0 border-ink/15 bg-cream px-4 text-sm font-semibold text-ink/60" aria-hidden="true">€</span>
@@ -105,26 +105,21 @@
                     </div>
 
                     <label class="flex items-center gap-2.5 pb-3 text-sm text-ink/75">
-                        <input type="checkbox" name="negotiable" value="1" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
+                        <input type="checkbox" name="negociation" value="1" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
                         Prix à la négociation
                     </label>
                 </div>
             </div>
 
             <!-- ---------- Catégorie + état ---------- -->
-            <!-- TODO: pour le futur, récupérer les infor de la BDD-->
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <div>
                     <label for="categorie" class="font-display text-lg font-semibold text-ink">Catégorie</label>
-                    <select id="categorie" name="category_id" class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink/80 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
+                    <select id="categorie" name="categorie" required class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink/80 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
                         <option value="">Choisis une catégorie…</option>
-                        <option value="maison">Maison &amp; meubles</option>
-                        <option value="velos" selected>Vélos &amp; vélocipédie</option>
-                        <option value="loisirs">Loisirs &amp; jeux</option>
-                        <option value="electromenager">Électroménager</option>
-                        <option value="vetements">Vêtements</option>
-                        <option value="livres">Livres</option>
-                        <option value="accessoires">Accessoires</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}" @selected(old('categorie') == $category->id)>{{ $category->title }}</option>
+                        @endforeach
                     </select>
                 </div>
 
@@ -132,18 +127,6 @@
                     <legend class="font-display text-lg font-semibold text-ink">État</legend>
                     <div class="mt-3 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:gap-6">
                         <label class="flex items-center gap-2.5 text-sm text-ink/75">
-<<<<<<< HEAD
-                            <input type="radio" name="condition" value="neuf" class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                            Neuf
-                        </label>
-                        <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                            <input type="radio" name="condition" value="tres-bon" checked class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                            Très bon
-                        </label>
-                        <label class="flex items-center gap-2.5 text-sm text-ink/75">
-                            <input type="radio" name="condition" value="correct" class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
-                            Correct
-=======
                             <input type="radio" name="etat" value="new" class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
                             Neuf
                         </label>
@@ -162,7 +145,6 @@
                         <label class="flex items-center gap-2.5 text-sm text-ink/75">
                             <input type="radio" name="etat" value="not_working" class="h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
                             Ne fonctionne pas
->>>>>>> dev
                         </label>
                     </div>
                 </fieldset>
@@ -173,7 +155,7 @@
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <div>
                     <label for="quartier" class="font-display text-lg font-semibold text-ink">Quartier</label>
-                    <select id="quartier" name="location" class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink/80 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
+                    <select id="quartier" name="quartier" class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink/80 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
                         <option value="centre-ville">Centre-ville</option>
                         <option value="tilleuls" selected>Quartier des Tilleuls</option>
                         <option value="faubourg-nord">Faubourg Nord</option>
@@ -183,14 +165,14 @@
 
                 <div class="mt-5">
                     <label for="disponibilite" class="font-display text-lg font-semibold text-ink">Disponibilité pour la remise</label>
-                    <input id="disponibilite" name="availability" type="text"
+                    <input id="disponibilite" name="disponibilite" type="text"
                            placeholder="Ex. en semaine après 18 h"
                            class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
                 </div>
             </div>
 
             <!-- ---------- Certification ---------- -->
-            <<!-- TODO: à adapter selon si c'est coché ou non-->
+            <!-- TODO: à adapter selon si c'est coché ou non-->
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <label class="flex items-start gap-3 text-sm leading-relaxed text-ink/75">
                     <input type="checkbox" name="certification" required class="mt-0.5 h-4 w-4 shrink-0 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">

@@ -11,8 +11,8 @@ class PageRoutesTest extends TestCase
     #[DataProvider('pageProvider')]
     public function test_page_is_reachable(string $path): void
     {
-        // Les tableaux de bord exigent une session authentifiée.
-        if (in_array($path, ['/tableau-de-bord', '/tableau-de-bord/vendeur'], true)) {
+        // Certaines pages exigent une session authentifiée.
+        if (in_array($path, ['/tableau-de-bord', '/tableau-de-bord/vendeur', '/annonces/creer'], true)) {
             $this->actingAs(User::factory()->create());
         }
 
