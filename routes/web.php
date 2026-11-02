@@ -2,11 +2,15 @@
 
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\RequestsController;
+use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Route;
 
 //------------------------------------------- Routes pour element "statique" -------------------------------------------
@@ -15,7 +19,7 @@ Route::get('/', [PageController::class, 'index'])
 Route::get('/conditions-utilisation', [PageController::class, 'condition'])
     ->name('terms');
 Route::get('/qui-sommes-nous', [PageController::class, 'about'])
-    ->name('about');
+    ->name('about');  
 
 //---------------------------------------------- Routes pour les articles ----------------------------------------------
 Route::get('/annonces', [ArticlesController::class, 'index'])
@@ -58,8 +62,15 @@ Route::post('/inscription', [RegisteredUserController::class, 'store'])
     ->name('register.store');
 Route::post('/deconnexion', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
-Route::get('/mot-de-passe-oublie', [ManagementController::class, 'resetpwd'])
-    ->name('password.request');
+Route::post("/mot-de-passe-oublie", [PasswordResetLinkController::class, "store"])
+    ->middleware([RedirectIfAuthenticated::class, ThrottleRequests::class . ":3,1"])
+    ->name("password.email");
+Route::get("/reinitialiser-mot-de-passe/{token}", [NewPasswordController::class, "create"])
+    ->middleware("guest")
+    ->name("password.reset");
+Route::post("/reinitialiser-mot-de-passe", [NewPasswordController::class, "store"])
+    ->middleware("guest")
+    ->name("password.update");
 Route::delete('/compte', [ProfileController::class, 'destroy'])
     ->middleware('auth')
     ->name('profile.destroy');

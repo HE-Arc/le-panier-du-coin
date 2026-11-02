@@ -42,8 +42,9 @@ class ManagementController extends Controller
         return view('Management.dashboard.seller', compact('articles', 'activeArticlesCount', 'viewCounterMonthly', 'averageRating'));
     }
 
-    public function resetpwd(): View{
-        return view('Management.resetpwd');
+    public function resetpwd(): View
+    {
+        return view("Management.forgot-password");
     }
 
     public function seller(): View{
