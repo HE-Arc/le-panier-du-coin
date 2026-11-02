@@ -23,33 +23,35 @@ class ArticlesController extends Controller
 
     // Méthode pour afficher tous les articles de la BDD
     public function index(): View{
-        $articles = Article::query()
-            ->with(['category', 'seller'])
-            ->where('status', 'available')
-            ->latest('published_at')
-            ->paginate(9);
+        $articles = Article::forResearch([], 'pertinence')->paginate(9);
 
-        $categories = Category::query()
-            ->withCount(['articles' => fn ($query) => $query->where('status', 'available')])
-            ->orderBy('title')
-            ->get()
-            ->filter(fn ($category) => $category->articles_count > 0)
-            ->values();
+        $meta = Article::researchMeta();
 
-        $locations = Article::query()
-            ->where('status', 'available')
-            ->distinct()
-            ->orderBy('location')
-            ->pluck('location');
+        return view('research', [
+            'articles' => $articles,
+            'categories' => $meta['categories'],
+            'locations' => $meta['locations'],
+            'conditions' => $meta['conditions'],
+            'priceRanges' => $meta['priceRanges'],
+        ]);
+    }
 
-        $priceRanges = Article::query()
-            ->where('status', 'available')
-            ->selectRaw('MIN(price) as min_price, MAX(price) as max_price')
-            ->first();
+    public function search(Request $request): View{
+        $tri = $request->input('tri','pertinence');
 
-        $conditions = ArticleCondition::cases();
+        $articles = Article::forResearch($request->all(), $tri)
+            ->paginate(9)
+            ->withQueryString();
 
-        return view('research', compact('articles', 'categories', 'locations', 'conditions', 'priceRanges'));
+        $meta = Article::researchMeta();
+
+        return view('research', [
+            'articles' => $articles,
+            'categories' => $meta['categories'],
+            'locations' => $meta['locations'],
+            'conditions' => $meta['conditions'],
+            'priceRanges' => $meta['priceRanges'],
+        ]);
     }
 
     public function details(Request $request, Article $article): View{

@@ -39,7 +39,7 @@ Route::delete('/annonces/{article}', [ArticlesController::class, 'destroy'])
     ->middleware('auth')
     ->whereUuid('article')
     ->name('articles.destroy');
-Route::get('/recherche', [ArticlesController::class, 'index'])->name('search');
+Route::get('/recherche', [ArticlesController::class, 'search'])->name('search');
 
 //---------------------------------------------- Routes pour les demandes ----------------------------------------------
 Route::get('/demandes', [RequestsController::class, 'index'])
