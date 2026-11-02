@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\ArticleCondition;
 use App\Enums\ArticleStatus;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -105,6 +106,51 @@ class Article extends Model
         ->when($filters['etat'] ?? null, function ($query, $states) {
             $query->whereIn('condition', (array) $states);
         });
+    }
+
+    // Scope réutilisable : requête de recherche (filtres + tri).
+    public function scopeForResearch(Builder $query, array $filters = [], string $sort = 'pertinence'): Builder
+    {
+        $query->with(['category', 'seller'])
+            ->where('status', 'available')
+            ->filter($filters);
+
+        if ($sort === 'prix') {
+            $query->orderBy('price', 'asc');
+        } else {
+            $query->latest('published_at');
+        }
+
+        return $query;
+    }
+
+    // Métadonnées communes aux pages de recherche.
+    public static function researchMeta(): array
+    {
+        $categories = Category::query()
+            ->withCount(['articles' => fn ($query) => $query->where('status', 'available')])
+            ->orderBy('title')
+            ->get()
+            ->filter(fn ($category) => $category->articles_count > 0)
+            ->values();
+
+        $locations = static::query()
+            ->where('status', 'available')
+            ->distinct()
+            ->orderBy('location')
+            ->pluck('location');
+
+        $priceRanges = static::query()
+            ->where('status', 'available')
+            ->selectRaw('MIN(price) as min_price, MAX(price) as max_price')
+            ->first();
+
+        return [
+            'categories' => $categories,
+            'locations' => $locations,
+            'priceRanges' => $priceRanges,
+            'conditions' => ArticleCondition::cases(),
+        ];
     }
     // ------------------------------------------------------------------------------------------------------------------
     // Pour les messages

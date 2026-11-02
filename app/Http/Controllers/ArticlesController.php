@@ -23,74 +23,35 @@ class ArticlesController extends Controller
 
     // Méthode pour afficher tous les articles de la BDD
     public function index(): View{
-        $articles = Article::query()
-            ->with(['category', 'seller'])
-            ->where('status', 'available')
-            ->latest('published_at')
-            ->paginate(9);
+        $articles = Article::forResearch([], 'pertinence')->paginate(9);
 
-        $categories = Category::query()
-            ->withCount(['articles' => fn ($query) => $query->where('status', 'available')])
-            ->orderBy('title')
-            ->get()
-            ->filter(fn ($category) => $category->articles_count > 0)
-            ->values();
+        $meta = Article::researchMeta();
 
-        $locations = Article::query()
-            ->where('status', 'available')
-            ->distinct()
-            ->orderBy('location')
-            ->pluck('location');
-
-        $priceRanges = Article::query()
-            ->where('status', 'available')
-            ->selectRaw('MIN(price) as min_price, MAX(price) as max_price')
-            ->first();
-
-        $conditions = ArticleCondition::cases();
-
-        return view('research', compact('articles', 'categories', 'locations', 'conditions', 'priceRanges'));
+        return view('research', [
+            'articles' => $articles,
+            'categories' => $meta['categories'],
+            'locations' => $meta['locations'],
+            'conditions' => $meta['conditions'],
+            'priceRanges' => $meta['priceRanges'],
+        ]);
     }
 
     public function search(Request $request): View{
         $tri = $request->input('tri','pertinence');
 
-        $articlesQuery = Article::query()
-        ->with(['category', 'seller'])
-        ->where('status','available')
-        ->filter($request->all());
+        $articles = Article::forResearch($request->all(), $tri)
+            ->paginate(9)
+            ->withQueryString();
 
-        if ($tri === 'prix') {
-            $articlesQuery->orderBy('price', 'asc');
-        } elseif ($tri === 'recent') {
-            $articlesQuery->latest('published_at');
-        } else {
-            $articlesQuery->latest('published_at');
-        }
+        $meta = Article::researchMeta();
 
-        $articles = $articlesQuery->paginate(9)->withQueryString();
-
-        $categories = Category::query()
-            ->withCount(['articles' => fn ($query) => $query->where('status', 'available')])
-            ->orderBy('title')
-            ->get()
-            ->filter(fn ($category) => $category->articles_count > 0)
-            ->values();
-
-        $locations = Article::query()
-            ->where('status', 'available')
-            ->distinct()
-            ->orderBy('location')
-            ->pluck('location');
-
-        $priceRanges = Article::query()
-            ->where('status', 'available')
-            ->selectRaw('MIN(price) as min_price, MAX(price) as max_price')
-            ->first();
-
-        $conditions = ArticleCondition::cases();
-
-        return view('research', compact('articles', 'categories', 'locations', 'conditions', 'priceRanges'));
+        return view('research', [
+            'articles' => $articles,
+            'categories' => $meta['categories'],
+            'locations' => $meta['locations'],
+            'conditions' => $meta['conditions'],
+            'priceRanges' => $meta['priceRanges'],
+        ]);
     }
 
     public function details(Request $request, Article $article): View{
