@@ -15,6 +15,7 @@
             <h1 class="mt-3 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">Recherche d'annonces</h1>
 
             <!--TODO: à adapter les filtre selon la bdd-->
+            <!-- Rechercher => barre de recherche faire query simple -->
             <form action="{{ route('search') }}" method="get" class="mt-5 flex max-w-2xl flex-col gap-2 sm:flex-row">
                 <label for="q" class="sr-only">Que cherches-tu&nbsp;?</label>
                 <input id="q" name="q" type="search" value="{{ request('q') }}"

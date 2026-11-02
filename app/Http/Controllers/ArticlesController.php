@@ -52,6 +52,47 @@ class ArticlesController extends Controller
         return view('research', compact('articles', 'categories', 'locations', 'conditions', 'priceRanges'));
     }
 
+    public function search(Request $request): View{
+        $tri = $request->input('tri','pertinence');
+
+        $articlesQuery = Article::query()
+        ->with(['category', 'seller'])
+        ->where('status','available')
+        ->filter($request->all());
+
+        if ($tri === 'prix') {
+            $articlesQuery->orderBy('price', 'asc');
+        } elseif ($tri === 'recent') {
+            $articlesQuery->latest('published_at');
+        } else {
+            $articlesQuery->latest('published_at');
+        }
+
+        $articles = $articlesQuery->paginate(9)->withQueryString();
+
+        $categories = Category::query()
+            ->withCount(['articles' => fn ($query) => $query->where('status', 'available')])
+            ->orderBy('title')
+            ->get()
+            ->filter(fn ($category) => $category->articles_count > 0)
+            ->values();
+
+        $locations = Article::query()
+            ->where('status', 'available')
+            ->distinct()
+            ->orderBy('location')
+            ->pluck('location');
+
+        $priceRanges = Article::query()
+            ->where('status', 'available')
+            ->selectRaw('MIN(price) as min_price, MAX(price) as max_price')
+            ->first();
+
+        $conditions = ArticleCondition::cases();
+
+        return view('research', compact('articles', 'categories', 'locations', 'conditions', 'priceRanges'));
+    }
+
     public function details(Request $request, Article $article): View{
 
         // Le propriétaire ne gonfle pas son propre compteur de vues.
