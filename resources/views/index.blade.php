@@ -41,6 +41,7 @@
             </form>
 
             <!--TODO: PTE si le temps nous le permet-->
+            <!--
             <div class="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs text-ink/60">
                 <span>Populaire&nbsp;:</span>
                 <a href="{{ route('search', ['q' => 'vélo de ville']) }}" class="rounded-full border border-ink/10 bg-paper px-2.5 py-1 hover:border-terracotta-300 hover:text-terracotta-600">vélo de ville</a>
@@ -48,6 +49,7 @@
                 <a href="{{ route('search', ['q' => 'table basse']) }}" class="rounded-full border border-ink/10 bg-paper px-2.5 py-1 hover:border-terracotta-300 hover:text-terracotta-600">table basse</a>
                 <a href="{{ route('search', ['q' => 'machine à café']) }}" class="rounded-full border border-ink/10 bg-paper px-2.5 py-1 hover:border-terracotta-300 hover:text-terracotta-600">machine à café</a>
             </div>
+            -->
 
             <!-- Les deux portes d'entrée : acheteur / vendeur -->
             <div class="mx-auto mt-12 grid max-w-3xl gap-4 text-left sm:grid-cols-2">
@@ -138,6 +140,8 @@
     </section>
 
     <!-- ============================ DEMANDES ============================ -->
+    <!-- TODO: mettre visible quand la fonctionnalité des demandes sera en place-->
+    <!--
     <section class="border-y border-ink/10 bg-paper">
         <div class="mx-auto max-w-6xl px-4 py-14">
             <div class="grid gap-8 lg:grid-cols-[1fr_1.4fr] lg:items-center">
@@ -182,7 +186,7 @@
             </div>
         </div>
     </section>
-
+    -->
     <!-- ============================ COMMENT ÇA MARCHE ============================ -->
     <section class="mx-auto max-w-6xl px-4 py-14">
         <h2 class="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">Comment ça marche&nbsp;?</h2>
@@ -207,6 +211,8 @@
 
     <!-- ============================ RÉPUTATION ============================ -->
     <!-- Masquée tant qu'aucun avis n'existe en base : pas de fausse preuve sociale. -->
+    <!-- TODO: mettre visible quand la fonctionnalité de la réputation sera en place -->
+    <!--
     @if ($testimonial)
         <section class="mx-auto max-w-6xl px-4 pb-16">
             <div class="relative overflow-hidden rounded-3xl bg-sage-700 px-6 py-10 text-center sm:px-12 sm:py-14">
@@ -236,4 +242,5 @@
             </div>
         </section>
     @endif
+    -->
 @endsection
