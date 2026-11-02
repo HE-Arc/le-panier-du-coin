@@ -15,8 +15,7 @@
     <title>@hasSection('title')@yield('title') — @endif{{ 'Le Panier du coin' }}</title>
     <meta name="description" content="@yield('meta_description', 'La brocante communautaire de ta ville : vends, cherche et trouve des objets près de chez toi.')">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="{{ asset('assets/theme.js') }}"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
 </head>
 <body class="min-h-screen font-sans antialiased">
