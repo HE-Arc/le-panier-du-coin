@@ -20,8 +20,10 @@ Route::get('/qui-sommes-nous', [PageController::class, 'about'])
 //---------------------------------------------- Routes pour les articles ----------------------------------------------
 Route::get('/annonces', [ArticlesController::class, 'index'])
     ->name('articles.index');
-Route::get('/annonces/creer', [ArticlesController::class, 'create'])
-    ->name('articles.create');
+Route::get('/annonces/creer', [ArticlesController::class, 'create'])->name('articles.create');
+Route::post('/annonces', [ArticlesController::class, 'store'])
+    ->middleware('auth')
+    ->name('articles.store');
 Route::get('/annonces/{article}/editer', [ArticlesController::class, 'edit'])
     ->middleware('auth')
     ->whereUuid('article')

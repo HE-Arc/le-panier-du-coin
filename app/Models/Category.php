@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(["title"])]
+
 class Category extends Model
 {
     use HasFactory, HasUuids;
+    
+    protected $fillable = ['title'];
 
     public function articles():HasMany
     {

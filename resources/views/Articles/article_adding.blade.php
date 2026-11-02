@@ -28,8 +28,9 @@
     <!-- ============================ FORMULAIRE ============================ -->
     <section class="mx-auto max-w-3xl px-4 py-8">
         <!-- TODO: brancher ce formulaire sur une route POST + validation + stockage des photos quand la BDD sera prête. -->
-        <form onsubmit="return false" enctype="multipart/form-data" class="space-y-6">
-
+        <!-- TODO: changer action en onsubmit pour du JS-->
+        <form action="{{ route('articles.store') }}"  method=POST enctype="multipart/form-data" class="space-y-6">
+        @csrf
             <!-- ---------- Photos ---------- -->
             <fieldset class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <legend class="px-1 font-display text-lg font-semibold text-ink">Photos de l'objet</legend>
@@ -76,7 +77,7 @@
 
                 <div class="mt-5">
                     <label for="description" class="font-display text-lg font-semibold text-ink">Description</label>
-                    <textarea id="description" name="description" rows="6"
+                    <textarea id="description" name="description" required rows="6"
                               placeholder="Décris l'état, la marque, ce qui est fourni…"
                               class="mt-3 w-full resize-y rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm leading-relaxed text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200"></textarea>
                     <p class="mt-1.5 text-xs text-ink/50">Plus la description est précise, plus les acheteurs te contactent en confiance.</p>
@@ -104,26 +105,21 @@
                     </div>
 
                     <label class="flex items-center gap-2.5 pb-3 text-sm text-ink/75">
-                        <input type="checkbox" name="negociation" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
+                        <input type="checkbox" name="negociation" value="1" class="h-4 w-4 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
                         Prix à la négociation
                     </label>
                 </div>
             </div>
 
             <!-- ---------- Catégorie + état ---------- -->
-            <!-- TODO: pour le futur, récupérer les infor de la BDD-->
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <div>
                     <label for="categorie" class="font-display text-lg font-semibold text-ink">Catégorie</label>
-                    <select id="categorie" name="categorie" class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink/80 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
+                    <select id="categorie" name="categorie" required class="mt-3 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink/80 focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-200">
                         <option value="">Choisis une catégorie…</option>
-                        <option value="maison">Maison &amp; meubles</option>
-                        <option value="velos" selected>Vélos &amp; vélocipédie</option>
-                        <option value="loisirs">Loisirs &amp; jeux</option>
-                        <option value="electromenager">Électroménager</option>
-                        <option value="vetements">Vêtements</option>
-                        <option value="livres">Livres</option>
-                        <option value="accessoires">Accessoires</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}" @selected(old('categorie') == $category->id)>{{ $category->title }}</option>
+                        @endforeach
                     </select>
                 </div>
 
@@ -176,7 +172,7 @@
             </div>
 
             <!-- ---------- Certification ---------- -->
-            <<!-- TODO: à adapter selon si c'est coché ou non-->
+            <!-- TODO: à adapter selon si c'est coché ou non-->
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <label class="flex items-start gap-3 text-sm leading-relaxed text-ink/75">
                     <input type="checkbox" name="certification" required class="mt-0.5 h-4 w-4 shrink-0 rounded border-ink/25 text-terracotta-500 focus:ring-terracotta-300">
@@ -187,7 +183,7 @@
             <!-- ---------- Actions ---------- -->
             <div class="flex flex-col gap-3 border-t border-ink/10 pt-6 sm:flex-row sm:items-center">
                 <!-- TODO: repasser ce bouton en type="submit" quand la route POST existera. -->
-                <button type="button" class="rounded-xl bg-terracotta-500 px-6 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600 sm:flex-1">
+                <button type="submit" class="rounded-xl bg-terracotta-500 px-6 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600 sm:flex-1">
                     Publier l'annonce
                 </button>
                 <!-- TODO: implémenter l'enregistrement de brouillon quand la BDD sera prête. -->
