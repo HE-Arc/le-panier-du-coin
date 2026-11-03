@@ -186,6 +186,114 @@ class ProductionFixesTest extends TestCase
         }
     }
 
+    /**
+     * @return array<string, array{string, bool}>
+     */
+    public static function proxiedPageProvider(): array
+    {
+        return [
+            'accueil' => ['/', false],
+            'annonces' => ['/annonces', false],
+            'recherche' => ['/recherche', false],
+            'creer une annonce' => ['/annonces/creer', true],
+            'demandes' => ['/demandes', false],
+            'connexion' => ['/connexion', false],
+            'inscription' => ['/inscription', false],
+            'tableau de bord acheteur' => ['/tableau-de-bord', true],
+            'tableau de bord vendeur' => ['/tableau-de-bord/vendeur', true],
+        ];
+    }
+
+    #[DataProvider('proxiedPageProvider')]
+    public function test_every_page_generates_public_urls_behind_the_proxy(string $path, bool $authenticated): void
+    {
+        if ($authenticated) {
+            $this->actingAs(User::factory()->create());
+        }
+
+        $response = $this->get($path, [
+            'Host' => '127.0.0.1:8080',
+            'X-Forwarded-Host' => 'brocante.example.org',
+            'X-Forwarded-Proto' => 'https',
+            'X-Forwarded-Port' => '443',
+        ]);
+
+        $response->assertOk()
+            ->assertDontSee('127.0.0.1:8080', false)
+            ->assertDontSee('http://brocante.example.org', false);
+
+        // Toute URL absolue générée doit pointer vers le domaine public en https.
+        preg_match_all('/(?:href|src|action)="(https?:\/\/[^"]+)"/', $response->getContent(), $matches);
+        $this->assertNotEmpty($matches[1], 'Aucune URL absolue trouvée dans la page.');
+
+        foreach ($matches[1] as $url) {
+            $this->assertStringStartsWith(
+                'https://brocante.example.org',
+                $url,
+                "URL absolue non publique dans {$path}: {$url}"
+            );
+        }
+    }
+
+    public function test_login_location_never_leaks_the_internal_port(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->post('/connexion', [
+            'email' => $user->email,
+            'password' => 'password',
+        ], [
+            'Host' => '127.0.0.1:8080',
+            'X-Forwarded-Host' => 'brocante.example.org',
+            'X-Forwarded-Proto' => 'https',
+            'X-Forwarded-Port' => '443',
+        ]);
+
+        $location = $response->headers->get('Location');
+
+        $this->assertNotNull($location);
+        $this->assertStringNotContainsString('8080', $location);
+        $this->assertStringNotContainsString('127.0.0.1', $location);
+        $this->assertStringStartsWith('https://brocante.example.org', $location);
+    }
+
+    public function test_self_hosted_font_files_exist_for_every_font_face(): void
+    {
+        $css = file_get_contents(public_path('assets/style.css'));
+
+        preg_match_all('/url\(\s*[\'"]?(fonts\/[^\'")]+)[\'"]?\s*\)/', $css, $matches);
+
+        $this->assertNotEmpty($matches[1], 'style.css ne référence aucune police locale.');
+
+        foreach (array_unique($matches[1]) as $relative) {
+            $path = public_path('assets/'.$relative);
+
+            $this->assertFileExists($path, "Police manquante: {$relative}");
+            $this->assertGreaterThan(1_000, filesize($path), "Fichier de police vide: {$relative}");
+            $this->assertSame(
+                'wOF2',
+                file_get_contents($path, false, null, 0, 4),
+                "Signature WOFF2 invalide: {$relative}"
+            );
+        }
+    }
+
+    public function test_trusted_proxies_configuration_is_exposed_and_documented(): void
+    {
+        $this->assertNotNull(config('app.trusted_proxies'));
+
+        $env = file_get_contents(base_path('.env.example'));
+
+        $this->assertStringContainsString('TRUSTED_PROXIES=', $env);
+        $this->assertStringContainsString('X-Forwarded-Host', file_get_contents(base_path('README.md')));
+    }
+
+    public function test_testing_environment_uses_the_local_app_url(): void
+    {
+        $this->assertSame('http://localhost', config('app.url'));
+        $this->assertSame('http://localhost', URL::to('/'));
+    }
+
     public function test_package_json_exposes_a_css_build_script(): void
     {
         $package = json_decode(file_get_contents(base_path('package.json')), true, flags: JSON_THROW_ON_ERROR);

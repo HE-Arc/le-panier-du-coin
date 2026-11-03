@@ -56,6 +56,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Trusted Proxies
+    |--------------------------------------------------------------------------
+    |
+    | '*' fait confiance à tous les proxys (défaut, adapté à un hébergement
+    | derrière un unique reverse proxy). En production, restreindre à l'IP du
+    | reverse proxy : TRUSTED_PROXIES=127.0.0.1 (liste séparée par des virgules).
+    |
+    */
+
+    'trusted_proxies' => env('TRUSTED_PROXIES', '*'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

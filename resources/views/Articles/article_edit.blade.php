@@ -20,7 +20,7 @@
                     <p class="mt-2 text-sm text-ink/65">Mets à jour les informations de «&nbsp;{{ $article->title }}&nbsp;».</p>
                 </div>
                 <p class="flex items-center gap-1.5 rounded-full border border-ink/15 bg-cream px-3 py-1.5 text-xs font-semibold text-ink/70" role="status">
-                    <span class="h-1.5 w-1.5 rounded-full bg-ink/40" aria-hidden="true"{{ $statusBadges[$article->status->value] ?? '' }}></span>
+                    <span class="h-1.5 w-1.5 rounded-full bg-ink/40" aria-hidden="true"></span>
                     {{ $article->status->label() }}
                 </p>
             </div>
