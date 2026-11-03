@@ -1,9 +1,39 @@
 @import 'tailwindcss';
 
+@source '../../resources/views/**/*.blade.php';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
 
 @theme {
+    --color-cream: #FAF6F0;
+    --color-paper: #FFFDF9;
+    --color-ink: #2B2622;
+
+    --color-terracotta-50: #FBF1EC;
+    --color-terracotta-100: #F6E2D8;
+    --color-terracotta-200: #EDC5B4;
+    --color-terracotta-300: #E1A189;
+    --color-terracotta-400: #D27D61;
+    --color-terracotta-500: #C2603B;
+    --color-terracotta-600: #A8502F;
+    --color-terracotta-700: #8A4126;
+    --color-terracotta-800: #6E3420;
+    --color-terracotta-900: #5A2C1C;
+
+    --color-sage-50: #F1F4EF;
+    --color-sage-100: #E3EAE0;
+    --color-sage-200: #C8D5C2;
+    --color-sage-300: #A6BC9D;
+    --color-sage-400: #819E76;
+    --color-sage-500: #5C7357;
+    --color-sage-600: #4A5D46;
+    --color-sage-700: #3B4A38;
+    --color-sage-800: #313D2F;
+    --color-sage-900: #2A3428;
+
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'Bricolage Grotesque', 'Instrument Sans', ui-sans-serif, sans-serif;
+
+    --shadow-soft: 0 1px 2px rgba(43, 38, 34, 0.04), 0 10px 30px -18px rgba(43, 38, 34, 0.35);
+    --shadow-lift: 0 2px 4px rgba(43, 38, 34, 0.05), 0 18px 40px -20px rgba(43, 38, 34, 0.45);
 }

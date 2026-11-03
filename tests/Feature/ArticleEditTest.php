@@ -110,6 +110,48 @@ class ArticleEditTest extends TestCase
         $this->assertSame(2, $article->fresh()->views);
     }
 
+    public function test_edit_view_renders_without_errors_on_its_own(): void
+    {
+        $seller = User::factory()->create();
+        $article = $this->makeArticle($seller);
+        $this->withViewErrors([]);
+
+        $view = view('Articles.article_edit', [
+            'article' => $article,
+            'categories' => Category::all(),
+            'conditions' => \App\Enums\ArticleCondition::cases(),
+            'quartiers' => [
+                'centre-ville' => 'Centre-ville',
+                'tilleuls' => 'Quartier des Tilleuls',
+            ],
+            'quartierSlug' => 'centre-ville',
+        ]);
+
+        $html = $view->render();
+
+        $this->assertStringContainsString('Modifier l\'annonce', $html);
+        $this->assertStringContainsString('Mettre à jour', $html);
+        $this->assertStringContainsString('name="titre"', $html);
+        $this->assertStringContainsString('name="_method" value="PUT"', $html);
+    }
+
+    public function test_edit_form_action_uses_the_public_domain_behind_a_proxy(): void
+    {
+        $seller = User::factory()->create();
+        $article = $this->makeArticle($seller);
+
+        $response = $this->actingAs($seller)->get(route('articles.edit', $article), [
+            'Host' => '127.0.0.1:8080',
+            'X-Forwarded-Host' => 'brocante.example.org',
+            'X-Forwarded-Proto' => 'https',
+            'X-Forwarded-Port' => '443',
+        ]);
+
+        $response->assertOk()
+            ->assertSee('https://brocante.example.org/annonces/'.$article->id, false)
+            ->assertDontSee('127.0.0.1:8080', false);
+    }
+
     private function makeArticle(User $seller): Article
     {
         $category = Category::create(['title' => 'Catégorie test '.uniqid()]);
