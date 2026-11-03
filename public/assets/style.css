@@ -1,7 +1,11 @@
 /*
 Fichier générer (antièrement par IA) selon nos maquettes
 */
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=Instrument+Sans:wght@400..700&display=swap');
+/*
+ Polices : aucune requête distante (dépendance tierce bloquante hors ligne/CSP).
+ Les piles définies dans resources/css/app.css (@theme) incluent des replis
+ ui-sans-serif / system-ui, la dégradation est donc automatique.
+*/
 
 html {
     scroll-behavior: smooth;
