@@ -7,7 +7,6 @@ use App\Models\Category;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Article;
 use Illuminate\Validation\Rule;
 
@@ -98,7 +97,7 @@ class ArticlesController extends Controller
             'condition'    => $validated['etat'],
             'location'     => self::QUARTIERS[$validated['quartier']],
             'availability' => $validated['disponibilite'] ?? '',
-            'seller_id'    => Auth::id(),
+            'seller_id'    => $request->user()->id,
             'status'       => 'available',
             'views'        => 0,
             'published_at' => now(),

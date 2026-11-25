@@ -134,9 +134,14 @@
             <nav aria-label="Vendre">
                 <p class="text-xs font-bold uppercase tracking-[0.12em] text-ink/50">Vendre</p>
                 <ul class="mt-3 space-y-2 text-sm text-ink/70">
-                    <li><a href="{{ route('articles.create') }}" class="hover:text-terracotta-600">Publier une annonce</a></li>
-                    <li><a href="{{ route('dashboard.buyer') }}" class="hover:text-terracotta-600">Mon tableau de bord</a></li>
-                    <li><a href="{{ route('seller') }}" class="hover:text-terracotta-600">Profil &amp; réputation</a></li>
+                    @guest
+                        <li><a href="{{ route('login') }}" class="hover:text-terracotta-600">Publier une annonce</a></li>
+                    @endguest
+                    @auth
+                        <li><a href="{{ route('articles.create') }}" class="hover:text-terracotta-600">Publier une annonce</a></li>
+                        <li><a href="{{ route('dashboard.buyer') }}" class="hover:text-terracotta-600">Mon tableau de bord</a></li>
+                        <li><a href="{{ route('seller') }}" class="hover:text-terracotta-600">Profil &amp; réputation</a></li>
+                    @endauth
                 </ul>
             </nav>
             <nav aria-label="Le projet">
