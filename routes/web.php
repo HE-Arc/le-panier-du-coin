@@ -20,7 +20,9 @@ Route::get('/qui-sommes-nous', [PageController::class, 'about'])
 //---------------------------------------------- Routes pour les articles ----------------------------------------------
 Route::get('/annonces', [ArticlesController::class, 'index'])
     ->name('articles.index');
-Route::get('/annonces/creer', [ArticlesController::class, 'create'])->name('articles.create');
+Route::get('/annonces/creer', [ArticlesController::class, 'create'])
+    ->middleware('auth')
+    ->name('articles.create');
 Route::post('/annonces', [ArticlesController::class, 'store'])
     ->middleware('auth')
     ->name('articles.store');
@@ -61,6 +63,7 @@ Route::get('/inscription', [RegisteredUserController::class, 'create'])
 Route::post('/inscription', [RegisteredUserController::class, 'store'])
     ->name('register.store');
 Route::post('/deconnexion', [AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')
     ->name('logout');
 Route::get('/mot-de-passe-oublie', [ManagementController::class, 'resetpwd'])
     ->name('password.request');
@@ -77,5 +80,3 @@ Route::get('/tableau-de-bord/vendeur', [ManagementController::class, 'dashboardS
     ->name('dashboard.seller');
 Route::get('/profil-vendeur', [ManagementController::class, 'seller'])
     ->name('seller');
-
-// TODO: adding route when the bdd was building

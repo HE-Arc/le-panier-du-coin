@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Enums\ArticleCondition;
 use App\Models\Category;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Article;
 use Illuminate\Validation\Rule;
 
@@ -98,7 +98,7 @@ class ArticlesController extends Controller
             'condition'    => $validated['etat'],
             'location'     => self::QUARTIERS[$validated['quartier']],
             'availability' => $validated['disponibilite'] ?? '',
-            'seller_id'    => Auth::id(),
+            'seller_id'    => $request->user()->id,
             'status'       => 'available',
             'views'        => 0,
             'published_at' => now(),
@@ -110,7 +110,7 @@ class ArticlesController extends Controller
     }
     //pour récupérer les infos d'un article dans la page d'édition
     public function edit(Request $request, Article $article): View{
-        $this->authorizeOwner($request, $article);
+        Gate::authorize('update', $article);
 
         $categories = Category::query()->orderBy('title')->get();
 
@@ -125,8 +125,7 @@ class ArticlesController extends Controller
 
     // mettre à jour un article dans la BDD
     public function update(Request $request, Article $article): RedirectResponse{
-        $this->authorizeOwner($request, $article);
-
+        Gate::authorize('update', $article);
         $validated = $request->validate([
             'titre' => ['required', 'string', 'max:80'],
             'description' => ['required', 'string', 'max:2000'],
@@ -159,7 +158,8 @@ class ArticlesController extends Controller
 
     // supprimer un article de la BDD
     public function destroy(Request $request, Article $article): RedirectResponse{
-        $this->authorizeOwner($request, $article);
+        Gate::authorize('delete', $article);
+
         $article->delete();
 
         return redirect()
@@ -167,8 +167,5 @@ class ArticlesController extends Controller
             ->with('success', 'Annonce supprimée.');
     }
 
-    // seul le vendeur propriétaire de l'annonce peut la modifier.
-    private function authorizeOwner(Request $request, Article $article): void {
-        abort_unless($request->user()?->id === $article->seller_id, 403);
-    }
 }
+

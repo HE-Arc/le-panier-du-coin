@@ -79,12 +79,16 @@
                         <td class="px-4 py-3.5 text-right">
                             <a href="{{ route('articles.show', $article) }}" class="font-semibold text-terracotta-600 hover:text-terracotta-700">Voir</a>
                             <span class="mx-1 text-ink/25" aria-hidden="true">·</span>
-                            <a href="{{ route('articles.edit', $article) }}" class="font-semibold text-ink/70 hover:text-ink">Éditer</a>
+                            @can('update', $article)
+	                            <a href="{{ route('articles.edit', $article) }}" class="font-semibold text-ink/70 hover:text-ink">Éditer</a>
+                            @endcan
+                            @can('delete', $article)
                             <form method="POST" action="{{ route('articles.destroy', $article) }}" class="inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="font-semibold text-ink/70 hover:text-ink">Supprimer</button>
                             </form>
+                            @endcan
                         </td>
                     </tr>
                 @empty
@@ -118,7 +122,9 @@
                         <div><dt class="inline">Messages&nbsp;: </dt><dd class="inline font-semibold text-ink/80">{{ $article->conversations->sum('messages_count') }}</dd></div>
                     </dl>
                     <a href="{{ route('articles.show', $article) }}" class="mt-3 inline-block rounded-xl border border-ink/15 px-4 py-2 text-sm font-semibold text-ink transition hover:border-ink/30">Voir l'annonce</a>
+                    @can('update', $article)
                     <a href="{{ route('articles.edit', $article) }}" class="mt-3 ml-2 inline-block rounded-xl border border-ink/15 px-4 py-2 text-sm font-semibold text-ink/70 transition hover:border-ink/30 hover:text-ink">Éditer</a>
+                    @endcan
                 </li>
             @empty
                 <li class="rounded-2xl border border-dashed border-ink/15 bg-paper p-6 text-center text-sm text-ink/60">
