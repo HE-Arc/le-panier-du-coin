@@ -29,8 +29,8 @@
 
     <!-- ============================ FORMULAIRE ============================ -->
     <section class="mx-auto max-w-3xl px-4 py-10">
-        <!-- TODO: brancher ce formulaire sur une route POST + validation quand la BDD sera prête. -->
-        <form onsubmit="return false" class="space-y-6">
+        <form method="POST" action="{{ route('requests.store') }}" class="space-y-6">
+            @csrf
 
             <!-- Encart d'aide -->
             <div class="flex items-start gap-3 rounded-2xl border border-sage-200 bg-sage-50 p-4">
@@ -43,16 +43,16 @@
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <div>
                     <label for="titre" class="block text-sm font-semibold text-ink">Titre de la demande</label>
-                    <input id="titre" name="titre" type="text" required placeholder="Ex. : poussette double compacte"
+                    <input id="titre" name="titre" type="text" required maxlength="255" value="{{ old('titre') }}" placeholder="Ex. : poussette double compacte"
                            class="mt-2 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:ring-terracotta-400">
                     <p class="mt-1.5 text-xs text-ink/55">Une phrase courte&nbsp;: l'objet, la taille, l'usage principal.</p>
                 </div>
 
                 <div class="mt-5">
                     <label for="description" class="block text-sm font-semibold text-ink">Description</label>
-                    <textarea id="description" name="description" rows="5" required
+                    <textarea id="description" name="description" rows="5" required maxlength="2000"
                               placeholder="Ce que tu cherches précisément : modèle, dimensions, état acceptable, ce que tu refuses…"
-                              class="mt-2 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm leading-relaxed text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:ring-terracotta-400"></textarea>
+                              class="mt-2 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm leading-relaxed text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:ring-terracotta-400">{{ old('description') }}</textarea>
                     <p class="mt-1.5 text-xs text-ink/55">Exemple&nbsp;: «&nbsp;Poussette double, pliable, pour jumeaux de 8 mois, tissu propre, roues qui roulent bien.&nbsp;»</p>
                 </div>
             </div>
@@ -65,26 +65,21 @@
                     <div>
                         <label for="budget" class="block text-sm font-semibold text-ink">Budget maximum</label>
                         <div class="mt-2 flex items-center gap-2">
-                            <input id="budget" name="budget" type="number" min="0" step="5" placeholder="80"
+                            <input id="budget" name="budget" type="number" min="0" step="1" required placeholder="80" value="{{ old('budget') }}"
                                    class="w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink placeholder:text-ink/45 focus:border-terracotta-400 focus:ring-terracotta-400">
                             <span class="shrink-0 text-sm font-semibold text-ink/60" aria-hidden="true">€</span>
                         </div>
                         <p class="mt-1.5 text-xs text-ink/55">Indique le prix le plus haut que tu acceptes.</p>
                     </div>
 
-                    <!-- TODO: brancher les catégoriés seont ce qu'il y a dans la BDD-->
                     <div>
                         <label for="categorie" class="block text-sm font-semibold text-ink">Catégorie</label>
-                        <select id="categorie" name="categorie"
+                        <select id="categorie" name="categorie" required
                                 class="mt-2 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink/80 focus:border-terracotta-400 focus:ring-terracotta-400">
                             <option value="">Choisir une catégorie</option>
-                            <option value="maison">Maison &amp; meubles</option>
-                            <option value="velos">Vélos &amp; vélocipédie</option>
-                            <option value="enfants">Enfants &amp; puériculture</option>
-                            <option value="loisirs">Loisirs &amp; jeux</option>
-                            <option value="electromenager">Électroménager</option>
-                            <option value="vetements">Vêtements</option>
-                            <option value="livres">Livres &amp; scolaire</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" @selected(old('categorie') === $category->id)>{{ $category->title }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -97,20 +92,19 @@
                 <div class="mt-4 grid gap-5 sm:grid-cols-2">
                     <div>
                         <label for="date" class="block text-sm font-semibold text-ink">Date souhaitée</label>
-                        <input id="date" name="date" type="date" value="2026-06-15"
+                        <input id="date" name="date" type="date" required min="{{ now()->toDateString() }}" value="{{ old('date') }}"
                                class="mt-2 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink focus:border-terracotta-400 focus:ring-terracotta-400">
                         <p class="mt-1.5 text-xs text-ink/55">Avant laquelle tu as besoin de l'objet.</p>
                     </div>
 
-                    <!-- TODO: quartier à adapter -->
                     <div>
                         <label for="quartier" class="block text-sm font-semibold text-ink">Quartier de remise</label>
-                        <select id="quartier" name="quartier"
+                        <select id="quartier" name="quartier" required
                                 class="mt-2 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink/80 focus:border-terracotta-400 focus:ring-terracotta-400">
-                            <option value="tilleuls" selected>Quartier des Tilleuls</option>
-                            <option value="centre-ville">Centre-ville</option>
-                            <option value="faubourg-nord">Faubourg Nord</option>
-                            <option value="rue-des-ecoles">Rue des Écoles</option>
+                            <option value="">Choisir un quartier</option>
+                            @foreach ($quartiers as $slug => $label)
+                                <option value="{{ $slug }}" @selected(old('quartier', $quartierParDefaut) === $slug)>{{ $label }}</option>
+                            @endforeach
                         </select>
                         <p class="mt-1.5 text-xs text-ink/55">Le quartier dans lequel tu peux récupérer l'objet.</p>
                     </div>
@@ -118,37 +112,20 @@
             </div>
 
             <!-- Contact -->
-            <fieldset class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
-                <legend class="px-1 text-sm font-semibold text-ink">Je préfère être contacté par messagerie</legend>
-                <p class="text-xs text-ink/55">Les propositions arriveront ici&nbsp;; tu choisis ce que tu partages ensuite.</p>
-
-                <!-- TODO: messagerie du site à adapter, pte pas une bonne idée-->
-                <div class="mt-4 space-y-3">
-                    <label for="contact-messagerie" class="flex items-start gap-3 rounded-xl border border-ink/10 bg-cream p-4 cursor-pointer">
-                        <input id="contact-messagerie" name="contact" type="radio" value="messagerie" checked
-                               class="mt-0.5 h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-400">
-                        <span>
-                            <span class="block text-sm font-semibold text-ink">Messagerie du site</span>
-                            <span class="mt-0.5 block text-xs leading-relaxed text-ink/60">Tes coordonnées restent privées&nbsp;: tu réponds depuis ton tableau de bord.</span>
-                        </span>
-                    </label>
-
-                    <label for="contact-email" class="flex items-start gap-3 rounded-xl border border-ink/10 bg-cream p-4 cursor-pointer">
-                        <input id="contact-email" name="contact" type="radio" value="email"
-                               class="mt-0.5 h-4 w-4 border-ink/25 text-terracotta-500 focus:ring-terracotta-400">
-                        <span>
-                            <span class="block text-sm font-semibold text-ink">Adresse e-mail</span>
-                            <span class="mt-0.5 block text-xs leading-relaxed text-ink/60">camille.tilleuls@example.fr — visible par les personnes qui te répondent.</span>
-                        </span>
-                    </label>
+            <div class="flex items-start gap-3 rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
+                <span class="text-sage-600" aria-hidden="true">✉</span>
+                <div>
+                    <p class="text-sm font-semibold text-ink">Les réponses arrivent dans ton tableau de bord</p>
+                    <p class="mt-1 text-xs leading-relaxed text-ink/60">
+                        Tes coordonnées restent privées&nbsp;: tu vois les propositions dans «&nbsp;Mes demandes&nbsp;» et tu discutes avec les vendeurs via la messagerie du site.
+                    </p>
                 </div>
-            </fieldset>
+            </div>
 
             <!-- Actions -->
             <div class="rounded-2xl border border-ink/10 bg-paper p-5 shadow-soft sm:p-6">
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-                    <!-- TODO: remplacer ce bouton par un vrai submit quand la route POST existera. -->
-                    <button type="button" class="rounded-xl bg-terracotta-500 px-6 py-3 text-center text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">
+                    <button type="submit" class="rounded-xl bg-terracotta-500 px-6 py-3 text-center text-sm font-semibold text-paper shadow-soft transition hover:bg-terracotta-600">
                         Publier la demande
                     </button>
                     <a href="{{ route('requests.index') }}" class="rounded-xl border border-ink/15 bg-paper px-6 py-3 text-center text-sm font-semibold text-ink transition hover:border-ink/30">
@@ -157,7 +134,7 @@
                 </div>
                 <p class="mt-4 flex items-center gap-2 text-xs text-ink/55">
                     <span class="text-sage-600" aria-hidden="true">✓</span>
-                    Ta demande reste visible 30 jours.
+                    Tu pourras la modifier ou la supprimer depuis ton tableau de bord.
                 </p>
             </div>
 

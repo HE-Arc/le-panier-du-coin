@@ -48,4 +48,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class, 'reviewer_id');
     }
+    // Récupération des demandes déposées par cet utilisateur
+    public function requests(): HasMany
+    {
+        return $this->hasMany(Request::class, 'requester_id');
+    }
 }
