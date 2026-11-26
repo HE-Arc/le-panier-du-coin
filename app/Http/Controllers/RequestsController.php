@@ -20,8 +20,15 @@ class RequestsController extends Controller
         // Par défaut, seules les demandes ouvertes sont affichées
         $filters = $request->all() + ['statut' => [RequestStatus::Open->value]];
 
+        // "Charger plus" augmente le nombre de demandes affichées (plafonné)
+        $nombre = min(max((int) $request->input('nombre', self::PAR_PAGE), self::PAR_PAGE), 120);
+
+        $demandes = Demande::forListing($filters)->paginate($nombre)->withQueryString();
+
         return view('Articles.request_list', [
+            'demandes' => $demandes,
             'statutsActifs' => (array) $filters['statut'],
+            'nombreSuivant' => $nombre + self::PAR_PAGE,
             ...Demande::listingMeta(),
         ]);
     }
