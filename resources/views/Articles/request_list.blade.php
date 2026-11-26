@@ -97,7 +97,8 @@
                         <span class="rounded-full bg-sage-100 px-2.5 py-1 text-xs font-semibold text-sage-700">Budget {{ (float) $demande->budget }}&nbsp;€</span>
                         <span class="rounded-full px-2.5 py-1 text-xs font-semibold {{ $demande->status->badgeClasses() }}">{{ $demande->status->label() }}</span>
                         @if ($demande->status !== \App\Enums\RequestStatus::Fulfilled)
-                            <a href="{{ route('articles.create') }}" class="mt-1 text-sm font-semibold text-terracotta-600 hover:text-terracotta-700">Proposer cet objet <span aria-hidden="true">→</span></a>
+                            <!-- TODO: doit rediriger vers la messagerie quand elle sera en place -->
+                            <!--<a href="{{ route('articles.create') }}" class="mt-1 text-sm font-semibold text-terracotta-600 hover:text-terracotta-700">Proposer cet objet <span aria-hidden="true">→</span></a>-->
                         @endif
                     </div>
                 </li>
