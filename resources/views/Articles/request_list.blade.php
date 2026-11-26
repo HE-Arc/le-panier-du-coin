@@ -14,16 +14,19 @@
             <!-- TODO: Recherche à adapter selon la BDD-->
             <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <form action="{{ route('requests.index') }}" method="get" class="flex flex-1 flex-col gap-2 rounded-2xl border border-ink/10 bg-paper p-2 shadow-soft sm:flex-row sm:items-center sm:rounded-full">
+                    @foreach ($statutsActifs as $statut)
+                        <input type="hidden" name="statut[]" value="{{ $statut }}">
+                    @endforeach
+                    <input type="hidden" name="budget" value="{{ request('budget') }}">
                     <label for="q" class="sr-only">Rechercher une demande</label>
-                    <input id="q" name="q" type="search" placeholder="Poussette, vélo, livres…"
+                    <input id="q" name="q" type="search" placeholder="Poussette, vélo, livres…" value="{{ request('q') }}"
                            class="w-full rounded-xl border-0 bg-transparent px-4 py-3 text-sm text-ink placeholder:text-ink/45 focus:ring-0 sm:flex-1">
                     <label for="quartier" class="sr-only">Quartier</label>
                     <select id="quartier" name="quartier" class="rounded-xl border-0 bg-cream px-3 py-3 text-sm text-ink/80 focus:ring-0">
                         <option value="">Tous les quartiers</option>
-                        <option value="tilleuls">Quartier des Tilleuls</option>
-                        <option value="centre-ville">Centre-ville</option>
-                        <option value="faubourg-nord">Faubourg Nord</option>
-                        <option value="rue-des-ecoles">Rue des Écoles</option>
+                        @foreach ($locations as $location)
+                            <option value="{{ $location }}" @selected(request('quartier') === $location)>{{ $location }}</option>
+                        @endforeach
                     </select>
                     <button type="submit" class="rounded-xl bg-terracotta-500 px-5 py-3 text-sm font-semibold text-paper transition hover:bg-terracotta-600">
                         Rechercher
