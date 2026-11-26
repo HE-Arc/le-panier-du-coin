@@ -14,7 +14,7 @@ use Illuminate\Validation\Rule;
 class ArticlesController extends Controller
 {
     // Slug du formulaire => libellé stocké dans articles.location
-    private const QUARTIERS = [
+    public const QUARTIERS = [
         'centre-ville' => 'Centre-ville',
         'tilleuls' => 'Quartier des Tilleuls',
         'faubourg-nord' => 'Faubourg Nord',

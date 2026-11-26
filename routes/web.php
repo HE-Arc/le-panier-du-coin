@@ -47,7 +47,11 @@ Route::get('/recherche', [ArticlesController::class, 'search'])->name('search');
 Route::get('/demandes', [RequestsController::class, 'index'])
     ->name('requests.index');
 Route::get('/demandes/creer', [RequestsController::class, 'create'])
+    ->middleware('auth')
     ->name('requests.create');
+Route::post('/demandes', [RequestsController::class, 'store'])
+    ->middleware('auth')
+    ->name('requests.store');
 
 //-------------------------------------------- Routes pour les utilisateurs --------------------------------------------
 Route::get('/connexion', [AuthenticatedSessionController::class, 'create'])
@@ -76,4 +80,3 @@ Route::get('/tableau-de-bord/vendeur', [ManagementController::class, 'dashboardS
     ->name('dashboard.seller');
 Route::get('/profil-vendeur', [ManagementController::class, 'seller'])
     ->name('seller');
-
